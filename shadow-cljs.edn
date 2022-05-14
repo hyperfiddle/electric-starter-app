@@ -1,0 +1,13 @@
+{:deps     true
+ :builds   {:app {:target     :browser
+                  :asset-path "/js"
+                  :output-dir "resources/public/js"
+                  :modules    {:main {:init-fn app.core/start!}}
+                  :devtools   {:watch-dir       "resources/public"
+                               :hud             #{:errors :progress}
+                               :ignore-warnings true}}}
+ :dev-http {8080 "resources/public"}
+ :nrepl    {:port 9001}
+ ;; TODO: photon is installing codemirror stuff, prevent it
+ ;; still seem to need reconnecting-websocket tho
+ :npm-deps {:install false}}

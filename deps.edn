@@ -1,0 +1,14 @@
+{:paths   ["src"]
+ :deps    {org.clojure/clojure       {:mvn/version "1.11.1"}
+           org.clojure/clojurescript {:mvn/version "1.11.4"}
+           thheller/shadow-cljs      {:mvn/version "2.18.0"}
+           hyperfiddle/rfc           #:git{:url "https://github.com/hyperfiddle/rcf"
+                                           :sha "bcd9900d510334494708a6af7fb100ff92a8a040"}
+           ;; TODO: can't depend on photon from git, because of vendored rfc and missionary
+           hyperfiddle/photon        {:local/root "../photon"}}
+ :aliases {:devkit {:jvm-opts  [;; TODO: without this config, server logs are super noisy
+                                "-Dlogback.configurationFile=src/logback_dev.xml"
+                                ;; RFC config https://github.com/hyperfiddle/rcf#faq
+                                "-XX:-OmitStackTraceInFastThrow"]
+                    :exec-fn   devkit/main
+                    :exec-args {}}}}
