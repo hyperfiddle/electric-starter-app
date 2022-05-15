@@ -6,8 +6,7 @@
                                            :sha "bcd9900d510334494708a6af7fb100ff92a8a040"}
            ;; TODO: can't depend on photon from git, because of vendored rfc and missionary
            hyperfiddle/photon        {:local/root "../photon"}}
- :aliases {:devkit {:jvm-opts  [;; TODO: without this config, server logs are super noisy
-                                "-Dlogback.configurationFile=src/logback_dev.xml"
+ :aliases {:devkit {:jvm-opts  ["-Dlogback.configurationFile=src/logback_dev.xml" ; silence noisy server logs
                                 ;; RFC config https://github.com/hyperfiddle/rcf#faq
                                 "-XX:-OmitStackTraceInFastThrow"]
                     :exec-fn   devkit/main

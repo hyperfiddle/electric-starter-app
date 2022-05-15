@@ -1,4 +1,2 @@
 <!-- Options: http://logback.qos.ch/manual/layouts.html -->
-<configuration debug="false" scan="true" scanPeriod="10 seconds">
-    <include file="src/logback_config.xml"/>
-</configuration>
+<configuration debug="false" scan="true" scanPeriod="10 seconds"></configuration>
