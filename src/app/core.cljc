@@ -4,19 +4,17 @@
 
 (p/defn Foo []
   (dom/div
-    (dom/text ~@ (pr-str (type 1))))) ; ~@ marks client/server transfer
+    (dom/div (dom/text (pr-str (type 1))))
+    (dom/div (dom/text ~@ (pr-str (type 1))))))     ; ~@ marks client/server transfer
 
-(def app
-  #?(:cljs
-     (p/client
-      (p/main
-       (binding [dom/parent (dom/by-id "root")]
-         (dom/div
-          (dom/attribute "id" "main")
-          (dom/class "browser")
-          (dom/div
-           (dom/class "view")
-           (Foo.))))))))
+(p/defn App []
+  (binding [dom/parent (dom/by-id "root")]
+    (dom/div
+      (dom/attribute "id" "main")
+      (dom/class "view")
+      (Foo.))))
+
+(def app #?(:cljs (p/client (p/main (App.)))))
 
 #?(:cljs
    (do
