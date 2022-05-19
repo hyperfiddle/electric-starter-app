@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "clj -X:devkit :build :app"
+    "dev": "clj -A:dev -X user/main"
   },
   "devDependencies": {
     "reconnecting-websocket": "4.4.0",
