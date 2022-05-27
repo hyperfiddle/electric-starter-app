@@ -18,7 +18,7 @@
               (dom/attribute "type" "button")
               (new (->> (dom/events dom/parent "click")
                         (m/eduction (map (constantly 1)))
-                        (m/reductions +))))]
+                        (m/reductions + 0))))]
 
       (dom/div
         (dom/table
