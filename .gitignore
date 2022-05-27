@@ -6,5 +6,6 @@ resources/public/js
 .clj-kondo/.cache
 yarn-error.log
 report.html
-.idea/
+.idea/*
+!.idea/ClojureProjectResolveSettings.xml
 *.iml

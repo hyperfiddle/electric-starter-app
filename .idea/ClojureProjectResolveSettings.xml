@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ClojureProjectResolveSettings">
+    <item key="hyperfiddle.photon/def" resolves-as="clojure.core/def" />
+    <item key="hyperfiddle.photon/defn" resolves-as="clojure.core/defn" />
+    <item key="hyperfiddle.photon/for" resolves-as="clojure.core/for" />
+    <item key="hyperfiddle.photon/fn" resolves-as="clojure.core/fn" />
+    <currentScheme>PROJECT</currentScheme>
+  </component>
+</project>
