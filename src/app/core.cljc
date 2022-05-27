@@ -1,6 +1,7 @@
 (ns app.core
   (:require [hyperfiddle.photon :as p]
             [hyperfiddle.photon-dom :as dom]
+            [hyperfiddle.zero :as z]
             [missionary.core :as m])
   (:import (hyperfiddle.photon Pending))
   #?(:cljs (:require-macros app.core)))                     ; forces shadow hot reload to also reload JVM at the same time
@@ -10,7 +11,7 @@
     (dom/h1 (dom/text "Healthcheck"))
 
     (dom/p (dom/span (dom/text "millisecond time: "))
-           (dom/span (dom/text dom/time)))
+           (dom/span (dom/text z/time)))
 
     (let [x (dom/button
               (dom/text "click me")
