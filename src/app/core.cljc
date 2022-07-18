@@ -13,9 +13,8 @@
     (dom/p (dom/span (dom/text "millisecond time: "))
            (dom/span (dom/text z/time)))
 
-    (let [x (dom/button
-              (dom/text "click me")
-              (dom/attribute "type" "button")
+    (let [x (dom/button {:type "button"}
+                        (dom/text "click me")
               (new (->> (dom/events dom/parent "click")
                         (m/eduction (map (constantly 1)))
                         (m/reductions + 0))))]
@@ -23,8 +22,8 @@
       (dom/div
         (dom/table
           (dom/thead
-            (dom/td (dom/style {"width" "5em"}) (dom/text "count"))
-            (dom/td (dom/style {"width" "10em"}) (dom/text "type")))
+           (dom/td {:width "5em"} (dom/text "count"))
+           (dom/td {:width "10em"} (dom/text "type")))
           (dom/tbody
             (dom/tr
               (dom/td (dom/text (str x)))
