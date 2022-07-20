@@ -3,48 +3,53 @@
             [hyperfiddle.photon :as p]
             [hyperfiddle.photon-dom :as dom]
             [hyperfiddle.photon-ui :as ui])
-  (:import [hyperfiddle.photon Pending]
-           [missionary Cancelled])
   #?(:cljs (:require-macros app.core)))
 
-(def global-auto-inc (partial swap! (atom 0) inc))
-(defonce !conn #?(:clj (d/create-conn {})
-                  :cljs nil))
+(defonce !conn #?(:clj (d/create-conn {}) :cljs nil))
 
-(defn transact! [conn entity]
-  (d/transact! conn [entity])
-  nil)
+(p/defn TodoCreate []
+  (ui/input {:dom/placeholder    "Buy milk ⏎"
+             ::ui/keychord-event [#{"enter"}
+                                  (p/fn [js-event]
+                                    (when js-event
+                                      (let [dom-node (:target js-event)
+                                            value    (:value dom-node)]
+                                        (dom/oset! dom-node :value "")
+                                        (p/remote (do (d/transact! !conn [{:task/description value
+                                                                           :task/status      :active}])
+                                                      nil)))))]}))
+
+(p/defn TodoItem [e]
+  (let [id          (:db/id e)
+        status      (:task/status e)
+        description (:task/description e)]
+    (p/remote
+      (do (ui/checkbox {:dom/checked     (case status :active false, :done true)
+                        ::ui/input-event (p/fn [js-event]
+                                           (when js-event
+                                             (let [done? (-> js-event :target :checked)]
+                                               (p/remote
+                                                 (do (d/transact! !conn [{:db/id       (p/deduping id)
+                                                                          :task/status (if done? :done :active)}])
+                                                     nil)))))})
+          (dom/span (dom/text (str description)))))))
+
+(defn todo-count [db]
+  (count (d/q '[:find [?e ...] :in $ ?status :where [?e :task/status ?status]] db :active)))
 
 (p/defn Todo-list []
   (let [db (p/watch !conn)]
-    ~@(dom/div
-        (dom/h1 (dom/text "Todo list - collaborative"))
-        (ui/input {:dom/placeholder    "Press enter to create a new item"
-                   ::ui/keychord-event [#{"enter"} (p/fn [js-event]
-                                                     (when js-event
-                                                       (let [dom-node (:target js-event)
-                                                             value    (:value dom-node)]
-                                                         (dom/oset! dom-node :value "")
-                                                         ~@(transact! !conn {:db/id            (global-auto-inc)
-                                                                             :task/description value
-                                                                             :task/status      :active}))))]})
-
+    (p/remote
+      (dom/div
+        (dom/h1 (dom/text "Todo list (Photon demo)"))
+        (dom/p (dom/text "Full stack webapp in one file.") (dom/br)
+          (dom/text "Server side database, rich client rendering") (dom/br)
+          (dom/text "Collaborative – try multiple tabs"))
+        (TodoCreate.)
         (dom/div
-          (p/for [id ~@(d/q '[:find [?e ...] :in $ :where [?e :task/status]] db)]
+          (p/for [id (p/remote (d/q '[:find [?e ...] :in $ :where [?e :task/status]] db))]
             (dom/label
               (dom/set-style! dom/node :display "block")
-              ~@(let [e      (d/entity db id)
-                      status (:task/status e)]
-                  ~@(do (ui/checkbox {:dom/checked     (case status :active false, :done true)
-                                      ::ui/input-event (p/fn [js-event]
-                                                         (when js-event
-                                                           (let [done? (dom/oget js-event :target :checked)]
-                                                             ~@(transact! !conn {:db/id       id
-                                                                                 :task/status (if done? :done :active)}))))})
-                        (dom/span (dom/text (str ~@(:task/description e)))))))))
-        (dom/p (dom/text (str ~@(count (d/q '[:find [?e ...] :in $ ?status :where [?e :task/status ?status]] db :active))
-                              " items left"))))))
+              (p/remote (TodoItem. (d/entity db id) id)))))
+        (dom/p (dom/text (p/remote (todo-count db)) " items left"))))))
 
-(p/defn App []
-  (binding [dom/node (dom/by-id "root")]
-    ~@(app.core/Todo-list.)))

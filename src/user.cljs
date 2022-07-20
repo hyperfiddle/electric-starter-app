@@ -1,10 +1,15 @@
 (ns user
   (:require [app.core]
-            [hyperfiddle.photon :as p])
+            [hyperfiddle.photon :as p]
+            [hyperfiddle.photon-dom :as dom])
   (:import [hyperfiddle.photon Pending]
            [missionary Cancelled]))
 
-(def main (p/client (p/main (try (app.core/App.)
+(p/defn App []
+  (binding [dom/node (dom/by-id "root")]
+    (p/remote (app.core/Todo-list.))))
+
+(def main (p/client (p/main (try (App.)
                                  (catch Pending _)
                                  (catch Cancelled _)))))
 (def reactor)
