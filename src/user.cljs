@@ -1,13 +1,14 @@
 (ns user
-  (:require app.core))
+  (:require [app.core]
+            [hyperfiddle.photon :as p])
+  (:import [hyperfiddle.photon Pending]
+           [missionary Cancelled]))
 
-(defonce reactor nil)
+(def main (p/client (p/main (try (app.core/App.)
+                                 (catch Pending _)
+                                 (catch Cancelled _)))))
+(def reactor)
+(defn ^:dev/after-load start! [] (set! reactor (main js/console.log js/console.error)))
+;; TODO: keep seeing `missionary.Cancelled {message: 'Watch cancelled.'}` on the js console
+(defn ^:dev/before-load stop! [] (when reactor (reactor)) (set! reactor nil))
 
-(defn ^:dev/after-load start! []
-  (set! reactor (((ns-publics 'app.core) 'app)              ; re-resolve recompiled Photon main
-                 #(js/console.log "Reactor success:" %)
-                 #(js/console.error "Reactor failure:" %))))
-
-(defn ^:dev/before-load stop! []
-  (when reactor (reactor))                                  ; teardown
-  (set! reactor nil))

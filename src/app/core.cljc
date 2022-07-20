@@ -18,7 +18,7 @@
 (p/defn Todo-list []
   (let [db (p/watch !conn)]
     ~@(dom/div
-        (dom/h1 (dom/text "Todo list - Collaborative"))
+        (dom/h1 (dom/text "Todo list - collaborative"))
         (ui/input {:dom/placeholder    "Press enter to create a new item"
                    ::ui/keychord-event [#{"enter"} (p/fn [js-event]
                                                      (when js-event
@@ -45,12 +45,6 @@
         (dom/p (dom/text (str ~@(count (d/q '[:find [?e ...] :in $ ?status :where [?e :task/status ?status]] db :active))
                               " items left"))))))
 
-(def main #?(:cljs (p/client (p/main (try (binding [dom/node (dom/by-id "root")]
-                                            ~@(Todo-list.))
-                                          (catch Pending _))))))
-#?(:cljs
-   (do
-     (def reactor)
-     (defn ^:dev/after-load start! [] (set! reactor (main js/console.log js/console.error)))
-     ;; TODO: keep seeing `missionary.Cancelled {message: 'Watch cancelled.'}` on the js console
-     (defn ^:dev/before-load stop! [] (when reactor (reactor)) (set! reactor nil))))
+(p/defn App []
+  (binding [dom/node (dom/by-id "root")]
+    ~@(app.core/Todo-list.)))
