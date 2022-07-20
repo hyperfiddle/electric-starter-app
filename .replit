@@ -1,0 +1,10 @@
+run = "clj -X:dev :mode :single-run"
+
+[env]
+CLJ_CONFIG = "/home/runner/.clojure"
+
+[languages.clojure]
+pattern = "**/*.clj"
+
+[languages.clojure.languageServer]
+start = ["clojure-lsp"]
