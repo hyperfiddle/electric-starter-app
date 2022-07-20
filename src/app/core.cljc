@@ -5,7 +5,7 @@
             [hyperfiddle.photon-ui :as ui])
   #?(:cljs (:require-macros app.core)))
 
-(def !conn #?(:clj (d/create-conn {}) :cljs nil))
+(defonce !conn #?(:clj (d/create-conn {}) :cljs nil))
 
 (p/defn TodoCreate []
   (ui/input {:dom/placeholder    " Buy milk ⏎"
