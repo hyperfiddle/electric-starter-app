@@ -1,4 +1,5 @@
 # photon-starter-app
 
-`yarn dev` to start a photon server in watch mode, serving on http://localhost:8080
+`clj -X:dev` run photon server, recompile on file save.
+`clj -X:dev :mode :single-run` will compile file once and start photon server
 

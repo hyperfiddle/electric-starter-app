@@ -7,8 +7,4 @@
                   :devtools   {:watch-dir       "resources/public"
                                :hud             #{:errors :progress}
                                :ignore-warnings true}}}
- :dev-http {8080 "resources/public"}
- :nrepl    {:port 9001}
- ;; TODO: photon is installing codemirror stuff, prevent it
- ;; still seem to need reconnecting-websocket tho
- :npm-deps {:install false}}
+ :nrepl    {:port 9001}}

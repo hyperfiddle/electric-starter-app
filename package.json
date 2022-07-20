@@ -2,11 +2,7 @@
   "name": "photon-starter-app",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "clj -A:dev -X user/main"
-  },
   "devDependencies": {
-    "reconnecting-websocket": "4.4.0",
     "shadow-cljs": "~2.18.0"
   },
   "dependencies": {}

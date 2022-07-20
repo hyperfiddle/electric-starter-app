@@ -1,39 +1,56 @@
 (ns app.core
-  (:require [hyperfiddle.photon :as p]
+  (:require [datascript.core :as d]
+            [hyperfiddle.photon :as p]
             [hyperfiddle.photon-dom :as dom]
-            [hyperfiddle.zero :as z]
-            [missionary.core :as m])
-  (:import (hyperfiddle.photon Pending))
-  #?(:cljs (:require-macros app.core)))                     ; forces shadow hot reload to also reload JVM at the same time
+            [hyperfiddle.photon-ui :as ui])
+  (:import [hyperfiddle.photon Pending]
+           [missionary Cancelled])
+  #?(:cljs (:require-macros app.core)))
 
-(p/defn App []
-  (dom/div
-    (dom/h1 (dom/text "Healthcheck"))
+(def global-auto-inc (partial swap! (atom 0) inc))
+(defonce !conn #?(:clj (d/create-conn {})
+                  :cljs nil))
 
-    (dom/p (dom/span (dom/text "millisecond time: "))
-           (dom/span (dom/text z/time)))
+(defn transact! [conn entity]
+  (d/transact! conn [entity])
+  nil)
 
-    (let [x (dom/button
-              (dom/text "click me")
-              (dom/attribute "type" "button")
-              (new (->> (dom/events dom/parent "click")
-                        (m/eduction (map (constantly 1)))
-                        (m/reductions + 0))))]
+(p/defn Todo-list []
+  (let [db (p/watch !conn)]
+    ~@(dom/div
+        (dom/h1 (dom/text "Todo list - Collaborative"))
+        (ui/input {:dom/placeholder    "Press enter to create a new item"
+                   ::ui/keychord-event [#{"enter"} (p/fn [js-event]
+                                                     (when js-event
+                                                       (let [dom-node (:target js-event)
+                                                             value    (:value dom-node)]
+                                                         (dom/oset! dom-node :value "")
+                                                         ~@(transact! !conn {:db/id            (global-auto-inc)
+                                                                             :task/description value
+                                                                             :task/status      :active}))))]})
 
-      (dom/div
-        (dom/table
-          (dom/thead
-            (dom/td (dom/style {"width" "5em"}) (dom/text "count"))
-            (dom/td (dom/style {"width" "10em"}) (dom/text "type")))
-          (dom/tbody
-            (dom/tr
-              (dom/td (dom/text (str x)))
-              (dom/td (dom/text (if (odd? x)
-                                  ~@(pr-str (type x))       ; ~@ marks client/server transfer
-                                  (pr-str (type x))))))))))))
+        (dom/div
+          (p/for [id ~@(d/q '[:find [?e ...] :in $ :where [?e :task/status]] db)]
+            (dom/label
+              (dom/set-style! dom/node :display "block")
+              ~@(let [e      (d/entity db id)
+                      status (:task/status e)]
+                  ~@(do (ui/checkbox {:dom/checked     (case status :active false, :done true)
+                                      ::ui/input-event (p/fn [js-event]
+                                                         (when js-event
+                                                           (let [done? (dom/oget js-event :target :checked)]
+                                                             ~@(transact! !conn {:db/id       id
+                                                                                 :task/status (if done? :done :active)}))))})
+                        (dom/span (dom/text (str ~@(:task/description e)))))))))
+        (dom/p (dom/text (str ~@(count (d/q '[:find [?e ...] :in $ ?status :where [?e :task/status ?status]] db :active))
+                              " items left"))))))
 
-(def app #?(:cljs (p/client (p/main
-                               (binding [dom/parent (dom/by-id "root")]
-                                 (try
-                                   (App.)
-                                   (catch Pending _)))))))
+(def main #?(:cljs (p/client (p/main (try (binding [dom/node (dom/by-id "root")]
+                                            ~@(Todo-list.))
+                                          (catch Pending _))))))
+#?(:cljs
+   (do
+     (def reactor)
+     (defn ^:dev/after-load start! [] (set! reactor (main js/console.log js/console.error)))
+     ;; TODO: keep seeing `missionary.Cancelled {message: 'Watch cancelled.'}` on the js console
+     (defn ^:dev/before-load stop! [] (when reactor (reactor)) (set! reactor nil))))
