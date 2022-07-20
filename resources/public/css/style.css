@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap');
+
+body{
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 400;
+}
+
+input[type="text"]{
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    min-width: 30rem;
+    border-radius: 0.25rem;
+    border: 1px gray solid;
+}
+
+input[type="checkbox"]{
+    width: 1rem;
+    height: 1rem;
+}
+
+input[type="checkbox"]:checked + label{
+    text-decoration: line-through;
+    color: gray;
+}
+
+label{
+    padding-left: 0.5rem;
+}
+
+label, input[type="checkbox"]{
+    cursor:pointer;
+    transition: 0.4s ease all;
+}
+
+label::first-letter{
+    text-transform: capitalize;
+}
+
+.todo-list{
+    display:grid;
+    grid-template-rows: auto fit-content auto;
+    max-width: 30rem;
+}
+
+.todo-items{
+    display:grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 0.5rem 0;
+    padding: 0 0.25rem;
+}
+
+.counter{
+    justify-self: center;
+}
+
+.count{
+    font-size: 1.25rem;
+}
