@@ -9,3 +9,5 @@ report.html
 .idea/*
 !.idea/ClojureProjectResolveSettings.xml
 *.iml
+.lsp
+.clj-kondo
