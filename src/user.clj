@@ -1,5 +1,5 @@
 (ns user
-  (:require [server :refer [start-server!]]
+  (:require [hyperfiddle.photon-jetty-server :refer [start-server!]]
             [shadow.cljs.devtools.api :as shadow]
             [shadow.cljs.devtools.server :as shadow-server]))
 
@@ -7,6 +7,7 @@
 (def port 8080)
 
 (defn main [{:keys [mode]}]
+  (def server (start-server! {:host host, :port port, :resources-path "resources"}))
   (if (= :single-run mode)
     (shadow/compile :app)
     (do (shadow-server/start!)
