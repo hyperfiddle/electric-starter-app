@@ -1,2 +1,0 @@
-<!-- Options: http://logback.qos.ch/manual/layouts.html -->
-<configuration debug="false" scan="true" scanPeriod="10 seconds"></configuration>
