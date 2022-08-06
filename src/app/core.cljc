@@ -14,7 +14,7 @@
              ::ui/keychord-event (p/fn [js-event]
                                     (let [v (:value dom/node)]
                                       (p/server (d/transact! !conn [{:task/description v
-                                                                     :task/status      :active}]) nil))
+                                                                     :task/status      :active}])))
                                     (dom/oset! dom/node :value ""))}))
 
 (p/defn TodoItem [e]
@@ -25,7 +25,7 @@
                     ::dom/checked     (case status :active false, :done true)
                     ::ui/input-event (p/fn [js-event]
                                        (let [done? (:checked dom/node)]
-                                          (p/server (d/transact! !conn [{:db/id       (p/deduping id)
+                                          (p/server (d/transact! !conn [{:db/id       id
                                                                           :task/status (if done? :done :active)}]) nil)))})
       (dom/label {:for id} (dom/text (str (p/server (:task/description e))))))))
 

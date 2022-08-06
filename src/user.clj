@@ -6,7 +6,7 @@
 (def host "0.0.0.0")
 (def port 8080)
 
-(defn main [{:keys [mode]}]
+(defn main [& [{:keys [mode]}]]
   (def server (start-server! {:host host, :port port, :resources-path "resources/public"}))
   (if (= :single-run mode)
     (shadow/compile :app)
@@ -21,5 +21,5 @@
 
 (comment
   "Photon REPL entrypoint"
-  (main {})
+  (main)
   )
