@@ -1,12 +1,16 @@
 <!-- Options: http://logback.qos.ch/manual/layouts.html -->
-<configuration debug="false" scan="true" scanPeriod="10 seconds">
-    <appender name="ERGONOMIC" class="ch.qos.logback.core.ConsoleAppender">
+<configuration scan="true" scanPeriod="5 seconds">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) %cyan(%logger{15}) %white([%thread]) - %msg%n</pattern>
+            <pattern>%highlight(%-5level) %logger: %msg%n</pattern>
         </encoder>
     </appender>
 
     <root level="WARN">
-        <appender-ref ref="ERGONOMIC"/>
+        <appender-ref ref="STDOUT" />
     </root>
+
+    <logger name="hyperfiddle" level="DEBUG" additivity="false"><appender-ref ref="STDOUT" /></logger>
+    <logger name="hyperfiddle.photon-impl.runtime" level="WARN" additivity="false"><appender-ref ref="STDOUT" /></logger>
+    <logger name="hyperfiddle.photon-jetty-adapter" level="WARN" additivity="false"><appender-ref ref="STDOUT" /></logger>
 </configuration>
