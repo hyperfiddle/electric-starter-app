@@ -2,15 +2,11 @@
  :deps    {org.clojure/clojure            {:mvn/version "1.11.1"}
            org.clojure/clojurescript      {:mvn/version "1.11.4"}
            thheller/shadow-cljs           {:mvn/version "2.18.0"}
-           com.hyperfiddle/photon         {:mvn/version "20220816-122143"}
-           ; Inline transitive RCF dependency from Photon because git deps are not transitive
-           hyperfiddle/rcf                {:git/url "https://github.com/hyperfiddle/rcf"
-                                           :git/sha "21f38ce1d15787b83696e6797be41f762619814f"}
+           com.hyperfiddle/photon         {:mvn/version "20220827-153507"}
            ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
            info.sunng/ring-jetty9-adapter {:mvn/version "0.14.3"
                                            :exclusions  [org.slf4j/slf4j-api
-                                                         info.sunng/ring-jetty9-adapter-http3 ; no need
-                                                         ]}}
+                                                         info.sunng/ring-jetty9-adapter-http3]}} ; no need
  :aliases {:dev {:jvm-opts  ["-XX:-OmitStackTraceInFastThrow" ; https://github.com/hyperfiddle/rcf#faq
                              "-Dlogback.configurationFile=logback.xml"]
                  :exec-fn   user/main
