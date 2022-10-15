@@ -25,7 +25,7 @@
           status (:task/status e)]
       (p/client
         (ui/checkbox {::dom/id         id
-                      ::dom/checked    (case status :active false, :done true)
+                      ::ui/value       (case status :active false, :done true)
                       ::ui/input-event (p/fn [js-event]
                                          (let [status (-> js-event :target :checked)]
                                            (p/server
