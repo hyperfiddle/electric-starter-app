@@ -1,20 +1,32 @@
 (ns user
   (:require [app.core]
             [hyperfiddle.photon :as p]
-            [hyperfiddle.photon-dom :as dom])
-  (:import [hyperfiddle.photon Pending]))
+            [hyperfiddle.photon-dom :as dom]
+            [hyperfiddle.photon.debug :as debug]
+            [hyperfiddle.rcf :as rcf])
+  (:import [hyperfiddle.photon Pending]
+           [missionary Cancelled]))
 
 (def main (p/boot (try
                     (binding [dom/node (dom/by-id "root")]
                       (app.core/Todo-list.))
-                    (catch Pending _))))
+                    (catch Pending _)
+                    (catch Cancelled e (throw e))
+                    (catch :default err
+                      (js/console.error (str (ex-message err)
+                                             "\n\n"
+                                             (hyperfiddle.photon.debug/stack-trace p/trace))
+                                        err)))))
 
-(def reactor)
+(defonce reactor nil)
 
-(defn ^:dev/after-load start! []
-  (set! reactor (main js/console.log js/console.error)))
+(defn ^:dev/after-load ^:export start! []
+  (assert (nil? reactor) "reactor already running")
+  (set! reactor (main #(js/console.log "Reactor success:" %)
+                      #(js/console.error "Reactor failure:" %)))
+  (rcf/enable!))
 
 (defn ^:dev/before-load stop! []
+  (rcf/enable! false)
   (when reactor (reactor))                                  ; teardown
-  (.. js/document (getElementById "root") (replaceChildren)) ; temporary workaround for https://github.com/hyperfiddle/photon/issues/10
   (set! reactor nil))
