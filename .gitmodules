@@ -1,0 +1,3 @@
+[submodule "photon"]
+	path = photon
+	url = git@github.com:hyperfiddle/photon.git
