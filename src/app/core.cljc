@@ -14,7 +14,7 @@
              ::ui/keychords      #{"enter"}
              ::ui/keychord-event (p/fn [e]
                                    (p/client
-                                     (let [value (:value dom/node)]
+                                     (let [value (.. e -target -value)]
                                        (p/server (d/transact! !conn [{:task/description value
                                                                       :task/status      :active}]))
                                        (dom/oset! dom/node :value ""))))}))
@@ -26,12 +26,13 @@
       (p/client
         (ui/checkbox {::dom/id         id
                       ::ui/value       (case status :active false, :done true)
-                      ::ui/input-event (p/fn [js-event]
-                                         (let [status (-> js-event :target :checked)]
+                      ::ui/input-event (p/fn [e]
+                                         (let [status (.. e -target -checked)]
                                            (p/server
                                              (d/transact! !conn [{:db/id       id
                                                                   :task/status (if status :done :active)}]))))})
-        (dom/label {::dom/for id} (p/server (:task/description e)))))))
+        (dom/label {::dom/for id}
+          (p/server (:task/description e)))))))
 
 #?(:clj
    (defn todo-count [db]

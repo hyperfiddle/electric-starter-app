@@ -1,13 +1,22 @@
 {:paths   ["src"]
  :deps    {org.clojure/clojure            {:mvn/version "1.11.1"}
-           org.clojure/clojurescript      {:mvn/version "1.11.4"}
+           org.clojure/clojurescript      {:mvn/version "1.11.60"}
            thheller/shadow-cljs           {:mvn/version "2.18.0"}
            com.hyperfiddle/photon         {:mvn/version "20220827-153507"}
            ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
+           com.hyperfiddle/rcf            {:mvn/version "20220926-202227"}
            info.sunng/ring-jetty9-adapter {:mvn/version "0.14.3"
                                            :exclusions  [org.slf4j/slf4j-api
-                                                         info.sunng/ring-jetty9-adapter-http3]}} ; no need
- :aliases {:dev {:jvm-opts  ["-XX:-OmitStackTraceInFastThrow" ; https://github.com/hyperfiddle/rcf#faq
-                             "-Dlogback.configurationFile=logback.xml"]
-                 :exec-fn   user/main
-                 :exec-args {}}}}
+                                                         info.sunng/ring-jetty9-adapter-http3]}
+           missionary/missionary          {:mvn/version "b.27-SNAPSHOT"}
+           org.clojure/tools.logging      {:mvn/version "1.2.4"}}
+ :aliases {:dev {:extra-deps {binaryage/devtools   {:mvn/version "1.0.6"}
+                              thheller/shadow-cljs {:mvn/version "2.20.1"}}
+                 :jvm-opts   ["-Xss2m" ; https://github.com/hyperfiddle/photon/issues/11
+                              "-Dclojure.tools.logging.factory=clojure.tools.logging.impl/slf4j-factory"
+                              "-Dlogback.configurationFile=src/logback.xml"
+                              "-XX:-OmitStackTraceInFastThrow" ;; RCF
+                              "-XX:+UnlockDiagnosticVMOptions"
+                              "-XX:+DebugNonSafepoints"]
+                 :exec-fn    user/main
+                 :exec-args  {}}}}
