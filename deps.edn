@@ -2,7 +2,7 @@
  :deps    {org.clojure/clojure            {:mvn/version "1.11.1"}
            org.clojure/clojurescript      {:mvn/version "1.11.60"}
            thheller/shadow-cljs           {:mvn/version "2.18.0"}
-           com.hyperfiddle/photon         {:mvn/version "20220827-153507"}
+           com.hyperfiddle/photon         {:mvn/version "20221022-123642"}
            ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
            com.hyperfiddle/rcf            {:mvn/version "20220926-202227"}
            info.sunng/ring-jetty9-adapter {:mvn/version "0.14.3"
