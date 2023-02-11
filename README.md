@@ -1,10 +1,8 @@
-# photon-starter-app
-
-`clj -X:dev` build app and run Photon server at http://0.0.0.0:8080
+# electric-starter-app
 
 ```
-$ clj -X:dev
-Starting Photon compiler and server...
+$ clj -A:dev
+Starting Electric compiler and server...
 shadow-cljs - server version: 2.20.1 running at http://localhost:9630
 shadow-cljs - nREPL server started on port 9001
 [:app] Configuring build.
