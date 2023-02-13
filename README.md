@@ -1,7 +1,7 @@
 # electric-starter-app
 
 ```
-$ clj -A:dev
+$ clj -X:dev
 Starting Electric compiler and server...
 shadow-cljs - server version: 2.20.1 running at http://localhost:9630
 shadow-cljs - nREPL server started on port 9001
