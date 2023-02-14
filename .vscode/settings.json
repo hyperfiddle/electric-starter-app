@@ -1,0 +1,14 @@
+{
+    "calva.replConnectSequences": [
+        {
+            "name": "Electric Starter App",
+            "projectType": "shadow-cljs",
+            "cljsType": "shadow-cljs",
+            "afterCLJReplJackInCode": "(require '[user]) (user/main)",
+            "menuSelections": {
+                "cljsLaunchBuilds": ["dev"],
+                "cljsDefaultBuild": "dev"
+            }
+        }
+    ]
+}
