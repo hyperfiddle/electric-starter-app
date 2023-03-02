@@ -1,6 +1,6 @@
 {:paths ["src"]
  :deps {ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
-        com.hyperfiddle/electric {:mvn/version "v2-alpha-60-g4cb70086"}
+        com.hyperfiddle/electric {:mvn/version "v2-alpha-123-ga7fa624f"}
         com.hyperfiddle/rcf {:mvn/version "20220926-202227"}
         info.sunng/ring-jetty9-adapter {:mvn/version "0.14.3"
                                         :exclusions [org.slf4j/slf4j-api
