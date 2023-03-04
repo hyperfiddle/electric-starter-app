@@ -15,8 +15,7 @@
   (def server (@start-electric-server! electric-server-config))
   (comment (.stop server)))
 
-; Userland Electric code is lazy loaded by the shadow build due to usage of
-; :require-macros in all Electric source files.
+; Server-side Electric userland code is lazy loaded by the shadow build.
 ; WARNING: make sure your REPL and shadow-cljs are sharing the same JVM!
 
 (comment
