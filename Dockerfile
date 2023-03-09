@@ -15,7 +15,7 @@ COPY src-build src-build
 COPY resources resources
 ARG REBUILD=unknown
 ARG VERSION
-RUN clojure -X:build uberjar :jar-name "app.jar" :verbose true :version $VERSION
+RUN clojure -X:build uberjar :jar-name "app.jar" :verbose true :version '"'$VERSION'"'
 
 FROM amazoncorretto:11 AS app
 WORKDIR /app
