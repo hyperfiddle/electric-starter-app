@@ -1,6 +1,6 @@
-{:paths ["src"]
+{:paths ["src" "resources"]
  :deps {ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
-        com.hyperfiddle/electric {:mvn/version "v2-alpha-123-ga7fa624f"}
+        com.hyperfiddle/electric {:mvn/version "v2-alpha-167-gbd475584"}
         com.hyperfiddle/rcf {:mvn/version "20220926-202227"}
         info.sunng/ring-jetty9-adapter
         {:mvn/version "0.14.3" ; (Jetty 9) is Java 8 compatible;
