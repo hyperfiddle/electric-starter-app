@@ -12,6 +12,7 @@
   (println "Starting Electric compiler and server...")
   (@shadow-start!) ; serves index.html as well
   (@shadow-watch :dev) ; depends on shadow server
+  ; Shadow loads app.todo-list here, such that it shares memory with server.
   (def server (@start-electric-server! electric-server-config))
   (comment (.stop server)))
 

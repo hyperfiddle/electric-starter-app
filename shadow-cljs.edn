@@ -11,4 +11,10 @@
    :modules {:main {:entries [user]
                     :init-fn user/start!}}
    :build-hooks [(shadow.cljs.build-report/hook {:output-to "target/build_report.html"})
-                 (user/rcf-shadow-hook)]}}}
+                 (user/rcf-shadow-hook)]}
+  :prod
+  {:target :browser
+   :output-dir "resources/public/js"
+   :asset-path "/js"
+   :module-hash-names true
+   :modules {:main {:entries [user] :init-fn user/start!}}}}}

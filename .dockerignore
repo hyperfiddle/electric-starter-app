@@ -1,0 +1,14 @@
+# flyctl launch added from .gitignore
+**/node_modules
+**/resources/public/js
+**/.cpcache
+**/.shadow-cljs
+**/.nrepl-port
+**/.clj-kondo/.cache
+**/yarn-error.log
+**/report.html
+**/.idea/*
+!**/.idea/ClojureProjectResolveSettings.xml
+**/*.iml
+**/.lsp
+**/.clj-kondo
