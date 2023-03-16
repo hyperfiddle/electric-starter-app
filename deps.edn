@@ -1,6 +1,5 @@
 {:paths ["src" "resources"]
- :deps {ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
-        com.hyperfiddle/electric {:mvn/version "v2-alpha-167-gbd475584"}
+ :deps {com.hyperfiddle/electric {:mvn/version "v2-alpha-167-gbd475584"}
         com.hyperfiddle/rcf {:mvn/version "20220926-202227"}
         info.sunng/ring-jetty9-adapter
         {:mvn/version "0.14.3" ; (Jetty 9) is Java 8 compatible;
@@ -9,18 +8,16 @@
         missionary/missionary {:mvn/version "b.27-SNAPSHOT"}
         org.clojure/clojure {:mvn/version "1.11.1"}
         org.clojure/clojurescript {:mvn/version "1.11.60"}
-        org.clojure/tools.logging {:mvn/version "1.2.4"}}
+        org.clojure/tools.logging {:mvn/version "1.2.4"}
+        ch.qos.logback/logback-classic {:mvn/version "1.2.11"}}
  :aliases {:dev
            {:extra-deps
             {binaryage/devtools {:mvn/version "1.0.6"}
              thheller/shadow-cljs {:mvn/version "2.20.1"}}
             :jvm-opts
             ["-Xss2m" ; https://github.com/hyperfiddle/photon/issues/11
-             "-Dclojure.tools.logging.factory=clojure.tools.logging.impl/slf4j-factory"
-             "-Dlogback.configurationFile=src/logback.xml"
              "-XX:-OmitStackTraceInFastThrow" ;; RCF
-             "-XX:+UnlockDiagnosticVMOptions"
-             "-XX:+DebugNonSafepoints"]
+             ]
             :exec-fn user/main
             :exec-args {}}
            :build
@@ -29,6 +26,4 @@
             :extra-deps {io.github.clojure/tools.build {:git/tag "v0.8.2" :git/sha "ba1a2bf"}
                          io.github.seancorfield/build-clj {:git/tag "v0.8.0" :git/sha "9bd8b8a"}
                          thheller/shadow-cljs {:mvn/version "2.20.1"}}
-            :jvm-opts ["-Xss2m"
-                       "-Dclojure.tools.logging.factory=clojure.tools.logging.impl/slf4j-factory"
-                       "-Dlogback.configurationFile=src-dev/logback_dev.xml"]}}}
+            :jvm-opts ["-Xss2m"]}}}
