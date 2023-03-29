@@ -1,10 +1,11 @@
 (ns app.todo-list
-  (:require #?(:clj [datascript.core :as d]) ; database on server
+  (:require contrib.str
+            #?(:clj [datascript.core :as d]) ; database on server
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.electric-ui4 :as ui]))
 
-(defonce !conn #?(:clj (d/create-conn {}) :cljs nil)) ; database on server
+#?(:clj (defonce !conn (d/create-conn {}))) ; database on server
 (e/def db) ; injected database ref; Electric defs are always dynamic
 
 (e/defn TodoItem [id]
@@ -17,9 +18,9 @@
             (case status :active false, :done true)
             (e/fn [v]
               (e/server
-                (e/discard
-                  (d/transact! !conn [{:db/id id
-                                       :task/status (if v :done :active)}]))))
+                (d/transact! !conn [{:db/id id
+                                     :task/status (if v :done :active)}])
+                nil))
             (dom/props {:id id}))
           (dom/label (dom/props {:for id}) (dom/text (e/server (:task/description e)))))))))
 
@@ -36,9 +37,9 @@
   (e/client
     (InputSubmit. (e/fn [v]
                     (e/server
-                      (e/discard
-                        (d/transact! !conn [{:task/description v
-                                             :task/status :active}])))))))
+                      (d/transact! !conn [{:task/description v
+                                           :task/status :active}])
+                      nil)))))
 
 #?(:clj (defn todo-count [db]
           (count
