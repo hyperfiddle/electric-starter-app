@@ -1,6 +1,9 @@
-# electric-starter-app
+# Examples app — Electric Clojure
+
+
 
 ```
+$ yarn                          # demos only - react interop, codemirror
 $ clj -A:dev -X user/main
 
 Starting Electric compiler and server...
