@@ -1,21 +1,20 @@
 (ns ^:dev/always user ; Electric currently needs to rebuild everything when any file changes. Will fix
-  (:require
-    app.todo-list
-    hyperfiddle.electric
-    hyperfiddle.electric-dom2))
+  (:require hyperfiddle.electric
+            hyperfiddle.rcf
+            user-main))
 
-(def electric-main
-  (hyperfiddle.electric/boot ; Electric macroexpansion - Clojure to signals compiler
-    (binding [hyperfiddle.electric-dom2/node js/document.body]
-      (app.todo-list/Todo-list.))))
-
+(def electric-main (hyperfiddle.electric/boot (user-main/Main.)))
 (defonce reactor nil)
 
 (defn ^:dev/after-load ^:export start! []
-  (assert (nil? reactor) "reactor already running")
   (set! reactor (electric-main
-                  #(js/console.log "Reactor success:" %)
-                  #(js/console.error "Reactor failure:" %))))
+                 #(js/console.log "Reactor success:" %)
+                 (fn [error]
+                   (case (:hyperfiddle.electric/type (ex-data error))
+                     :hyperfiddle.electric-client/stale-client (do (js/console.log "Server and client version mismatch. Refreshing page.")
+                                                                   (.reload (.-location js/window)))
+                     (js/console.error "Reactor failure:" error)))))
+  (hyperfiddle.rcf/enable!))
 
 (defn ^:dev/before-load stop! []
   (when reactor (reactor)) ; teardown

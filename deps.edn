@@ -1,5 +1,7 @@
 {:paths ["src" "resources"]
- :deps {com.hyperfiddle/electric {:mvn/version "v2-alpha-167-gbd475584"}
+ :deps {com.hyperfiddle/electric {:git/url "git@github.com:hyperfiddle/electric.git"
+                                  :git/sha "1f7b3906f16013105111e01611ee22c60d33a50f"
+                                  #_#_:mvn/version "v2-alpha-167-gbd475584"}
         com.hyperfiddle/rcf {:mvn/version "20220926-202227"}
         info.sunng/ring-jetty9-adapter
         {:mvn/version "0.14.3" ; (Jetty 9) is Java 8 compatible;
@@ -10,7 +12,10 @@
         org.clojure/clojurescript {:mvn/version "1.11.60"}
         org.clojure/tools.logging {:mvn/version "1.2.4"}
         ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
-        ring-basic-authentication/ring-basic-authentication {:mvn/version "1.1.1"}}
+        ring-basic-authentication/ring-basic-authentication {:mvn/version "1.1.1"}
+        com.github.askonomm/clarktown {:mvn/version "2.0.0"}
+        nextjournal/clojure-mode {:git/url "https://github.com/nextjournal/clojure-mode"
+                                  :sha "699a445ebf2767f41fd0b6eeed5a008511702be6"}}
  :aliases {:dev
            {:extra-deps
             {binaryage/devtools {:mvn/version "1.0.6"}
