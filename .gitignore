@@ -13,3 +13,4 @@ report.html
 .lsp
 .clj-kondo
 /target
+.vscode
