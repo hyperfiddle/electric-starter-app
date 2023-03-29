@@ -12,7 +12,7 @@
    `user.tutorial-lifecycle/Lifecycle
    `user.demo-chat-extended/ChatExtended
    `user.demo-todos-simple/TodoList
-   #_`user.demo-reagent-interop/ReagentInterop ; todo repair npm deps
+   `user.demo-reagent-interop/ReagentInterop
    `user.demo-svg/SVG])
 
 (def seven-guis

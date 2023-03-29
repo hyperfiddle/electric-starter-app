@@ -37,9 +37,7 @@
             wip.teeshirt-orders
             wip.demo-custom-types
             wip.tracing
-
-            ; this demo require `npm install`
-            #_user.demo-reagent-interop
+            user.demo-reagent-interop ; yarn
 
             ; these demos require extra deps alias
             #_wip.dennis-exception-leak
@@ -80,7 +78,7 @@
    `user.demo-svg/SVG user.demo-svg/SVG
    `user.tutorial-lifecycle/Lifecycle user.tutorial-lifecycle/Lifecycle
    `wip.tracing/TracingDemo wip.tracing/TracingDemo
-   ;`user.demo-reagent-interop/ReagentInterop user.demo-reagent-interop/ReagentInterop
+   `user.demo-reagent-interop/ReagentInterop user.demo-reagent-interop/ReagentInterop
    ;::demos/dennis-exception-leak wip.dennis-exception-leak/App2
    ;`wip.demo-stage-ui4/CrudForm wip.demo-stage-ui4/CrudForm
    ;`wip.datomic-browser/DatomicBrowser wip.datomic-browser/DatomicBrowser
