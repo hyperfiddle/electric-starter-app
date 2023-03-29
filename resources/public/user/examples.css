@@ -1,0 +1,89 @@
+body.hyperfiddle {}
+
+:root {
+    --desktop-min-width: calc(50em + 3*12em);
+}
+
+.user-examples {
+    padding: 0;
+    margin: 0;
+}
+
+@media screen and (min-width: calc(50em + 3*12em)) { /* var(--desktop-min-width) */
+    .user-examples {
+        display: grid;
+        grid-template-columns: 12em 50em /* 80 cols mono? */ 1fr;
+        /*grid-template-rows: 1fr min-content;*/
+        grid-template-areas:
+                "user-sidebar user-title user-title"
+                "user-sidebar user-result user-code"
+                "user-sidebar user-readme user-readme";
+    }
+
+    .user-examples > fieldset:nth-child(1) { grid-area: user-result; }
+    .user-examples > fieldset:nth-child(2) { grid-area: user-code; }
+    .user-examples > div.user-examples-nav { grid-area: user-sidebar; }
+    .user-examples > div.user-examples-readme { grid-area: user-readme; }
+    .user-examples > h1 { grid-area: user-title; }
+
+    /*https://stackoverflow.com/questions/52785750/prevent-grid-area-from-expanding-causing-whole-page-to-scroll*/
+    /*https://stackoverflow.com/a/45897789/20003*/
+}
+
+.user-examples .cm-editor,
+.user-examples fieldset.user-examples-code {
+    background-color: white; /* fieldset should match cm */
+    /*padding-left: 0; padding-right: 0; -- cm gutters are the only desired padding, but
+    unfortunately the fieldset>legend needs this padding */
+}
+
+.user-examples .cm-editor .cm-line {
+    font-size: 0.9rem !important;
+}
+
+/*.user-examples .user-examples-target {*/
+/*    !*    width:100%;*!*/
+/*    !*    min-height: 100vh;*!*/
+/*    !*    overflow: scroll;*!*/
+/*    !*    border: none;*!*/
+/*    !*    padding: none;*!*/
+
+/*    overflow: hidden; !* system properties demo is too wide, todo truncate tr instead *!*/
+/*    !*text-overflow: ellipsis;*!*/
+/*    !*white-space: nowrap;*!*/
+/*}*/
+
+.user-examples input {
+    padding: 0.5rem 0.5rem;
+}
+
+.SystemProperties table {
+    width: 100%;
+}
+
+.SystemProperties > div:first-child {
+    color: gray;
+}
+
+.SystemProperties table > tbody {
+    overflow-x: hidden;
+    display: block;
+    height: 40em;
+    border: 1px black;
+}
+
+@media screen and (max-width: calc(50em + 3*12em)) {
+    .SystemProperties table > tbody {
+        overflow-y: scroll;
+        height: 20em;
+    }
+}
+
+.SystemProperties td {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.Chat ul, .ChatExtended ul {
+    padding-left: 1.5em;
+}
