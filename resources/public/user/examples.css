@@ -1,89 +1,150 @@
-body.hyperfiddle {}
+body.hyperfiddle{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
 
-:root {
-    --desktop-min-width: calc(50em + 3*12em);
-}
-
-.user-examples {
-    padding: 0;
+    display: grid;
+    grid-template-areas: "title title"
+                         "select ."
+                         "code result"
+                         "notes notes";
+    grid-template-rows: auto 1.5rem min-content minmax(20rem, 1fr);
+    gap: 1rem;
+    height: 100vh;
     margin: 0;
-}
-
-@media screen and (min-width: calc(50em + 3*12em)) { /* var(--desktop-min-width) */
-    .user-examples {
-        display: grid;
-        grid-template-columns: 12em 50em /* 80 cols mono? */ 1fr;
-        /*grid-template-rows: 1fr min-content;*/
-        grid-template-areas:
-                "user-sidebar user-title user-title"
-                "user-sidebar user-result user-code"
-                "user-sidebar user-readme user-readme";
-    }
-
-    .user-examples > fieldset:nth-child(1) { grid-area: user-result; }
-    .user-examples > fieldset:nth-child(2) { grid-area: user-code; }
-    .user-examples > div.user-examples-nav { grid-area: user-sidebar; }
-    .user-examples > div.user-examples-readme { grid-area: user-readme; }
-    .user-examples > h1 { grid-area: user-title; }
-
-    /*https://stackoverflow.com/questions/52785750/prevent-grid-area-from-expanding-causing-whole-page-to-scroll*/
-    /*https://stackoverflow.com/a/45897789/20003*/
-}
-
-.user-examples .cm-editor,
-.user-examples fieldset.user-examples-code {
-    background-color: white; /* fieldset should match cm */
-    /*padding-left: 0; padding-right: 0; -- cm gutters are the only desired padding, but
-    unfortunately the fieldset>legend needs this padding */
-}
-
-.user-examples .cm-editor .cm-line {
-    font-size: 0.9rem !important;
-}
-
-/*.user-examples .user-examples-target {*/
-/*    !*    width:100%;*!*/
-/*    !*    min-height: 100vh;*!*/
-/*    !*    overflow: scroll;*!*/
-/*    !*    border: none;*!*/
-/*    !*    padding: none;*!*/
-
-/*    overflow: hidden; !* system properties demo is too wide, todo truncate tr instead *!*/
-/*    !*text-overflow: ellipsis;*!*/
-/*    !*white-space: nowrap;*!*/
-/*}*/
-
-.user-examples input {
-    padding: 0.5rem 0.5rem;
-}
-
-.SystemProperties table {
-    width: 100%;
-}
-
-.SystemProperties > div:first-child {
-    color: gray;
-}
-
-.SystemProperties table > tbody {
+    padding: 1rem;
+    overflow-y: auto;
     overflow-x: hidden;
-    display: block;
-    height: 40em;
-    border: 1px black;
+
+    box-sizing: content-box;
+    position: relative;
 }
 
-@media screen and (max-width: calc(50em + 3*12em)) {
-    .SystemProperties table > tbody {
-        overflow-y: scroll;
-        height: 20em;
+.hyperfiddle.user-examples fieldset{
+    background-color: white;
+    overflow: auto;
+    min-inline-size: auto;
+}
+.hyperfiddle.user-examples fieldset legend{
+    margin: 0 1rem;
+}
+
+
+.user-examples > h1{
+    grid-area: title;
+}
+
+.user-examples-select{
+    grid-area: select;
+}
+
+.user-examples-nav{
+    display:none;
+}
+
+.user-examples-target{
+    grid-area:result;
+    padding: 1rem;
+    max-height: 46rem;
+}
+
+.user-examples-code{
+    grid-area:code;
+    padding: 0;
+    max-height: 46rem;
+}
+
+.user-examples-readme{
+    grid-area:notes;
+}
+
+
+
+/* .hyperfiddle.user-examples .user-examples-readme{ */
+/*     margin-bottom: 30rem; */
+/* } */
+
+@media (max-width: 980px) and (hover: none) and (pointer: coarse) {
+    body.hyperfiddle{
+        font-size: 36px;
+        line-height: 54px;
+    }
+    .user-examples-select{
+        font-size: 3rem;
+        padding: 0.5rem 1rem;
+    }
+    .user-examples-code{
+        overflow: scroll;
+        font-size: 1.75rem;
+        margin:0;
+    }
+    .user-examples-target.SystemProperties input{
+        font-size: 2.5rem;
+    }
+
+    .user-examples-target.SystemProperties td{
+        white-space: nowrap;
+    }
+
+}
+
+@media (max-width: 980px){
+    body.hyperfiddle{
+        grid-template-areas: "title"
+                             "select"
+                             "result"
+                             "code"
+                             "notes";
+        grid-template-rows: auto minmax(2rem, auto) min-content min-content minmax(20rem, 1fr);
+        grid-template-columns: 100%;
+    }
+
+    .user-examples-target{
+        padding: 1rem;
+        overflow:auto;
+        max-height: 30vh;
+    }
+
+    .user-examples-code{
+        max-height: 30vh;
     }
 }
 
-.SystemProperties td {
-    white-space: nowrap;
-    overflow: hidden;
+@media (orientation: landscape) and (hover: none) and (pointer: coarse) {
+    body.hyperfiddle{
+        font-size: 16px;
+        grid-template-areas: "title select"
+                             "code result"
+                             "notes notes";
+        grid-template-rows: auto 60vh auto;
+        grid-template-columns: 1fr 1fr;
+        line-height: initial;
+    }
+
+    body.hyperfiddle h1 {
+        margin:0;
+    }
+
+    .user-examples-select{
+        font-size: 1rem;
+        align-self: center;
+    }
+
+    .user-examples-code{
+        font-size: 1rem;
+    }
+
 }
 
-.Chat ul, .ChatExtended ul {
-    padding-left: 1.5em;
+.user-examples-target.SystemProperties input{
+    font-size: 1rem;
+    margin: 1rem 0;
 }
+
+.user-examples-target.SystemProperties td{
+    white-space: nowrap;
+}
+
+@media (min-width: 981px) and (max-width: 1200px) {}
+@media (min-width: 1201px) {}
+
