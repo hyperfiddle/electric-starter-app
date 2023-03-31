@@ -15,9 +15,11 @@
           true (e/client (pr-str (type 1))) ; javascript number type
           false (e/server (pr-str (type 1)))))) ; java number type
 
-    (dom/div (dom/text "current site: " (case x 
-                                          true "ClojureScript (client)"
-                                          false "Clojure (server)")))
+    (dom/div 
+      (dom/text "current site: " 
+        (case x 
+          true "ClojureScript (client)"
+          false "Clojure (server)")))
 
     (ui/button (e/fn []
                  (e/server (swap! !x not)))
