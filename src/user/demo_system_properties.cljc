@@ -1,11 +1,8 @@
 (ns user.demo-system-properties
-  "A web view that queries the backend Java environment and streams it to the
-  DOM, all in one single composed expression"
-  (:require
-   [clojure.string :as str]
-   [hyperfiddle.electric :as e]
-   [hyperfiddle.electric-dom2 :as dom]
-   [hyperfiddle.electric-ui4 :as ui]))
+  (:require [clojure.string :as str] 
+            [hyperfiddle.electric :as e]
+            [hyperfiddle.electric-dom2 :as dom]
+            [hyperfiddle.electric-ui4 :as ui]))
 
 #?(:clj
    (defn jvm-system-properties [?s]

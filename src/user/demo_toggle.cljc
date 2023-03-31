@@ -1,8 +1,7 @@
 (ns user.demo-toggle 
-  (:require
-   [hyperfiddle.electric :as e]
-   [hyperfiddle.electric-dom2 :as dom]
-   [hyperfiddle.electric-ui4 :as ui]))
+  (:require [hyperfiddle.electric :as e]
+            [hyperfiddle.electric-dom2 :as dom]
+            [hyperfiddle.electric-ui4 :as ui]))
 
 #?(:clj (defonce !x (atom true))) ; server state
 (e/def x (e/server (e/watch !x))) ; reactive signal derived from atom
