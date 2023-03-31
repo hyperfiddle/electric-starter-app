@@ -1,5 +1,5 @@
 {:paths ["src" "resources"]
- :deps {com.hyperfiddle/electric {:git/url "git@github.com:hyperfiddle/electric.git"
+ :deps {com.hyperfiddle/electric {:git/url "https://github.com/hyperfiddle/electric.git"
                                   :git/sha "70aa13877604a5c35ea45e5018f8a99909855b78"
                                   #_#_:mvn/version "v2-alpha-167-gbd475584"
                                   #_#_:local/root "../electric"}
@@ -32,6 +32,8 @@
            {:extra-paths ["src-build"]
             :ns-default build
             :extra-deps {io.github.clojure/tools.build {:git/tag "v0.8.2" :git/sha "ba1a2bf"}
-                         io.github.seancorfield/build-clj {:git/tag "v0.8.0" :git/sha "9bd8b8a"}
-                         thheller/shadow-cljs {:mvn/version "2.20.1"}}
-            :jvm-opts ["-Xss2m"]}}}
+                         io.github.seancorfield/build-clj {:git/tag "v0.8.0" :git/sha "9bd8b8a"}}
+            :jvm-opts ["-Xss2m"]}
+           :shadow-cljs  {:extra-deps {thheller/shadow-cljs {:mvn/version "2.20.1"}}
+                          :main-opts  ["-m" "shadow.cljs.devtools.cli"]
+                          :jvm-opts   ["-Xss2m"]}}}

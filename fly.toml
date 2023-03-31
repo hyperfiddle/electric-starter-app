@@ -1,6 +1,9 @@
-app = "electric-starter-app"
+# fly.toml file generated for electric-examples-app on 2023-03-31T18:34:16+02:00
+
+app = "electric-examples-app"
 kill_signal = "SIGINT"
 kill_timeout = 5
+primary_region = "ewr"
 processes = []
 
 [env]

@@ -1,5 +1,5 @@
-{:deps {:aliases [:dev]}
- :nrepl {:port 9001}
+{:nrepl {:port 9001}
+ :npm-deps {:install false}
  :builds
  {:dev
   {:target :browser

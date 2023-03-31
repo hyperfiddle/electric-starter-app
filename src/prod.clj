@@ -1,6 +1,6 @@
 (ns prod
   (:gen-class)
-  (:require app.todo-list ; in prod, load app into server so it can accept clients
+  (:require user-main ; in prod, load app into server so it can accept clients
             electric-server-java8-jetty9))
 
 (def electric-server-config

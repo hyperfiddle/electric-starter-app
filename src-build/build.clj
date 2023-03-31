@@ -2,9 +2,7 @@
   "build electric.jar library artifact and demos"
   (:require [clojure.tools.build.api :as b]
             [org.corfield.build :as bb]
-            [shadow.cljs.devtools.api :as shadow-api] ; so as not to shell out to NPM for shadow
-            [shadow.cljs.devtools.server :as shadow-server]
-            ))
+            [clojure.java.shell :as sh]))
 
 (def lib 'com.hyperfiddle/electric)
 (def version (b/git-process {:git-args "describe --tags --long --always --dirty"}))
@@ -23,12 +21,18 @@
 (defn build-client [{:keys [optimize debug verbose version]
                      :or {optimize true, debug false, verbose false, version version}}]
   (println "Building client. Version:" version)
-  (shadow-server/start!)
-  (shadow-api/release :prod {:debug debug,
-                             :verbose verbose,
-                             :config-merge [{:compiler-options {:optimizations (if optimize :advanced :simple)}
-                                             :closure-defines {'hyperfiddle.electric-client/VERSION version}}]})
-  (shadow-server/stop!))
+  (let [command (->> ["clj" "-M:shadow-cljs" "release" "prod"
+                      (when debug "--debug")
+                      (when verbose "--verbose")
+                      "--config-merge"
+                      (pr-str {:compiler-options {:optimizations (if optimize :advanced :simple)}
+                               :closure-defines  {'hyperfiddle.electric-client/VERSION version}})]
+                  (remove nil?))]
+    (apply println "Running:" command)
+    (let [{:keys [exit out err]} (apply sh/sh command)]
+      (when-not (zero? exit)  (println "Exit code" exit))
+      (when err (println err))
+      (when out (println out)))))
 
 (defn uberjar [{:keys [jar-name version optimize debug verbose]
                 :or   {version version, optimize true, debug false, verbose false}}]
