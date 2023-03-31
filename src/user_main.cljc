@@ -129,8 +129,8 @@
           #_(dom/pre (dom/text (e/server (get-src page))))
           (Code. (e/server (get-src page))))
         (dom/div (dom/props {:class "user-examples-readme"})
-          (let [html (e/server (some-> (get-readme `user.demo-two-clocks/TwoClocks) clarktown.core/render))]
-            (set! (.-innerHTML dom/node) (str html html))))
+          (let [html (e/server (some-> (get-readme page) clarktown.core/render))]
+            (set! (.-innerHTML dom/node) html)))
         #_(dom/div (dom/props {:class "user-examples-nav"})
           (user.demo-index/Demos.))))))
 
