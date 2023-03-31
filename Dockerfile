@@ -24,4 +24,4 @@ ARG VERSION
 RUN clojure -T:build build-client :verbose true :version '"'$VERSION'"'
 
 ENV VERSION=$VERSION
-CMD clj -J-DHYPERFIDDLE_ELECTRIC_VERSION=$VERSION -M -m prod
+CMD clj -J-DHYPERFIDDLE_ELECTRIC_SERVER_VERSION=$VERSION -M -m prod
