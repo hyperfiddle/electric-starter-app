@@ -109,18 +109,22 @@ body.hyperfiddle{
     }
 
     .user-examples-code{
-        max-height: 30vh;
+        max-height: 50vh;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 980px) and (hover: none) and (pointer: coarse) {
+    .user-examples-target.Toggle button {
+        font-size: 36px; /* hack */
     }
 }
 
 @media (orientation: landscape) and (hover: none) and (pointer: coarse) {
     body.hyperfiddle{
         font-size: 16px;
-        grid-template-areas: "title select"
-                             "code result"
-                             "notes notes";
-        grid-template-rows: auto 60vh auto;
-        grid-template-columns: 1fr 1fr;
+        grid-template-areas: "title" "select" "result" "code" "notes";
+        grid-template-rows: auto auto min-content min-content auto;
+        grid-template-columns: 100%;
         line-height: initial;
     }
 
@@ -135,10 +139,10 @@ body.hyperfiddle{
 
     .user-examples-code{
         font-size: 1rem;
-        max-height: 60vh;
+        max-height: 90vh;
     }
     .user-examples-target{
-        max-height: 60vh;
+        max-height: 13rem;
     }
 
 }
