@@ -1,5 +1,6 @@
 (ns user-main
   (:require contrib.uri ; data_readers
+            clojure.edn
             contrib.ednish
             clojure.string
             #?(:clj clarktown.core)
@@ -99,8 +100,36 @@
   (get-src `user.demo-two-clocks/TwoClocks)
   (get-readme `user.demo-two-clocks/TwoClocks))
 
-(e/defn Code [code] (CodeMirror. {:parent dom/node :readonly true} identity identity code))
-(e/defn App [page] (e/server (new (get pages page NotFoundPage))))
+(e/defn Code [page]
+  (dom/fieldset
+   (dom/props {:class "user-examples-code"})
+   (dom/legend (dom/text "Code"))
+   #_(dom/pre (dom/text (e/server (get-src page)))) 
+   (CodeMirror. {:parent dom/node :readonly true} identity identity (e/server (get-src page)))))
+
+(e/defn App [page] 
+  (dom/fieldset
+   (dom/props {:class (str "user-examples-target " (some-> page name))})
+   (dom/legend (dom/text "Result"))
+   (e/server (new (get pages page NotFoundPage)))))
+
+(e/defn Readme [page]
+  (dom/div
+   (dom/props {:class "user-examples-readme"})
+   (let [html (e/server (some-> (get-readme page) clarktown.core/render))]
+     (set! (.-innerHTML dom/node) html))))
+
+(def tutorials
+  [`user.demo-two-clocks/TwoClocks
+   `user.demo-toggle/Toggle
+   `user.demo-system-properties/SystemProperties])
+
+(e/defn Nav [page]
+  (dom/select
+   (dom/props {:class "user-examples-select"})
+   (e/for [k tutorials]
+     (dom/option (dom/props {:value (str k)  :selected (= page k)}) (dom/text (name k))))
+   (dom/on "change" (e/fn [^js e] (history/swap-route! assoc 0 (clojure.edn/read-string (.. e -target -value)))))))
 
 (e/defn Examples []
   (let [[page & [?panel]] history/route]
@@ -108,31 +137,13 @@
       code (Code. page) ; iframe url for just code
       app (App. page) ; iframe url for just app
       (do
-        (dom/h1 (dom/text "Electric Clojure tutorial"))
-        (dom/select (dom/props {:class "user-examples-select"})
-          (dom/option (dom/props {:value "two-clocks" :selected (= page `user.demo-two-clocks/TwoClocks)})
-            (dom/text "Two Clocks"))
-          (dom/option (dom/props {:value "toggle", :selected (= page `user.demo-toggle/Toggle)})
-            (dom/text "Toggle"))
-          (dom/option (dom/props {:value "system-properties", :selected (= page `user.demo-system-properties/SystemProperties)})
-            (dom/text "System Properties"))
-          (dom/on "change" (e/fn [^js e] (history/swap-route! assoc 0
-                                           (case (.. e -target -value)
-                                             "two-clocks"        `user.demo-two-clocks/TwoClocks
-                                             "toggle"            `user.demo-toggle/Toggle
-                                             "system-properties" `user.demo-system-properties/SystemProperties)))))
-        (dom/fieldset (dom/props {:class (str "user-examples-target " (some-> page name))})
-          (dom/legend (dom/text "Result"))
-          (App. page))
-        (dom/fieldset (dom/props {:class "user-examples-code"})
-          (dom/legend (dom/text "Code"))
-          #_(dom/pre (dom/text (e/server (get-src page))))
-          (Code. (e/server (get-src page))))
-        (dom/div (dom/props {:class "user-examples-readme"})
-          (let [html (e/server (some-> (get-readme page) clarktown.core/render))]
-            (set! (.-innerHTML dom/node) html)))
-        #_(dom/div (dom/props {:class "user-examples-nav"})
-          (user.demo-index/Demos.))))))
+        (dom/h1 (dom/text "Electric Clojure tutorial")) 
+        (Nav. page) 
+        (App. page)
+        (Code. page)
+        (Readme. page)
+        #_(dom/div (dom/props {:class "user-examples-nav"}) 
+                   (user.demo-index/Demos.))))))
 
 (defn route->path [x] (->> x (map contrib.ednish/encode-uri) (interpose "/") (apply str)))
 (defn path->route [s]
@@ -157,6 +168,6 @@
   (binding [history/encode route->path
             history/decode #(or (path->route %) [`user.demo-two-clocks/TwoClocks])]
     (history/router (history/HTML5-History.)
-      (set! (.-title js/document) (str (clojure.string/capitalize (some-> (identity history/route) first name)) " - Hyperfiddle"))
+      (set! (.-title js/document) (str #_(clojure.string/capitalize) (some-> (identity history/route) first name) " – Electric Clojure"))
       (binding [dom/node js/document.body]
         (Examples.)))))
