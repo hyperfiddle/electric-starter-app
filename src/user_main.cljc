@@ -1,8 +1,9 @@
 (ns user-main
-  (:require contrib.uri ; data_readers
-            clojure.edn
-            contrib.ednish
+  (:require clojure.edn
             clojure.string
+            contrib.data
+            contrib.ednish
+            contrib.uri ; data_readers
             #?(:clj clarktown.core)
             [contrib.electric-codemirror :refer [CodeMirror]]
             [hyperfiddle.electric :as e]
@@ -43,8 +44,7 @@
             ; these demos require extra deps alias
             #_wip.dennis-exception-leak
             #_wip.demo-stage-ui4
-            #_wip.datomic-browser
-            ))
+            #_wip.datomic-browser))
 
 (e/defn NotFoundPage []
   (e/client (dom/h1 (dom/text "Page not found"))))
@@ -54,15 +54,15 @@
 (e/def pages
   {`user.demo-index/Secrets user.demo-index/Secrets
    `user.demo-two-clocks/TwoClocks user.demo-two-clocks/TwoClocks
+   `user.demo-toggle/Toggle user.demo-toggle/Toggle
+   `user.demo-system-properties/SystemProperties user.demo-system-properties/SystemProperties
    ;; `wip.teeshirt-orders/Webview-HFQL wip.teeshirt-orders/Webview-HFQL
    ;; `user.demo-explorer/DirectoryExplorer user.demo-explorer/DirectoryExplorer
    ;; `wip.demo-explorer2/DirectoryExplorer-HFQL wip.demo-explorer2/DirectoryExplorer-HFQL
    ;user.demo-10k-dom/Dom-10k-Elements user.demo-10k-dom/Dom-10k-Elements ; todo too slow to unmount, crashes
    ;; `wip.demo-branched-route/RecursiveRouter wip.demo-branched-route/RecursiveRouter
    ;; `wip.tag-picker/TagPicker wip.tag-picker/TagPicker
-   `user.demo-toggle/Toggle user.demo-toggle/Toggle
    ;; `wip.demo-custom-types/CustomTypes wip.demo-custom-types/CustomTypes
-   `user.demo-system-properties/SystemProperties user.demo-system-properties/SystemProperties
    ;; `user.demo-chat/Chat user.demo-chat/Chat
    ;; `user.demo-chat-extended/ChatExtended user.demo-chat-extended/ChatExtended
    ;; `user.demo-webview/Webview user.demo-webview/Webview
@@ -120,16 +120,25 @@
      (set! (.-innerHTML dom/node) html))))
 
 (def tutorials
-  [`user.demo-two-clocks/TwoClocks
-   `user.demo-toggle/Toggle
-   `user.demo-system-properties/SystemProperties])
+  [{::id `user.demo-two-clocks/TwoClocks 
+    ::title "Two Clocks – Hello World"
+    ::lead "Streaming lexical scope. The server clock is streamed to the client."}
+   {::id `user.demo-toggle/Toggle
+    ::lead "This demo toggles between client and server with a button."}
+   {::id `user.demo-system-properties/SystemProperties
+    ::lead "A largrer example of a HTML table backed by a server-side query. Type into the input and see the query update live."}])
+
+(def tutorials-index (contrib.data/index-by ::id tutorials))
 
 (e/defn Nav [page]
   (dom/select
    (dom/props {:class "user-examples-select"})
-   (e/for [k tutorials]
-     (dom/option (dom/props {:value (str k)  :selected (= page k)}) (dom/text (name k))))
-   (dom/on "change" (e/fn [^js e] (history/swap-route! assoc 0 (clojure.edn/read-string (.. e -target -value)))))))
+   (e/for [{:keys [::id ::title]} tutorials]
+     (dom/option 
+      (dom/props {:value (str id) :selected (= page id)}) 
+      (dom/text (or title (name id)))))
+   (dom/on "change" (e/fn [^js e]
+                      (history/swap-route! assoc 0 (clojure.edn/read-string (.. e -target -value)))))))
 
 (e/defn Examples []
   (let [[page & [?panel]] history/route]
@@ -137,8 +146,9 @@
       code (Code. page) ; iframe url for just code
       app (App. page) ; iframe url for just app
       (do
-        (dom/h1 (dom/text "Electric Clojure tutorial")) 
-        (Nav. page) 
+        (dom/h1 (dom/text "Tutorial – Electric Clojure")) 
+        (Nav. page)
+        (dom/div (dom/props {:class "user-examples-lead"}) (dom/text (::lead (get tutorials-index page))))
         (App. page)
         (Code. page)
         (Readme. page)

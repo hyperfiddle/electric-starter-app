@@ -1,5 +1,4 @@
-(ns user.demo-two-clocks
-  "Electric hello world: streaming lexical scope"
+(ns user.demo-two-clocks 
   (:require [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]))
 

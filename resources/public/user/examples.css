@@ -6,9 +6,10 @@ body.hyperfiddle{
     display: grid;
     grid-template-areas: "title title"
                          "select ."
+                         "lead lead"
                          "code result"
                          "notes notes";
-    grid-template-rows: auto 1.5rem min-content minmax(20rem, 1fr);
+    grid-template-rows: auto 1.5rem auto min-content minmax(20rem, 1fr);
     grid-template-columns: min-content auto;
     gap: 1rem;
     height: 100vh;
@@ -37,6 +38,10 @@ body.hyperfiddle{
 
 .user-examples-select{
     grid-area: select;
+}
+
+.user-examples-lead {
+    grid-area: lead;
 }
 
 .user-examples-nav{
@@ -93,12 +98,8 @@ body.hyperfiddle{
 
 @media (max-width: 980px){
     body.hyperfiddle{
-        grid-template-areas: "title"
-                             "select"
-                             "result"
-                             "code"
-                             "notes";
-        grid-template-rows: auto minmax(2rem, auto) min-content min-content minmax(20rem, 1fr);
+        grid-template-areas: "title" "select" "lead" "result" "code" "notes";
+        grid-template-rows: auto auto auto min-content min-content minmax(20rem, 1fr);
         grid-template-columns: 100%;
     }
 
@@ -122,8 +123,8 @@ body.hyperfiddle{
 @media (orientation: landscape) and (hover: none) and (pointer: coarse) {
     body.hyperfiddle{
         font-size: 16px;
-        grid-template-areas: "title" "select" "result" "code" "notes";
-        grid-template-rows: auto auto min-content min-content auto;
+        grid-template-areas: "title" "select" "lead" "result" "code" "notes";
+        grid-template-rows: auto auto auto min-content min-content auto;
         grid-template-columns: 100%;
         line-height: initial;
     }

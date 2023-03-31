@@ -1,5 +1,3 @@
-Streaming lexical scope. The server clock is streamed to the client.
-
 Novel forms:
 * `e/defn`: defines an Electric function, which is reactive
 * `e/client`, `e/server`: compile time markers, valid in any Electric body

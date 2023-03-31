@@ -1,5 +1,3 @@
-A largrer example of a HTML table backed by a server-side query. Type into the input and see the query update live.
-
 Novel forms:
 * `e/offload`: move a blocking Clojure computation to a threadpool (server only)
 * `ui/input`: a latency-stabilized input control with a high level interface
