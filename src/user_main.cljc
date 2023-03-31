@@ -110,9 +110,12 @@
       (do
         (dom/h1 (dom/text "Electric Clojure tutorial"))
         (dom/select (dom/props {:class "user-examples-select"})
-          (dom/option (dom/props {:value "two-clocks"}) (dom/text "Two Clocks"))
-          (dom/option (dom/props {:value "toggle"}) (dom/text "Toggle"))
-          (dom/option (dom/props {:value "system-properties"}) (dom/text "System Properties"))
+          (dom/option (dom/props {:value "two-clocks" :selected (= page `user.demo-two-clocks/TwoClocks)})
+            (dom/text "Two Clocks"))
+          (dom/option (dom/props {:value "toggle", :selected (= page `user.demo-toggle/Toggle)})
+            (dom/text "Toggle"))
+          (dom/option (dom/props {:value "system-properties", :selected (= page `user.demo-system-properties/SystemProperties)})
+            (dom/text "System Properties"))
           (dom/on "change" (e/fn [^js e] (history/swap-route! assoc 0
                                            (case (.. e -target -value)
                                              "two-clocks"        `user.demo-two-clocks/TwoClocks
