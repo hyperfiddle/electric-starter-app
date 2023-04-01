@@ -99,19 +99,17 @@ body.hyperfiddle{
 @media (max-width: 980px){
     body.hyperfiddle{
         grid-template-areas: "title" "select" "lead" "result" "code" "notes";
-        grid-template-rows: auto auto auto min-content min-content minmax(20rem, 1fr);
+        grid-template-rows: auto auto auto min-content auto minmax(20rem, 1fr);
         grid-template-columns: 100%;
     }
 
     .user-examples-target{
         padding: 1rem;
         overflow:auto;
-        max-height: 30vh;
+        max-height: 20vh;
     }
 
-    .user-examples-code{
-        max-height: 50vh;
-    }
+    /* .user-examples-code{ max-height: 45vh; } */
 }
 
 @media (orientation: portrait) and (max-width: 980px) and (hover: none) and (pointer: coarse) {
