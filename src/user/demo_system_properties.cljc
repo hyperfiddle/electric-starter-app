@@ -17,7 +17,7 @@
     (let [!search (atom "")
           search (e/watch !search)]
       (e/server
-        (let [system-props (e/offload #(jvm-system-properties search))
+        (let [system-props (jvm-system-properties search)
               matched-count (count system-props)]
           (e/client
             (dom/div (dom/text matched-count " matches"))
@@ -29,6 +29,7 @@
                   ; reactive for, stabilized with "react key"
                   (e/for-by key [[k v] system-props]
                     (e/client
+                      (println 'rendering k)
                       (dom/tr
                         (dom/td (dom/text k))
                         (dom/td (dom/text v))))))))))))))
