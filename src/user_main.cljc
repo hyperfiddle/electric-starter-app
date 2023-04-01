@@ -4,7 +4,7 @@
             contrib.data
             contrib.ednish
             contrib.uri ; data_readers
-            #?(:clj clarktown.core)
+            #?(:clj markdown.core)
             [contrib.electric-codemirror :refer [CodeMirror]]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
@@ -116,7 +116,7 @@
 (e/defn Readme [page]
   (dom/div
    (dom/props {:class "user-examples-readme"})
-   (let [html (e/server (some-> (get-readme page) clarktown.core/render))]
+   (let [html (e/server (some-> (get-readme page) markdown.core/md-to-html-string))]
      (set! (.-innerHTML dom/node) html))))
 
 (def tutorials
