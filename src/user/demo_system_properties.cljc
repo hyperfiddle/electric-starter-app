@@ -7,11 +7,10 @@
 #?(:clj
    (defn jvm-system-properties [?s]
      (->> (System/getProperties)
-       (map (juxt key val))
-       (filter (fn [[k v]]
-                 (str/includes? (str/lower-case (str k))
-                   (str/lower-case (str ?s)))))
-       (sort-by first))))
+       (filter (fn [^java.util.concurrent.ConcurrentHashMap$MapEntry kv]
+                 (str/includes? (str/lower-case (str (key kv))) 
+                                (str/lower-case (str ?s)))))
+       (sort-by key))))
 
 (e/defn SystemProperties []
   (e/client
@@ -28,7 +27,7 @@
               (dom/tbody
                 (e/server
                   ; reactive for, stabilized with "react key"
-                  (e/for-by first [[k v] system-props]
+                  (e/for-by key [[k v] system-props]
                     (e/client
                       (dom/tr
                         (dom/td (dom/text k))
