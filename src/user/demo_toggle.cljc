@@ -16,9 +16,9 @@
 
     (dom/div 
       (dom/text "current site: " 
-        (case x 
-          true "ClojureScript (client)"
-          false "Clojure (server)")))
+        (if x 
+          "ClojureScript (client)"
+          "Clojure (server)")))
 
     (ui/button (e/fn []
                  (e/server (swap! !x not)))
