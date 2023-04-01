@@ -15,7 +15,7 @@
         ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
         ring-basic-authentication/ring-basic-authentication {:mvn/version "1.1.1"}
         reagent/reagent {:mvn/version "1.1.1"}
-        markdown-clj {:mvn/version "1.11.4"}
+        markdown-clj/markdown-clj {:mvn/version "1.11.4"}
         nextjournal/clojure-mode {:git/url "https://github.com/nextjournal/clojure-mode"
                                   :sha "699a445ebf2767f41fd0b6eeed5a008511702be6"}}
  :aliases {:dev
