@@ -113,11 +113,15 @@
    (dom/legend (dom/text "Result"))
    (e/server (new (get pages page NotFoundPage)))))
 
+(e/defn Markdown [?md-str]
+  (e/client
+   (let [html (e/server (some-> ?md-str markdown.core/md-to-html-string))]
+     (set! (.-innerHTML dom/node) html))))
+
 (e/defn Readme [page]
   (dom/div
    (dom/props {:class "user-examples-readme"})
-   (let [html (e/server (some-> (get-readme page) markdown.core/md-to-html-string))]
-     (set! (.-innerHTML dom/node) html))))
+   (e/server (Markdown. (get-readme page)))))
 
 (def tutorials
   [{::id `user.demo-two-clocks/TwoClocks 
@@ -148,7 +152,8 @@
       (do
         (dom/h1 (dom/text "Tutorial – Electric Clojure")) 
         (Nav. page)
-        (dom/div (dom/props {:class "user-examples-lead"}) (dom/text (::lead (get tutorials-index page))))
+        (dom/div (dom/props {:class "user-examples-lead"}) 
+                 (e/server (Markdown. (::lead (get tutorials-index page)))))
         (App. page)
         (Code. page)
         (Readme. page)
