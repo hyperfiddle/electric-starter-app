@@ -9,4 +9,4 @@
 
       (dom/div (dom/text "client time: " c))
       (dom/div (dom/text "server time: " s))
-      (dom/div (dom/text "skew: " (- s c))))))
+      (dom/div (dom/text "difference: " (- s c))))))
