@@ -1,15 +1,18 @@
 What's happening
 
-* There's a HTML table on the frontend, backed by a backend "query" which is an ordinary Clojure function on the server.
+* There's a HTML table on the frontend, backed by a backend "query" `jvm-system-properties` 
+* The backend query is an ordinary Clojure function that only exists on the server.
 * Typing into the frontend input causes the backend query to rerun and update the table.
-* The code arbitrarily nests client and server calls.
+* There's a reactive for loop to render the table.
+* The view code deeply nests client and server calls, arbitrarily, even through loops.
 
 Key ideas
 
-* **direct query/view composition**: the query expression on the server composes directly with the frontend view expression that renders it, unifying your code into one paradigm, promoting readability, and making it easier to maintain and refactor the interactions between client and server components.
-* **query can be any function**: collections, SQL resultset, whatever
+* **ordinary Clojure/Script functions**: `clojure.core/defn` works as it does in Clojure/Script, it's still a normal blocking function and is opaque to Electric. Electric does not mess with the `clojure.core/defn` macro.
+* **query can be any function**: return collections, SQL resultsets, whatever
+* **direct query/view composition**: `jvm-system-properties`, a server function, composes directly with the frontend DOM table. Thus unifying your code into one paradigm, promoting readability, and making it easier to craft complex interactions between client and server components, maintain and refactor them.
 * **reactive-for**: The table rows are renderered by a for loop. Reactive loops are efficient and recompute branches only precisely when needed.
-* **network planner**: values are only transferred between sites when and if they are used. The `system-props` collection is never actually accessed from a client region and therefore never escapes the server, despite being lexically available.
+* **network transfer can be reasoned about clearly**: values are only transferred between sites when and if they are used. The `system-props` collection is never actually accessed from a client region and therefore never escapes the server.
 
 Novel forms
 
@@ -26,7 +29,7 @@ Reactive for details
   * As you narrow the filter, no rows are recomputed. (The existing dom is reused, so there is nothing to recompute because neither `k` nor `v` have changed for that row.)
   * Slowly backspace, one char at a time
   * As you widen the filter, rows are computed as they come back. That's because they were unmounted and discarded!
-  * Quiz: Try setting an inline style "background-color: red" on element "java.class.path". When is the style retained? When is the style lost?
+  * Quiz: Try setting an inline style "background-color: red" on element "java.class.path". When is the style retained? When is the style lost? Why?
 
 Reasoning about network transfer
 
@@ -35,5 +38,16 @@ Reasoning about network transfer
 * In the `e/for-by`, `k` and `v` exist in a server scope, and yet are accessed from a client scope.
 * Electric tracks this and sends a stream of individual `k` and `v` updates over network.
 * The collection value `system-props` is not accessed from client scope, so Electric will not move it. Values are only moved if they are accessed.
+* For more detail about reactive network efficiency, see [this clojureverse answer](https://clojureverse.org/t/electric-clojure-a-signals-dsl-for-fullstack-web-ui/9788/32?u=dustingetz).
 
-For more information about reactive network efficiency, see [this clojureverse answer](https://clojureverse.org/t/electric-clojure-a-signals-dsl-for-fullstack-web-ui/9788/32?u=dustingetz).
+Network transparent composition is not the heavy, leaky abstraction you might think it is
+
+* The DAG representation of the program makes this simple to do
+* The electric core implementation is about 3000 LOC
+* Function composition laws are followed, Electric functions are truly functions.
+  * Functions are an abstract mathematical object
+  * Javascript already generalizes from function -> async function (`async/await`) -> generator function (`fn*/yield`)
+  * Electric generalizes further: stream function -> reactive function -> distributed function
+* With Electric, you can refactor across the frontend/backend boundary, all in one place, without caring about any plumbing. 
+  * Refactoring is an algebraic activity with local reasoning, just as it should be. 
+  * Functional programming!
