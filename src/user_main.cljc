@@ -56,33 +56,46 @@
    `user.demo-two-clocks/TwoClocks user.demo-two-clocks/TwoClocks
    `user.demo-toggle/Toggle user.demo-toggle/Toggle
    `user.demo-system-properties/SystemProperties user.demo-system-properties/SystemProperties
-   ;; `wip.teeshirt-orders/Webview-HFQL wip.teeshirt-orders/Webview-HFQL
-   ;; `user.demo-explorer/DirectoryExplorer user.demo-explorer/DirectoryExplorer
-   ;; `wip.demo-explorer2/DirectoryExplorer-HFQL wip.demo-explorer2/DirectoryExplorer-HFQL
-   ;user.demo-10k-dom/Dom-10k-Elements user.demo-10k-dom/Dom-10k-Elements ; todo too slow to unmount, crashes
-   ;; `wip.demo-branched-route/RecursiveRouter wip.demo-branched-route/RecursiveRouter
-   ;; `wip.tag-picker/TagPicker wip.tag-picker/TagPicker
-   ;; `wip.demo-custom-types/CustomTypes wip.demo-custom-types/CustomTypes
-   ;; `user.demo-chat/Chat user.demo-chat/Chat
-   ;; `user.demo-chat-extended/ChatExtended user.demo-chat-extended/ChatExtended
-   ;; `user.demo-webview/Webview user.demo-webview/Webview
-   ;; `user.demo-todos-simple/TodoList user.demo-todos-simple/TodoList ; css fixes
-   ;; `user.demo-todomvc/TodoMVC user.demo-todomvc/TodoMVC
-   ;; `user.demo-todomvc-composed/TodoMVC-composed user.demo-todomvc-composed/TodoMVC-composed
-   ;; `user.demo-color/Color user.demo-color/Color
-   ;; `user.demo-virtual-scroll/VirtualScroll user.demo-virtual-scroll/VirtualScroll
-   ;; `user.tutorial-7guis-1-counter/Counter user.tutorial-7guis-1-counter/Counter
-   ;; `user.tutorial-7guis-2-temperature/TemperatureConverter user.tutorial-7guis-2-temperature/TemperatureConverter
-   ;; `user.tutorial-7guis-4-timer/Timer user.tutorial-7guis-4-timer/Timer
-   ;; `user.tutorial-7guis-5-crud/CRUD user.tutorial-7guis-5-crud/CRUD
-   ;; `user.demo-tic-tac-toe/TicTacToe user.demo-tic-tac-toe/TicTacToe
-   ;; `user.demo-svg/SVG user.demo-svg/SVG
-   ;; `user.tutorial-lifecycle/Lifecycle user.tutorial-lifecycle/Lifecycle
-   ;; `wip.tracing/TracingDemo wip.tracing/TracingDemo
-   ;; `user.demo-reagent-interop/ReagentInterop user.demo-reagent-interop/ReagentInterop
-   ;::demos/dennis-exception-leak wip.dennis-exception-leak/App2
-   ;`wip.demo-stage-ui4/CrudForm wip.demo-stage-ui4/CrudForm
-   ;`wip.datomic-browser/DatomicBrowser wip.datomic-browser/DatomicBrowser
+
+   ; `user.demo-chat/Chat user.demo-chat/Chat
+   ; `user.tutorial-lifecycle/Lifecycle user.tutorial-lifecycle/Lifecycle
+   ; `user.demo-chat-extended/ChatExtended user.demo-chat-extended/ChatExtended
+   ; `user.demo-webview/Webview user.demo-webview/Webview
+   ; `user.demo-todos-simple/TodoList user.demo-todos-simple/TodoList
+   ; `user.demo-reagent-interop/ReagentInterop user.demo-reagent-interop/ReagentInterop
+   ; `wip.demo-stage-ui4/CrudForm wip.demo-stage-ui4/CrudForm
+   ; `user.demo-svg/SVG user.demo-svg/SVG
+   ; -- `wip.tracing/TracingDemo wip.tracing/TracingDemo
+   ; `wip.demo-custom-types/CustomTypes wip.demo-custom-types/CustomTypes
+
+   ; 7 GUIs
+   ; `user.tutorial-7guis-1-counter/Counter user.tutorial-7guis-1-counter/Counter
+   ; `user.tutorial-7guis-2-temperature/TemperatureConverter user.tutorial-7guis-2-temperature/TemperatureConverter
+   ; `user.tutorial-7guis-4-timer/Timer user.tutorial-7guis-4-timer/Timer
+   ; `user.tutorial-7guis-5-crud/CRUD user.tutorial-7guis-5-crud/CRUD
+
+   ; Demos
+   ; `user.demo-todomvc/TodoMVC user.demo-todomvc/TodoMVC
+   ; `user.demo-todomvc-composed/TodoMVC-composed user.demo-todomvc-composed/TodoMVC-composed
+   ; `user.demo-explorer/DirectoryExplorer user.demo-explorer/DirectoryExplorer
+   ; `wip.datomic-browser/DatomicBrowser wip.datomic-browser/DatomicBrowser
+   ; `user.demo-color/Color user.demo-color/Color
+   ; -- user.demo-10k-dom/Dom-10k-Elements user.demo-10k-dom/Dom-10k-Elements ; todo too slow to unmount, crashes
+
+   ; Hyperfiddle demos
+   ; `wip.teeshirt-orders/Webview-HFQL wip.teeshirt-orders/Webview-HFQL
+   ; `wip.demo-branched-route/RecursiveRouter wip.demo-branched-route/RecursiveRouter
+   ; `wip.demo-explorer2/DirectoryExplorer-HFQL wip.demo-explorer2/DirectoryExplorer-HFQL
+
+   ; Hyperfiddle tutorials
+   ; `wip.tag-picker/TagPicker wip.tag-picker/TagPicker
+
+   ; Triage
+   ; `user.demo-virtual-scroll/VirtualScroll user.demo-virtual-scroll/VirtualScroll
+   ; `user.demo-tic-tac-toe/TicTacToe user.demo-tic-tac-toe/TicTacToe   
+
+   ; Tests
+   ; ::demos/dennis-exception-leak wip.dennis-exception-leak/App2 
    })
 
 #?(:clj (defn get-src [qualified-sym]
