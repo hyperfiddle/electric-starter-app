@@ -1,28 +1,24 @@
 (ns user.tutorial-7guis-4-timer
-  "see https://eugenkiss.github.io/7guis/tasks#timer"
   (:require [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.electric-ui4 :as ui4]))
 
-(def initial-goal 10)                ; s
-
+(def initial-goal 10)
 (defn seconds [milliseconds] (/ (Math/floor (/ milliseconds 100)) 10))
-
-(defn second-precision [milliseconds] (-> milliseconds (/ 1000) (Math/floor) (* 1000))) ; drop milliseconds
+(defn second-precision [milliseconds] 
+  (-> milliseconds (/ 1000) (Math/floor) (* 1000))) ; drop milliseconds
 
 (defn now [] #?(:cljs (second-precision (js/Date.now))))
 
 (e/defn Timer []
-  (e/client
-    (dom/h1 (dom/text "7 GUIs: Timer"))
+  (e/client 
     (let [!goal (atom initial-goal)
           !start (atom (now))
           goal (e/watch !goal)
           goal-ms (* 1000 goal)
           start (e/watch !start)
           time (min goal-ms (- (second-precision e/system-time-ms) start))]
-      (dom/div (dom/props {:style {:display :grid
-                                        ;:margin-left "20rem"
+      (dom/div (dom/props {:style {:display :grid ;:margin-left "20rem"
                                     :width "20em"
                                     :grid-gap "0 1rem"
                                     :align-items :center}})

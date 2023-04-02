@@ -62,16 +62,16 @@
    `user.demo-webview/Webview user.demo-webview/Webview
    `user.demo-todos-simple/TodoList user.demo-todos-simple/TodoList
    `user.demo-reagent-interop/ReagentInterop user.demo-reagent-interop/ReagentInterop
-   ; `wip.demo-stage-ui4/CrudForm wip.demo-stage-ui4/CrudForm
-   ; `user.demo-svg/SVG user.demo-svg/SVG
+   ;`wip.demo-stage-ui4/CrudForm wip.demo-stage-ui4/CrudForm
+   `user.demo-svg/SVG user.demo-svg/SVG
    ; -- `wip.tracing/TracingDemo wip.tracing/TracingDemo
-   ; `wip.demo-custom-types/CustomTypes wip.demo-custom-types/CustomTypes
+   `wip.demo-custom-types/CustomTypes wip.demo-custom-types/CustomTypes
 
    ; 7 GUIs
-   ; `user.tutorial-7guis-1-counter/Counter user.tutorial-7guis-1-counter/Counter
-   ; `user.tutorial-7guis-2-temperature/TemperatureConverter user.tutorial-7guis-2-temperature/TemperatureConverter
-   ; `user.tutorial-7guis-4-timer/Timer user.tutorial-7guis-4-timer/Timer
-   ; `user.tutorial-7guis-5-crud/CRUD user.tutorial-7guis-5-crud/CRUD
+   `user.tutorial-7guis-1-counter/Counter user.tutorial-7guis-1-counter/Counter
+   `user.tutorial-7guis-2-temperature/TemperatureConverter user.tutorial-7guis-2-temperature/TemperatureConverter
+   `user.tutorial-7guis-4-timer/Timer user.tutorial-7guis-4-timer/Timer
+   `user.tutorial-7guis-5-crud/CRUD user.tutorial-7guis-5-crud/CRUD
 
    ; Demos
    ; `user.demo-todomvc/TodoMVC user.demo-todomvc/TodoMVC
@@ -152,7 +152,23 @@
    {::id `user.demo-todos-simple/TodoList 
     ::lead "minimal todo list. it's multiplayer, try two tabs"} 
    {::id `user.demo-reagent-interop/ReagentInterop
-    ::lead "Reagent (React.js) embedded inside Electric. The reactive mouse coordinates cross from Electric to Reagent via props."}])
+    ::lead "Reagent (React.js) embedded inside Electric. The reactive mouse coordinates cross from Electric to Reagent via props."}
+   {::id `user.demo-svg/SVG
+    ::lead "SVG support. Note the animation is reactive and driven by javascript cosine."}
+   {::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}
+   
+   ; 7 GUIs
+   {::id `user.tutorial-7guis-1-counter/Counter ::title "7GUIs Counter" 
+    ::lead "See <https://eugenkiss.github.io/7guis/tasks#counter>"}
+   {::id `user.tutorial-7guis-2-temperature/TemperatureConverter ::title "7GUIs Temperature Converter"
+    ::lead "See <https://eugenkiss.github.io/7guis/tasks#temp>"}
+   {::id `user.tutorial-7guis-4-timer/Timer ::title "7GUIs Timer"
+    ::lead "See <https://eugenkiss.github.io/7guis/tasks#timer>"}
+   {::id `user.tutorial-7guis-5-crud/CRUD ::title "7GUIs CRUD"
+    ::lead "See <https://eugenkiss.github.io/7guis/tasks#crud>"}
+   
+   
+   #_{::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}])
 
 (def tutorials-index (contrib.data/index-by ::id tutorials))
 

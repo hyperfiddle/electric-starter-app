@@ -1,10 +1,7 @@
 (ns user.tutorial-7guis-1-counter
-  (:require
-    [hyperfiddle.electric :as e]
-    [hyperfiddle.electric-dom2 :as dom]
-    [hyperfiddle.electric-ui4 :as ui]))
-
-;; https://eugenkiss.github.io/7guis/tasks#counter
+  (:require [hyperfiddle.electric :as e]
+            [hyperfiddle.electric-dom2 :as dom]
+            [hyperfiddle.electric-ui4 :as ui]))
 
 (e/defn Counter []
   (e/client

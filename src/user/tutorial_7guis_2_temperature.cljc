@@ -1,11 +1,9 @@
 (ns user.tutorial-7guis-2-temperature
-  "see https://eugenkiss.github.io/7guis/tasks#temp"
-  (:require
-   clojure.math
-   [hyperfiddle.electric :as e]
-   [hyperfiddle.electric-dom2 :as dom]
-   [hyperfiddle.electric-ui4 :as ui]
-   [missionary.core :as m]))
+  (:require clojure.math
+            [hyperfiddle.electric :as e]
+            [hyperfiddle.electric-dom2 :as dom]
+            [hyperfiddle.electric-ui4 :as ui]
+            [missionary.core :as m]))
 
 (defn c->f [c] (+ (* c (/ 9 5)) 32))
 (defn f->c [f] (* (- f 32) (/ 5 9)))

@@ -3,19 +3,21 @@
             [hyperfiddle.electric-dom2 :as dom]
             [cognitect.transit :as t]))
 
-;; Demo shows how to serialize custom types in Electric
-
 (defrecord MyCustomType [field]) ; custom type
 
-(def write-handler (t/write-handler
-                     (fn [_] "wip.demo-custom-types/MyCustomType") ; this tag must be namespaced!
-                     (fn [x] (into {} x))))
+(def write-handler 
+  (t/write-handler
+    (fn [_] "wip.demo-custom-types/MyCustomType") ; this must be namespaced!
+    (fn [x] (into {} x))))
 
 (def read-handler (t/read-handler map->MyCustomType))
 
-; Todo cleanup, there are better ways to do this
-#?(:clj (alter-var-root #'hyperfiddle.electric.impl.io/*write-handlers* assoc MyCustomType write-handler)) ; server: write only
-#?(:cljs (set! hyperfiddle.electric.impl.io/*read-handlers* (assoc hyperfiddle.electric.impl.io/*read-handlers* "wip.demo-custom-types/MyCustomType" read-handler))) ; client: read only
+; Todo refactor and cleanup, there are better ways to do this
+#?(:clj (alter-var-root #'hyperfiddle.electric.impl.io/*write-handlers* 
+                        assoc MyCustomType write-handler)) ; server: write only
+#?(:cljs (set! hyperfiddle.electric.impl.io/*read-handlers* ; client: read only
+               (assoc hyperfiddle.electric.impl.io/*read-handlers* 
+                      "wip.demo-custom-types/MyCustomType" read-handler))) 
 
 (e/defn CustomTypes []
   (e/server
