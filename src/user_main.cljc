@@ -143,7 +143,9 @@
    {::id `user.demo-toggle/Toggle
     ::lead "This demo toggles between client and server with a button."}
    {::id `user.demo-system-properties/SystemProperties
-    ::lead "A largrer example of a HTML table backed by a server-side query. Type into the input and see the query update live."}])
+    ::lead "A largrer example of a HTML table backed by a server-side query. Type into the input and see the query update live."}
+   {::id `user.demo-reagent-interop/ReagentInterop
+    ::lead "Reagent (React.js) embedded inside Electric. The reactive mouse coordinates cross from Electric to Reagent via props."}])
 
 (def tutorials-index (contrib.data/index-by ::id tutorials))
 
