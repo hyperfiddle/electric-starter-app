@@ -1,6 +1,6 @@
 {:paths ["src" "resources"]
  :deps {com.hyperfiddle/electric {:git/url "https://github.com/hyperfiddle/electric.git"
-                                  :git/sha "70aa13877604a5c35ea45e5018f8a99909855b78"
+                                  :git/sha "98d34f33793e4b7279405b109af84ff8a883d853"
                                   #_#_:mvn/version "v2-alpha-167-gbd475584"
                                   #_#_:local/root "../electric"}
         com.hyperfiddle/rcf {:mvn/version "20220926-202227"}
