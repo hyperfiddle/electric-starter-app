@@ -40,11 +40,7 @@
             wip.demo-custom-types
             wip.tracing
             user.demo-reagent-interop ; yarn
-
-            ; these demos require extra deps alias
-            #_wip.dennis-exception-leak
-            #_wip.demo-stage-ui4
-            #_wip.datomic-browser))
+            wip.demo-stage-ui4))
 
 (e/defn NotFoundPage []
   (e/client (dom/h1 (dom/text "Page not found"))))
@@ -62,7 +58,7 @@
    `user.demo-webview/Webview user.demo-webview/Webview
    `user.demo-todos-simple/TodoList user.demo-todos-simple/TodoList
    `user.demo-reagent-interop/ReagentInterop user.demo-reagent-interop/ReagentInterop
-   ;`wip.demo-stage-ui4/CrudForm wip.demo-stage-ui4/CrudForm
+   `wip.demo-stage-ui4/CrudForm wip.demo-stage-ui4/CrudForm
    `user.demo-svg/SVG user.demo-svg/SVG
    ; -- `wip.tracing/TracingDemo wip.tracing/TracingDemo
    `wip.demo-custom-types/CustomTypes wip.demo-custom-types/CustomTypes
@@ -168,6 +164,7 @@
     ::lead "See <https://eugenkiss.github.io/7guis/tasks#crud>"}
    
    
+   {::id `wip.demo-stage-ui4/CrudForm ::lead "Database-backed CRUD form using Datomic"}
    #_{::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}])
 
 (def tutorials-index (contrib.data/index-by ::id tutorials))
