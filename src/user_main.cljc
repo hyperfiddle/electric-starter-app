@@ -62,7 +62,7 @@
    ; `user.demo-chat-extended/ChatExtended user.demo-chat-extended/ChatExtended
    ; `user.demo-webview/Webview user.demo-webview/Webview
    ; `user.demo-todos-simple/TodoList user.demo-todos-simple/TodoList
-   ; `user.demo-reagent-interop/ReagentInterop user.demo-reagent-interop/ReagentInterop
+   `user.demo-reagent-interop/ReagentInterop user.demo-reagent-interop/ReagentInterop
    ; `wip.demo-stage-ui4/CrudForm wip.demo-stage-ui4/CrudForm
    ; `user.demo-svg/SVG user.demo-svg/SVG
    ; -- `wip.tracing/TracingDemo wip.tracing/TracingDemo
