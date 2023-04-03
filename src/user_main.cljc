@@ -70,10 +70,10 @@
    `user.tutorial-7guis-5-crud/CRUD user.tutorial-7guis-5-crud/CRUD
 
    ; Demos
-   ; `user.demo-todomvc/TodoMVC user.demo-todomvc/TodoMVC
-   ; `user.demo-todomvc-composed/TodoMVC-composed user.demo-todomvc-composed/TodoMVC-composed
-   ; `user.demo-explorer/DirectoryExplorer user.demo-explorer/DirectoryExplorer
-   ; `wip.datomic-browser/DatomicBrowser wip.datomic-browser/DatomicBrowser
+   `user.demo-todomvc/TodoMVC user.demo-todomvc/TodoMVC
+   `user.demo-todomvc-composed/TodoMVC-composed user.demo-todomvc-composed/TodoMVC-composed
+   `user.demo-explorer/DirectoryExplorer user.demo-explorer/DirectoryExplorer
+   ;-- `wip.datomic-browser/DatomicBrowser wip.datomic-browser/DatomicBrowser -- separate repo now, should it come back?
    ; `user.demo-color/Color user.demo-color/Color
    ; -- user.demo-10k-dom/Dom-10k-Elements user.demo-10k-dom/Dom-10k-Elements ; todo too slow to unmount, crashes
 
@@ -163,7 +163,12 @@
    {::id `user.tutorial-7guis-5-crud/CRUD ::title "7GUIs CRUD"
     ::lead "See <https://eugenkiss.github.io/7guis/tasks#crud>"}
    
-   
+   ; Demos
+   {::id `user.demo-todomvc/TodoMVC ::demo true ::lead ""}
+   {::id `user.demo-todomvc-composed/TodoMVC-composed ::demo true
+    ::lead ""}
+   {::id `user.demo-explorer/DirectoryExplorer ::demo true
+    ::lead "Server-streamed virtual pagination over node_modules. Check the DOM!"} 
    {::id `wip.demo-stage-ui4/CrudForm ::lead "Database-backed CRUD form using Datomic"}
    #_{::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}])
 
@@ -190,7 +195,9 @@
         (dom/div (dom/props {:class "user-examples-lead"}) 
                  (e/server (Markdown. (::lead (get tutorials-index page)))))
         (App. page)
-        (Code. page)
+        (if-not (::demo (get tutorials-index page))
+          (Code. page)
+          (Code. ""))
         (Readme. page)
         #_(dom/div (dom/props {:class "user-examples-nav"}) 
                    (user.demo-index/Demos.))))))
