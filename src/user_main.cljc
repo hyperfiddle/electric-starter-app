@@ -108,17 +108,17 @@
   (get-src `user.demo-two-clocks/TwoClocks)
   (get-readme `user.demo-two-clocks/TwoClocks))
 
-(e/defn Code [page hidden?]
+(e/defn Code [page demo?]
   (dom/fieldset
     (dom/props {:class "user-examples-code"})
-    (when hidden? (dom/props {:aria-hidden true}))
+    (when demo? (dom/props {:aria-hidden true}))
     (dom/legend (dom/text "Code"))
     #_(dom/pre (dom/text (e/server (get-src page))))
     (CodeMirror. {:parent dom/node :readonly true} identity identity (e/server (get-src page)))))
 
-(e/defn App [page] 
+(e/defn App [page demo?]
   (dom/fieldset
-   (dom/props {:class (str "user-examples-target " (some-> page name))})
+    (dom/props {:class (clojure.string/join " " ["user-examples-target" (some-> page name) (when demo? "user-examples-demo")])})
    (dom/legend (dom/text "Result"))
    (e/server (new (get pages page NotFoundPage)))))
 
@@ -195,14 +195,15 @@
   (let [[page & [?panel]] history/route]
     (case ?panel
       code (Code. page false) ; iframe url for just code
-      app (App. page) ; iframe url for just app
+      app (App. page false) ; iframe url for just app
       (do
         (dom/h1 (dom/text "Tutorial – Electric Clojure")) 
         (Nav. page)
         (dom/div (dom/props {:class "user-examples-lead"}) 
                  (e/server (Markdown. (::lead (get tutorials-index page)))))
-        (App. page)
-        (Code. page (::demo (get tutorials-index page)))
+        (let [demo? (::demo (get tutorials-index page))]
+          (App. page demo?)
+          (Code. page demo?))
         (Readme. page)
         #_(dom/div (dom/props {:class "user-examples-nav"}) 
                    (user.demo-index/Demos.))))))

@@ -9,7 +9,7 @@ body.hyperfiddle{
                          "lead lead"
                          "code result"
                          "readme readme";
-    grid-template-rows: auto 1.5rem auto auto min-content minmax(20rem, 1fr);
+    grid-template-rows: auto 1.5rem auto auto min-content;
     grid-template-columns: min-content auto;
     gap: 1rem;
     margin: 0;
@@ -51,6 +51,12 @@ body.hyperfiddle{
     grid-area:result;
     padding: 1rem;
     max-height: 41rem;
+}
+.user-examples-target.user-examples-demo{
+    border: 1px solid red;
+    grid-row: 3;
+    grid-column: 1 / 3;
+    width: 100%;
 }
 
 .user-examples-code{
@@ -171,4 +177,11 @@ body.hyperfiddle{
 .user-examples-target.Webview-HFQL .hyperfiddle-gridsheet{
     grid-template-columns: min-content 3rem 1fr 1fr 1fr 2rem;
     line-height: initial;
+}
+
+
+.user-examples-target.DirectoryExplorer{
+    font-size: initial;
+    line-height: initial;
+    max-height: 90vh;
 }
