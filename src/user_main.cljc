@@ -56,12 +56,11 @@
    `user.demo-two-clocks/TwoClocks user.demo-two-clocks/TwoClocks
    `user.demo-toggle/Toggle user.demo-toggle/Toggle
    `user.demo-system-properties/SystemProperties user.demo-system-properties/SystemProperties
-
-   ; `user.demo-chat/Chat user.demo-chat/Chat
-   ; `user.tutorial-lifecycle/Lifecycle user.tutorial-lifecycle/Lifecycle
-   ; `user.demo-chat-extended/ChatExtended user.demo-chat-extended/ChatExtended
-   ; `user.demo-webview/Webview user.demo-webview/Webview
-   ; `user.demo-todos-simple/TodoList user.demo-todos-simple/TodoList
+   `user.demo-chat/Chat user.demo-chat/Chat
+   `user.tutorial-lifecycle/Lifecycle user.tutorial-lifecycle/Lifecycle
+   `user.demo-chat-extended/ChatExtended user.demo-chat-extended/ChatExtended
+   `user.demo-webview/Webview user.demo-webview/Webview
+   `user.demo-todos-simple/TodoList user.demo-todos-simple/TodoList
    `user.demo-reagent-interop/ReagentInterop user.demo-reagent-interop/ReagentInterop
    ; `wip.demo-stage-ui4/CrudForm wip.demo-stage-ui4/CrudForm
    ; `user.demo-svg/SVG user.demo-svg/SVG
@@ -143,7 +142,15 @@
    {::id `user.demo-toggle/Toggle
     ::lead "This demo toggles between client and server with a button."}
    {::id `user.demo-system-properties/SystemProperties
-    ::lead "A largrer example of a HTML table backed by a server-side query. Type into the input and see the query update live."}
+    ::lead "A largrer example of a HTML table backed by a server-side query. Type into the input and see the query update live."} 
+   {::id `user.demo-chat/Chat ::lead "A multiplayer chat app. Try two tabs."}
+   {::id `user.tutorial-lifecycle/Lifecycle ::lead "mount/unmount component lifecycle"}
+   {::id `user.demo-chat-extended/ChatExtended 
+    ::lead "Extended chat demo with auth and presence. When multiple sessions are connected, you can see who else is present."}
+   {::id `user.demo-webview/Webview 
+    ::lead "A database backed webview with reactive updates."}
+   {::id `user.demo-todos-simple/TodoList 
+    ::lead "minimal todo list. it's multiplayer, try two tabs"} 
    {::id `user.demo-reagent-interop/ReagentInterop
     ::lead "Reagent (React.js) embedded inside Electric. The reactive mouse coordinates cross from Electric to Reagent via props."}])
 

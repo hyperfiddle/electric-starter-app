@@ -5,7 +5,7 @@
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.electric-ui4 :as ui]))
 
-(defonce !conn #?(:clj (d/create-conn {}) :cljs nil)) ; database on server
+#?(:clj (defonce !conn (d/create-conn {}))) ; database on server
 (e/def db) ; injected database ref; Electric defs are always dynamic
 
 (e/defn TodoItem [id]
@@ -17,11 +17,10 @@
           (ui/checkbox
             (case status :active false, :done true)
             (e/fn [v]
-              (e/server
-                (e/discard
-                  (d/transact! !conn
-                    [{:db/id id
-                      :task/status (if v :done :active)}]))))
+              (e/server 
+                (d/transact! !conn [{:db/id id 
+                                     :task/status (if v :done :active)}])
+                 nil))
             (dom/props {:id id}))
           (dom/label (dom/props {:for id})
             (dom/text (e/server (:task/description e)))))))))
@@ -39,9 +38,9 @@
   (e/client
     (InputSubmit. (e/fn [v]
                     (e/server
-                      (e/discard
-                        (d/transact! !conn [{:task/description v
-                                             :task/status :active}])))))))
+                      (d/transact! !conn [{:task/description v
+                                           :task/status :active}])
+                      nil)))))
 
 #?(:clj (defn todo-count [db]
           (count
@@ -58,8 +57,6 @@
   (e/server
     (binding [db (e/watch !conn)]
       (e/client
-        #_(dom/h1 (dom/text "minimal todo list"))
-        #_(dom/p (dom/text "it's multiplayer, try two tabs"))
         (dom/div (dom/props {:class "todo-list"})
           (TodoCreate.)
           (dom/div {:class "todo-items"}

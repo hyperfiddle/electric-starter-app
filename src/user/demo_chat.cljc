@@ -1,6 +1,4 @@
 (ns user.demo-chat
-  "A multiplayer chat app. Try two tabs. This works because both sessions share
-  a single JVM which means they subscribe to the same atom."
   (:import [hyperfiddle.electric Pending])
   (:require [contrib.data :refer [pad]]
             [contrib.str :refer [empty->nil]]
@@ -15,7 +13,7 @@
     (try
       (dom/ul
         (e/server
-          (e/for-by identity [msg (reverse msgs)]
+          (e/for-by identity [msg (reverse msgs)] ; chat renders bottom up
             (e/client
               (dom/li (dom/style {:visibility (if (nil? msg)
                                                 "hidden" "visible")})

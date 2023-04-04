@@ -1,6 +1,4 @@
 (ns user.demo-webview
-  "A database backed webview with reactive updates. The webview is subscribed to
-  the database, which updates with each transaction."
   (:require #?(:clj [datascript.core :as d])
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
@@ -9,7 +7,7 @@
 #?(:clj
    (defonce conn ; state survives reload
      (doto (d/create-conn {:order/email {}})
-       (d/transact!
+       (d/transact! ; test data
          [{:order/email "alice@example.com" :order/gender :order/female}
           {:order/email "bob@example.com" :order/gender :order/male}
           {:order/email "charlie@example.com" :order/gender :order/male}]))))
@@ -31,7 +29,7 @@
           (dom/props {:placeholder "Filter..."}))
         (dom/table (dom/props {:class "hyperfiddle"})
           (e/server
-            (e/for [id (e/offload #(teeshirt-orders db search))]
+            (e/for [id (teeshirt-orders db search)]
               (let [!e (d/entity db id)]
                 (e/client
                   (dom/tr

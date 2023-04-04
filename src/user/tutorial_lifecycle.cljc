@@ -10,4 +10,4 @@
 (e/defn Lifecycle []
   (e/client
     (if (= 0 (int (mod e/system-time-secs 2)))
-      (BlinkerComponent.)))) ; added and removed from the DOM every two seconds
+      (BlinkerComponent.))))
