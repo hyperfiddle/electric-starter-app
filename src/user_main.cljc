@@ -78,7 +78,7 @@
    ; -- user.demo-10k-dom/Dom-10k-Elements user.demo-10k-dom/Dom-10k-Elements ; todo too slow to unmount, crashes
 
    ; Hyperfiddle demos
-   ; `wip.teeshirt-orders/Webview-HFQL wip.teeshirt-orders/Webview-HFQL
+   `wip.teeshirt-orders/Webview-HFQL wip.teeshirt-orders/Webview-HFQL
    ; `wip.demo-branched-route/RecursiveRouter wip.demo-branched-route/RecursiveRouter
    ; `wip.demo-explorer2/DirectoryExplorer-HFQL wip.demo-explorer2/DirectoryExplorer-HFQL
 
@@ -132,55 +132,61 @@
    (e/server (Markdown. (get-readme page)))))
 
 (def tutorials
-  [{::id `user.demo-two-clocks/TwoClocks 
-    ::title "Two Clocks – Hello World"
-    ::lead "Streaming lexical scope. The server clock is streamed to the client."}
-   {::id `user.demo-toggle/Toggle
-    ::lead "This demo toggles between client and server with a button."}
-   {::id `user.demo-system-properties/SystemProperties
-    ::lead "A largrer example of a HTML table backed by a server-side query. Type into the input and see the query update live."} 
-   {::id `user.demo-chat/Chat ::lead "A multiplayer chat app. Try two tabs."}
-   {::id `user.tutorial-lifecycle/Lifecycle ::lead "mount/unmount component lifecycle"}
-   {::id `user.demo-chat-extended/ChatExtended 
-    ::lead "Extended chat demo with auth and presence. When multiple sessions are connected, you can see who else is present."}
-   {::id `user.demo-webview/Webview 
-    ::lead "A database backed webview with reactive updates."}
-   {::id `user.demo-todos-simple/TodoList 
-    ::lead "minimal todo list. it's multiplayer, try two tabs"} 
-   {::id `user.demo-reagent-interop/ReagentInterop
-    ::lead "Reagent (React.js) embedded inside Electric. The reactive mouse coordinates cross from Electric to Reagent via props."}
-   {::id `user.demo-svg/SVG
-    ::lead "SVG support. Note the animation is reactive and driven by javascript cosine."}
-   {::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}
-   
-   ; 7 GUIs
-   {::id `user.tutorial-7guis-1-counter/Counter ::title "7GUIs Counter" 
-    ::lead "See <https://eugenkiss.github.io/7guis/tasks#counter>"}
-   {::id `user.tutorial-7guis-2-temperature/TemperatureConverter ::title "7GUIs Temperature Converter"
-    ::lead "See <https://eugenkiss.github.io/7guis/tasks#temp>"}
-   {::id `user.tutorial-7guis-4-timer/Timer ::title "7GUIs Timer"
-    ::lead "See <https://eugenkiss.github.io/7guis/tasks#timer>"}
-   {::id `user.tutorial-7guis-5-crud/CRUD ::title "7GUIs CRUD"
-    ::lead "See <https://eugenkiss.github.io/7guis/tasks#crud>"}
-   
-   ; Demos
-   {::id `user.demo-todomvc/TodoMVC ::demo true ::lead ""}
-   {::id `user.demo-todomvc-composed/TodoMVC-composed ::demo true
-    ::lead ""}
-   {::id `user.demo-explorer/DirectoryExplorer ::demo true
-    ::lead "Server-streamed virtual pagination over node_modules. Check the DOM!"} 
-   {::id `wip.demo-stage-ui4/CrudForm ::lead "Database-backed CRUD form using Datomic"}
-   #_{::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}])
+  [["Electric" 
+    [{::id `user.demo-two-clocks/TwoClocks 
+      ::title "Two Clocks – Hello World"
+      ::lead "Streaming lexical scope. The server clock is streamed to the client."}
+     {::id `user.demo-toggle/Toggle
+      ::lead "This demo toggles between client and server with a button."}
+     {::id `user.demo-system-properties/SystemProperties
+      ::lead "A largrer example of a HTML table backed by a server-side query. Type into the input and see the query update live."} 
+     {::id `user.demo-chat/Chat ::lead "A multiplayer chat app. Try two tabs."}
+     {::id `user.tutorial-lifecycle/Lifecycle ::lead "mount/unmount component lifecycle"}
+     {::id `user.demo-chat-extended/ChatExtended 
+      ::lead "Extended chat demo with auth and presence. When multiple sessions are connected, you can see who else is present."}
+     {::id `user.demo-webview/Webview 
+      ::lead "A database backed webview with reactive updates."}
+     {::id `user.demo-todos-simple/TodoList 
+      ::lead "minimal todo list. it's multiplayer, try two tabs"} 
+     {::id `user.demo-reagent-interop/ReagentInterop
+      ::lead "Reagent (React.js) embedded inside Electric. The reactive mouse coordinates cross from Electric to Reagent via props."}
+     {::id `user.demo-svg/SVG
+      ::lead "SVG support. Note the animation is reactive and driven by javascript cosine."}
+     {::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}
+     
+                                        ; 7 GUIs
+     {::id `user.tutorial-7guis-1-counter/Counter ::title "7GUIs Counter" 
+      ::lead "See <https://eugenkiss.github.io/7guis/tasks#counter>"}
+     {::id `user.tutorial-7guis-2-temperature/TemperatureConverter ::title "7GUIs Temperature Converter"
+      ::lead "See <https://eugenkiss.github.io/7guis/tasks#temp>"}
+     {::id `user.tutorial-7guis-4-timer/Timer ::title "7GUIs Timer"
+      ::lead "See <https://eugenkiss.github.io/7guis/tasks#timer>"}
+     {::id `user.tutorial-7guis-5-crud/CRUD ::title "7GUIs CRUD"
+      ::lead "See <https://eugenkiss.github.io/7guis/tasks#crud>"}
+     
+                                        ; Demos
+     {::id `user.demo-todomvc/TodoMVC ::demo true ::lead ""}
+     {::id `user.demo-todomvc-composed/TodoMVC-composed ::demo true
+      ::lead ""}
+     {::id `user.demo-explorer/DirectoryExplorer ::demo true
+      ::lead "Server-streamed virtual pagination over node_modules. Check the DOM!"} 
+     {::id `wip.demo-stage-ui4/CrudForm ::lead "Database-backed CRUD form using Datomic"}
+     #_{::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}]]
+   ["HFQL"
+    [{::id `wip.teeshirt-orders/Webview-HFQL
+      ::lead "A teeshirt orders demo with entity relationship constraints"}]]])
 
 (def tutorials-index (contrib.data/index-by ::id tutorials))
 
 (e/defn Nav [page]
   (dom/select
    (dom/props {:class "user-examples-select"})
-   (e/for [{:keys [::id ::title]} tutorials]
-     (dom/option 
-      (dom/props {:value (str id) :selected (= page id)}) 
-      (dom/text (or title (name id)))))
+   (e/for [[group-label entries] tutorials]
+     (dom/optgroup (dom/props {:label group-label})
+       (e/for [{:keys [::id ::title]} entries]
+         (dom/option 
+           (dom/props {:value (str id) :selected (= page id)}) 
+           (dom/text (or title (name id)))))))
    (dom/on "change" (e/fn [^js e]
                       (history/swap-route! assoc 0 (clojure.edn/read-string (.. e -target -value)))))))
 

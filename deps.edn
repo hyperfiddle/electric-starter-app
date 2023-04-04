@@ -2,7 +2,7 @@
  :deps {com.datomic/dev-local {:mvn/version "1.0.243"}
         com.google.guava/guava {:mvn/version "31.1-jre"} ; fix conflict - datomic cloud & shadow
         com.hyperfiddle/electric {:git/url "https://github.com/hyperfiddle/electric.git"
-                                  :git/sha "98d34f33793e4b7279405b109af84ff8a883d853"
+                                  :git/sha "8791f319b696014333d1cba6dad75fe18714157c"
                                   #_#_:mvn/version "v2-alpha-167-gbd475584"
                                   #_#_:local/root "../electric"}
         com.hyperfiddle/rcf {:mvn/version "20220926-202227"}
