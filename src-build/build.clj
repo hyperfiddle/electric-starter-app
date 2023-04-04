@@ -21,6 +21,9 @@
 (defn build-client [{:keys [optimize debug verbose version]
                      :or {optimize true, debug false, verbose false, version version}}]
   (println "Building client. Version:" version)
+  ; this command must run the same on: local machine, docker build, github actions.
+  ; shell out to let Shadow manage the classpath, it's not obvious how to set that up.
+  ; This is the only stable way we know to do it.
   (let [command (->> ["clj" "-M:shadow-cljs" "release" "prod"
                       (when debug "--debug")
                       (when verbose "--verbose")
