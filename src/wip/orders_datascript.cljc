@@ -4,7 +4,6 @@
             clojure.string
             contrib.str
             [datascript.core :as d]
-            [datascript.impl.entity :as de]  ; for `entity?` predicate
             [hyperfiddle.api :as hf]
             [hyperfiddle.rcf :refer [tap % tests]]))
 
@@ -75,12 +74,3 @@
 (s/fdef one-order :args (s/cat :sub any?) :ret any?)
 (defn one-order [sub] (hf/*nav!* hf/*$* sub :db/id))
 
-(defn schema [db a] (get (:schema db) a))
-
-(defn nav!
-  ([_ e] e)
-  ([db e a] (let [v (a (if (de/entity? e) e (d/entity db e)))]
-              (if (de/entity? v)
-                (:db/id v)
-                v)))
-  ([db e a & as] (reduce (partial nav! db) (nav! db e a) as)))

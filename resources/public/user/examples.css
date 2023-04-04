@@ -158,3 +158,10 @@ body.hyperfiddle{
 @media (min-width: 981px) and (max-width: 1200px) {}
 @media (min-width: 1201px) {}
 
+
+.user-examples-target.Webview-HFQL{
+    padding:0;
+}
+.user-examples-target.Webview-HFQL .hyperfiddle-gridsheet{
+    grid-template-columns: min-content 3rem 1fr 1fr 1fr 2rem;
+}
