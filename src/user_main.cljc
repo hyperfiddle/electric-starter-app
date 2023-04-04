@@ -108,12 +108,13 @@
   (get-src `user.demo-two-clocks/TwoClocks)
   (get-readme `user.demo-two-clocks/TwoClocks))
 
-(e/defn Code [page]
+(e/defn Code [page hidden?]
   (dom/fieldset
-   (dom/props {:class "user-examples-code"})
-   (dom/legend (dom/text "Code"))
-   #_(dom/pre (dom/text (e/server (get-src page)))) 
-   (CodeMirror. {:parent dom/node :readonly true} identity identity (e/server (get-src page)))))
+    (dom/props {:class "user-examples-code"})
+    (when hidden? (dom/props {:aria-hidden true}))
+    (dom/legend (dom/text "Code"))
+    #_(dom/pre (dom/text (e/server (get-src page))))
+    (CodeMirror. {:parent dom/node :readonly true} identity identity (e/server (get-src page)))))
 
 (e/defn App [page] 
   (dom/fieldset
@@ -176,7 +177,7 @@
     [{::id `wip.teeshirt-orders/Webview-HFQL
       ::lead "A teeshirt orders demo with entity relationship constraints"}]]])
 
-(def tutorials-index (contrib.data/index-by ::id tutorials))
+(def tutorials-index (contrib.data/index-by ::id (mapcat (fn [[_group entries]] entries) tutorials)))
 
 (e/defn Nav [page]
   (dom/select
@@ -193,7 +194,7 @@
 (e/defn Examples []
   (let [[page & [?panel]] history/route]
     (case ?panel
-      code (Code. page) ; iframe url for just code
+      code (Code. page false) ; iframe url for just code
       app (App. page) ; iframe url for just app
       (do
         (dom/h1 (dom/text "Tutorial – Electric Clojure")) 
@@ -201,9 +202,7 @@
         (dom/div (dom/props {:class "user-examples-lead"}) 
                  (e/server (Markdown. (::lead (get tutorials-index page)))))
         (App. page)
-        (if-not (::demo (get tutorials-index page))
-          (Code. page)
-          (Code. ""))
+        (Code. page (::demo (get tutorials-index page)))
         (Readme. page)
         #_(dom/div (dom/props {:class "user-examples-nav"}) 
                    (user.demo-index/Demos.))))))
