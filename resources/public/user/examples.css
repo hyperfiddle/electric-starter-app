@@ -94,8 +94,7 @@ body.hyperfiddle{
     grid-area:readme;
     padding-bottom: 10vh;
     line-height: 24px;
-    padding: 0 1em 10vh 1em;
-    max-width: 980px;
+    max-width: 80ch;
 }
 
 
@@ -143,11 +142,6 @@ body.hyperfiddle{
         width: 1em;
         right: 1em;
     }
-
-    .user-examples-readme{
-        max-width: 100%;
-    }
-
 }
 
 @media (orientation: landscape) and (hover: none) and (pointer: coarse) {
