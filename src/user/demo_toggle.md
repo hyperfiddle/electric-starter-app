@@ -7,7 +7,8 @@ What's happening
 Key Ideas
 * **Clojure/Script interop**: The atom definition is ordinary Clojure code, which works because this is an ordinary .cljc file.
 * **"single state atom"** UI pattern, except the atom is on the server.
-* **reactive control flow**: `if`, `case` and other Clojure control flow forms are reactive. Here, when `x` toggles, `(case x)` will *switch* between branches. In the DAG, if-nodes look like a [railroad switch (image)](https://clojureverse.org/uploads/default/original/2X/7/7b52e4535db802fb51a368bae4461829e7c0bfe5.jpeg).
+* **reactive control flow**: `if`, `case` and other Clojure control flow forms are reactive. Here, when `x` toggles, `(case x)` will *switch* between branches. In the DAG, if-nodes look like a railroad switch (image).
+  <p>![railroad switch](https://clojureverse.org/uploads/default/original/2X/7/7b52e4535db802fb51a368bae4461829e7c0bfe5.jpeg)</p>
 * **distributed lambda**: the button callback spans both client and server. As does the `Toggle` function itself.
 
 Novel forms
