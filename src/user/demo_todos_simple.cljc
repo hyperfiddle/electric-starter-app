@@ -13,7 +13,7 @@
     (let [e (d/entity db id)
           status (:task/status e)]
       (e/client
-        (dom/div
+        (dom/li
           (ui/checkbox
             (case status :active false, :done true)
             (e/fn [v]
@@ -59,7 +59,7 @@
       (e/client
         (dom/div (dom/props {:class "todo-list"})
           (TodoCreate.)
-          (dom/div {:class "todo-items"}
+          (dom/ul (dom/props {:class "todo-items"})
             (e/server
               (e/for-by :db/id [{:keys [db/id]} (todo-records db)]
                 (TodoItem. id))))

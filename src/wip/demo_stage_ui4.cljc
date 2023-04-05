@@ -74,7 +74,7 @@
               (e/fn V! [option]
                 (hf/Transact!. [[:db/add e :label/type (:db/ident option)]]))
               (e/fn Options [search] (type-options hf/db search))
-              (e/fn OptionLabel [option] (-> option :db/ident name)))))
+              (e/fn OptionLabel [option] (some-> option :db/ident name)))))
 
         ; country
 

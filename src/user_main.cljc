@@ -109,17 +109,16 @@
   (get-src `user.demo-two-clocks/TwoClocks)
   (get-readme `user.demo-two-clocks/TwoClocks))
 
-(e/defn Code [page demo?]
+(e/defn Code [page]
   (dom/fieldset
     (dom/props {:class "user-examples-code"})
-    (when demo? (dom/props {:aria-hidden true}))
     (dom/legend (dom/text "Code"))
     #_(dom/pre (dom/text (e/server (get-src page))))
     (CodeMirror. {:parent dom/node :readonly true} identity identity (e/server (get-src page)))))
 
-(e/defn App [page demo?]
+(e/defn App [page]
   (dom/fieldset
-    (dom/props {:class (clojure.string/join " " ["user-examples-target" (some-> page name) (when demo? "user-examples-demo")])})
+    (dom/props {:class ["user-examples-target" (some-> page name)]})
    (dom/legend (dom/text "Result"))
    (e/server (new (get pages page NotFoundPage)))))
 
@@ -130,8 +129,8 @@
 
 (e/defn Readme [page]
   (dom/div
-   (dom/props {:class "user-examples-readme"})
-   (e/server (Markdown. (get-readme page)))))
+    (dom/props {:class "user-examples-readme markdown-body"})
+    (e/server (Markdown. (get-readme page)))))
 
 (def tutorials
   [["Electric" 
@@ -196,18 +195,22 @@
                          (history/swap-route! assoc 0 (clojure.edn/read-string (.. e -target -value))))))))
 
 (e/defn Examples []
-  (let [[page & [?panel]] history/route]
+  (let [[page & [?panel]] history/route
+        demo? (::demo (get tutorials-index page))]
     (case ?panel
       code (Code. page false) ; iframe url for just code
       app (App. page false) ; iframe url for just app
       (do
+        (when demo?
+          (.. dom/node -classList (add "user-examples-demo"))
+          (e/on-unmount #(.. dom/node -classList (remove "user-examples-demo"))))
         (dom/h1 (dom/text "Tutorial – Electric Clojure")) 
         (Nav. page)
         (dom/div (dom/props {:class "user-examples-lead"}) 
                  (e/server (Markdown. (::lead (get tutorials-index page)))))
-        (let [demo? (::demo (get tutorials-index page))]
-          (App. page demo?)
-          (Code. page demo?))
+        (App. page)
+        (when-not demo?
+          (Code. page))
         (Readme. page)
         #_(dom/div (dom/props {:class "user-examples-nav"}) 
                    (user.demo-index/Demos.))))))

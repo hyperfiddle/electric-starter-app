@@ -11,7 +11,6 @@
 (e/defn PopoverCascaded [i F]
   (let [!focused (atom false) focused (e/watch !focused)]
     (dom/div (dom/props {:style {:position "absolute"
-                                 :width "50vw"
                                  :left (str (* i 40) "px")
                                  :top (str (-> i (* 40) (+ 60)) "px")
                                  :z-index (+ i (if focused 1000 0))}})
@@ -31,7 +30,6 @@
             (ui/range n (e/fn [v] (e/server (reset! !n v)))
               (dom/props {:min 1 :max 25 :step 1}))
             (dom/div (dom/props {:class "todomvc" :style {:position "relative"}})
-              (dom/h1 (dom/text "TodoMVC"))
 
               (e/for [i (range n)] ; <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                 (PopoverCascaded. i

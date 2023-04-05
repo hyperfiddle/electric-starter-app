@@ -137,7 +137,6 @@
 
 (e/defn TodoMVC-body [state]
   (dom/div (dom/props {:class "todomvc"})
-    (dom/h1 (dom/text "TodoMVC"))
     (TodoMVC-UI. state)
     (dom/footer (dom/props {:class "info"})
       (dom/p (dom/text "Double-click to edit a todo")))))
@@ -168,7 +167,6 @@
           (e/client
             (dom/link (dom/props {:rel :stylesheet, :href "/todomvc.css"}))
             ; exclude #root style from todomvc-composed by inlining here
-            (dom/element "style" (dom/text "body.hyperfiddle { width: 65vw; margin-left: auto; margin-right: auto; }"))
             (TodoMVC-body. state)
             #_(Diagnostics. state)))))))
 
