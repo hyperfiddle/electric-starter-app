@@ -8,6 +8,7 @@
             [contrib.electric-codemirror :refer [CodeMirror]]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
+            [hyperfiddle.electric-svg :as svg]
             [hyperfiddle.history :as history]
             user.demo-index
 
@@ -180,16 +181,19 @@
 (def tutorials-index (contrib.data/index-by ::id (mapcat (fn [[_group entries]] entries) tutorials)))
 
 (e/defn Nav [page]
-  (dom/select
-   (dom/props {:class "user-examples-select"})
-   (e/for [[group-label entries] tutorials]
-     (dom/optgroup (dom/props {:label group-label})
-       (e/for [{:keys [::id ::title]} entries]
-         (dom/option 
-           (dom/props {:value (str id) :selected (= page id)}) 
-           (dom/text (or title (name id)))))))
-   (dom/on "change" (e/fn [^js e]
-                      (history/swap-route! assoc 0 (clojure.edn/read-string (.. e -target -value)))))))
+  (dom/div {}
+    (dom/props {:class "user-examples-select"})
+    (svg/svg (dom/props {:viewBox "0 0 20 20"})
+      (svg/path (dom/props {:d "M19 4a1 1 0 01-1 1H2a1 1 0 010-2h16a1 1 0 011 1zm0 6a1 1 0 01-1 1H2a1 1 0 110-2h16a1 1 0 011 1zm-1 7a1 1 0 100-2H2a1 1 0 100 2h16z"})))
+    (dom/select
+      (e/for [[group-label entries] tutorials]
+        (dom/optgroup (dom/props {:label group-label})
+          (e/for [{:keys [::id ::title]} entries]
+            (dom/option 
+              (dom/props {:value (str id) :selected (= page id)}) 
+              (dom/text (or title (name id)))))))
+      (dom/on "change" (e/fn [^js e]
+                         (history/swap-route! assoc 0 (clojure.edn/read-string (.. e -target -value))))))))
 
 (e/defn Examples []
   (let [[page & [?panel]] history/route]

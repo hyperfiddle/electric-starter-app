@@ -37,6 +37,20 @@ body.hyperfiddle{
 
 .user-examples-select{
     grid-area: select;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.user-examples-select > select{
+    appearance: none;
+    padding: 0.25rem 0.5rem;
+}
+
+.user-examples-select > svg{
+    width: 1rem;
+    position: absolute;
+    right: 0.5rem;
 }
 
 .user-examples-lead {
@@ -87,9 +101,11 @@ body.hyperfiddle{
         font-size: 36px;
         line-height: 54px;
     }
-    .user-examples-select{
-        font-size: 3rem;
+    .user-examples-select > select{
         padding: 0.5rem 1rem;
+    }
+    .user-examples-select optgroup, .user-examples-select option{
+        font-size: 1rem;
     }
     .user-examples-code{
         overflow: scroll;
@@ -97,7 +113,7 @@ body.hyperfiddle{
         margin:0;
     }
     .user-examples-target.SystemProperties input{
-        font-size: 2.5rem;
+        font-size: 1em;
     }
 
     .user-examples-target.SystemProperties td{
@@ -119,6 +135,19 @@ body.hyperfiddle{
         padding: 1rem;
         overflow:auto;
         max-height: 50vh;
+    }
+
+    .user-examples-select > select{
+        font-size: 1em;
+        padding: 0.25em 0.5em;
+    }
+    .user-examples-select > svg{
+        width: 1em;
+        right: 1em;
+    }
+
+    .user-examples-target.SystemProperties td{
+        border-width: 2px;
     }
 
     /* .user-examples-code{ max-height: 45vh; } */
@@ -145,7 +174,6 @@ body.hyperfiddle{
 
     .user-examples-select{
         font-size: 1rem;
-        align-self: center;
     }
 
     .user-examples-code{
@@ -159,12 +187,20 @@ body.hyperfiddle{
 }
 
 .user-examples-target.SystemProperties input{
-    font-size: 1rem;
-    margin: 1rem 0;
+    margin: 0.25em 0 1rem 0;
+    padding: 0.25em;
+}
+
+
+.user-examples-target.SystemProperties table{
+    max-width: 100%;
+    width: 100%;
 }
 
 .user-examples-target.SystemProperties td{
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 @media (min-width: 981px) and (max-width: 1200px) {}

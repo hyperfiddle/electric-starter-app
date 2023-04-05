@@ -22,7 +22,7 @@
           (e/client
             (dom/div (dom/text matched-count " matches"))
             (ui/input search (e/fn [v] (reset! !search v))
-              (dom/props {:type "search" :placeholder "java.class.path"}))
+              (dom/props {:type "search" :placeholder "🔎  java.class.path"}))
             (dom/table
               (dom/tbody
                 (e/server
