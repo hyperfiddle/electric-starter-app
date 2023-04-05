@@ -201,6 +201,22 @@ body.hyperfiddle{
     padding:0;
 }
 
+.user-examples-target.Webview-HFQL .wip\.orders-datascript\/orders.needle{
+    width: 9rem;
+    padding: 0 0.5em;
+}
+
+.user-examples-target.Webview-HFQL label:has(+ .wip\.orders-datascript\/orders.needle) {
+    position:relative;
+}
+.user-examples-target.Webview-HFQL label:has(+ .wip\.orders-datascript\/orders.needle):after {
+    content: "🔎";
+    position: absolute;
+    right: calc(-100% + 0.25em);
+    pointer-events: none;
+    filter: grayscale(100%) opacity(75%);
+}
+
 .user-examples-target.Webview-HFQL .hyperfiddle-gridsheet-wrapper{
     min-width: 100%;
     width: fit-content;
@@ -211,7 +227,7 @@ body.hyperfiddle{
 }
 
 .user-examples-target.Webview-HFQL .hyperfiddle-gridsheet{
-    grid-template-columns: min-content 3em max-content max-content max-content auto;
+    grid-template-columns: 9rem min-content repeat(3, max-content);
     white-space: nowrap;
     word-break : keep-all;
     line-height: initial;

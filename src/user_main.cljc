@@ -198,8 +198,8 @@
   (let [[page & [?panel]] history/route
         demo? (::demo (get tutorials-index page))]
     (case ?panel
-      code (Code. page false) ; iframe url for just code
-      app (App. page false) ; iframe url for just app
+      code (Code. page) ; iframe url for just code
+      app (history/router 1 (App. page)) ; iframe url for just app
       (do
         (when demo?
           (.. dom/node -classList (add "user-examples-demo"))
@@ -208,14 +208,15 @@
         (Nav. page)
         (dom/div (dom/props {:class "user-examples-lead"}) 
                  (e/server (Markdown. (::lead (get tutorials-index page)))))
-        (App. page)
+        (history/router 1 ; focus route slot 1 to store state: `[page <state>]
+          (App. page))
         (when-not demo?
           (Code. page))
         (Readme. page)
         #_(dom/div (dom/props {:class "user-examples-nav"}) 
                    (user.demo-index/Demos.))))))
 
-(defn route->path [x] (->> x (map contrib.ednish/encode-uri) (interpose "/") (apply str)))
+(defn route->path [route] (clojure.string/join "/" (map contrib.ednish/encode-uri route)))
 (defn path->route [s]
   (let [s (contrib.ednish/discard-leading-slash s)]
     (case s "" nil (->> (clojure.string/split s #"/") (mapv contrib.ednish/decode-uri)))))

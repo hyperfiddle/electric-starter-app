@@ -41,18 +41,15 @@
 
 (e/defn DirectoryExplorer []
   (e/client
-    (dom/link (dom/props {:rel :stylesheet, :href "user/gridsheet-optional.css"}))
+    (dom/link (dom/props {:rel :stylesheet, :href "/user/gridsheet-optional.css"}))
     (dom/div (dom/props {:class "user-gridsheet-demo"})
-      (binding [router/build-route (fn [[self state local-route] local-route']
+      (binding [router/build-route (fn [[self state] path]
                                      ; root local links through this entrypoint
-                                     `[DirectoryExplorer ~state ~local-route'])]
+                                     [self (assoc state ::path path)])]
         (e/server
-          (let [[self s route] (e/client router/route)
-                fs-path (or route (fs/absolute-path "./"))]
-            (e/client
-              (router/router 1 ; focus state slot, todo: fix IndexOutOfBounds exception
-                (e/server
-                  (Dir. (clojure.java.io/file fs-path)))))))))))
+          (let [{:keys [::path]} (e/client router/route)
+                fs-path (or path (fs/absolute-path "./"))]
+            (Dir. (clojure.java.io/file fs-path))))))))
 
 ; Improvements
 ; Native search

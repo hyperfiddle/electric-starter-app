@@ -14,7 +14,7 @@
                   hf/*schema* db/get-schema
                   hf/*nav!*   db/nav!]
           (hf/hfql
-            {(wip.orders-datascript/orders "")
+            {(wip.orders-datascript/orders .)
              [:db/id
               :order/email
               :order/gender
