@@ -140,7 +140,7 @@
      {::id `user.demo-toggle/Toggle
       ::lead "This demo toggles between client and server with a button."}
      {::id `user.demo-system-properties/SystemProperties
-      ::lead "A largrer example of a HTML table backed by a server-side query. Type into the input and see the query update live."} 
+      ::lead "A larger example of a HTML table backed by a server-side query. Type into the input and see the query update live."} 
      {::id `user.demo-chat/Chat ::lead "A multiplayer chat app. Try two tabs."}
      {::id `user.tutorial-lifecycle/Lifecycle ::lead "mount/unmount component lifecycle"}
      {::id `user.demo-chat-extended/ChatExtended 
