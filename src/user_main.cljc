@@ -177,22 +177,40 @@
     [{::id `wip.teeshirt-orders/Webview-HFQL
       ::lead "A teeshirt orders demo with entity relationship constraints"}]]])
 
-(def tutorials-index (contrib.data/index-by ::id (mapcat (fn [[_group entries]] entries) tutorials)))
+(def tutorials-index (contrib.data/index-by ::id (->> tutorials
+                                                   (mapcat (fn [[_group entries]] entries))
+                                                   (map-indexed (fn [idx entry] (assoc entry ::order idx))))))
+(def tutorials-seq (vec (sort-by ::order (vals tutorials-index))))
 
-(e/defn Nav [page]
-  (dom/div {}
-    (dom/props {:class "user-examples-select"})
-    (svg/svg (dom/props {:viewBox "0 0 20 20"})
-      (svg/path (dom/props {:d "M19 4a1 1 0 01-1 1H2a1 1 0 010-2h16a1 1 0 011 1zm0 6a1 1 0 01-1 1H2a1 1 0 110-2h16a1 1 0 011 1zm-1 7a1 1 0 100-2H2a1 1 0 100 2h16z"})))
-    (dom/select
-      (e/for [[group-label entries] tutorials]
-        (dom/optgroup (dom/props {:label group-label})
-          (e/for [{:keys [::id ::title]} entries]
-            (dom/option 
-              (dom/props {:value (str id) :selected (= page id)}) 
-              (dom/text (or title (name id)))))))
-      (dom/on "change" (e/fn [^js e]
-                         (history/swap-route! assoc 0 (clojure.edn/read-string (.. e -target -value))))))))
+(defn get-prev-next [page]
+  (when-let [order (::order (tutorials-index page))]
+    [(get tutorials-seq (dec order))
+     (get tutorials-seq (inc order))]))
+
+(defn title [{:keys [::id ::title]}] (or title (name id)))
+
+(e/defn Nav [page footer?]
+  (let [[prev next] (get-prev-next page)]
+    (dom/div {} (dom/props {:class [(if footer? "user-examples-footer-nav" "user-examples-nav")
+                                    (when-not prev "user-examples-nav-start")
+                                    (when-not next "user-examples-nav-end")]})
+      (when prev
+        (history/link [(::id prev)] (dom/props {:class "user-examples-nav-prev"}) (dom/text (str "< " (title prev)))))
+      (dom/div (dom/props {:class "user-examples-select"})
+        (svg/svg (dom/props {:viewBox "0 0 20 20"})
+          (svg/path (dom/props {:d "M19 4a1 1 0 01-1 1H2a1 1 0 010-2h16a1 1 0 011 1zm0 6a1 1 0 01-1 1H2a1 1 0 110-2h16a1 1 0 011 1zm-1 7a1 1 0 100-2H2a1 1 0 100 2h16z"})))
+        (dom/select
+          (e/for [[group-label entries] tutorials]
+            (dom/optgroup (dom/props {:label group-label})
+              (e/for [{:keys [::id]} entries]
+                (let [entry (tutorials-index id)]
+                  (dom/option
+                    (dom/props {:value (str id) :selected (= page id)})
+                    (dom/text (str (inc (::order entry)) ". " (title entry))))))))
+          (dom/on "change" (e/fn [^js e]
+                             (history/navigate! history/!history [(clojure.edn/read-string (.. e -target -value))])))))
+      (when next
+        (history/link [(::id next)] (dom/props {:class "user-examples-nav-next"}) (dom/text (str (title next) " >")))))))
 
 (e/defn Examples []
   (let [[page & [?panel]] history/route
@@ -205,7 +223,7 @@
           (.. dom/node -classList (add "user-examples-demo"))
           (e/on-unmount #(.. dom/node -classList (remove "user-examples-demo"))))
         (dom/h1 (dom/text "Tutorial – Electric Clojure")) 
-        (Nav. page)
+        (Nav. page false)
         (dom/div (dom/props {:class "user-examples-lead"}) 
                  (e/server (Markdown. (::lead (get tutorials-index page)))))
         (history/router 1 ; focus route slot 1 to store state: `[page <state>]
@@ -213,8 +231,7 @@
         (when-not demo?
           (Code. page))
         (Readme. page)
-        #_(dom/div (dom/props {:class "user-examples-nav"}) 
-                   (user.demo-index/Demos.))))))
+        (Nav. page true)))))
 
 (defn route->path [route] (clojure.string/join "/" (map contrib.ednish/encode-uri route)))
 (defn path->route [s]
