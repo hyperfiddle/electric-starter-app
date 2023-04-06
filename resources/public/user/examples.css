@@ -46,6 +46,7 @@ body.hyperfiddle{
 
 .user-examples > h1{
     grid-area: title;
+    white-space: nowrap;
 }
 
 
@@ -113,6 +114,7 @@ body.hyperfiddle{
     padding: 0;
     height: fit-content;
     max-width: 100%;
+    max-height: 40rem;
     padding-right: 1rem;
 }
 
@@ -152,6 +154,10 @@ body.hyperfiddle{
         grid-template-areas: "title" "nav" "lead" "result" "code" "readme" "footer-nav";
         grid-template-rows: auto auto auto min-content auto minmax(20rem, 1fr)
         grid-template-columns: 100%;
+    }
+
+    .user-examples-code{
+        max-height: initial;
     }
 
     .user-examples-target{
