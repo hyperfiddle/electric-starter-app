@@ -50,8 +50,7 @@
 ; todo: macro to auto-install demos by attaching clj metadata to e/defn vars?
 
 (e/def pages
-  {`user.demo-index/Secrets user.demo-index/Secrets
-   `user.demo-two-clocks/TwoClocks user.demo-two-clocks/TwoClocks
+  {`user.demo-two-clocks/TwoClocks user.demo-two-clocks/TwoClocks
    `user.demo-toggle/Toggle user.demo-toggle/Toggle
    `user.demo-system-properties/SystemProperties user.demo-system-properties/SystemProperties
    `user.demo-chat/Chat user.demo-chat/Chat
@@ -80,7 +79,7 @@
    ; -- user.demo-10k-dom/Dom-10k-Elements user.demo-10k-dom/Dom-10k-Elements ; todo too slow to unmount, crashes
 
    ; Hyperfiddle demos
-   `wip.teeshirt-orders/Webview-HFQL wip.teeshirt-orders/Webview-HFQL
+   #_#_`wip.teeshirt-orders/Webview-HFQL wip.teeshirt-orders/Webview-HFQL
    ; `wip.demo-branched-route/RecursiveRouter wip.demo-branched-route/RecursiveRouter
    ; `wip.demo-explorer2/DirectoryExplorer-HFQL wip.demo-explorer2/DirectoryExplorer-HFQL
 
@@ -144,40 +143,40 @@
       ::lead "This demo toggles between client and server with a button."}
      {::id `user.demo-system-properties/SystemProperties
       ::lead "A larger example of a HTML table backed by a server-side query. Type into the input and see the query update live."} 
-     {::id `user.demo-chat/Chat ::lead "A multiplayer chat app. Try two tabs."}
-     {::id `user.tutorial-lifecycle/Lifecycle ::lead "mount/unmount component lifecycle"}
-     {::id `user.demo-chat-extended/ChatExtended 
+     #_{::id `user.demo-chat/Chat ::lead "A multiplayer chat app. Try two tabs."}
+     #_{::id `user.tutorial-lifecycle/Lifecycle ::lead "mount/unmount component lifecycle"}
+     #_{::id `user.demo-chat-extended/ChatExtended 
       ::lead "Extended chat demo with auth and presence. When multiple sessions are connected, you can see who else is present."}
-     {::id `user.demo-webview/Webview 
+     #_{::id `user.demo-webview/Webview 
       ::lead "A database backed webview with reactive updates."}
-     {::id `user.demo-todos-simple/TodoList 
+     #_{::id `user.demo-todos-simple/TodoList 
       ::lead "minimal todo list. it's multiplayer, try two tabs"} 
-     {::id `user.demo-reagent-interop/ReagentInterop
+     #_{::id `user.demo-reagent-interop/ReagentInterop
       ::lead "Reagent (React.js) embedded inside Electric. The reactive mouse coordinates cross from Electric to Reagent via props."}
-     {::id `user.demo-svg/SVG
+     #_{::id `user.demo-svg/SVG
       ::lead "SVG support. Note the animation is reactive and driven by javascript cosine."}
-     {::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}
+     #_{::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}
      
                                         ; 7 GUIs
-     {::id `user.tutorial-7guis-1-counter/Counter ::title "7GUIs Counter" 
+     #_{::id `user.tutorial-7guis-1-counter/Counter ::title "7GUIs Counter" 
       ::lead "See <https://eugenkiss.github.io/7guis/tasks#counter>"}
-     {::id `user.tutorial-7guis-2-temperature/TemperatureConverter ::title "7GUIs Temperature Converter"
+     #_{::id `user.tutorial-7guis-2-temperature/TemperatureConverter ::title "7GUIs Temperature Converter"
       ::lead "See <https://eugenkiss.github.io/7guis/tasks#temp>"}
-     {::id `user.tutorial-7guis-4-timer/Timer ::title "7GUIs Timer"
+     #_{::id `user.tutorial-7guis-4-timer/Timer ::title "7GUIs Timer"
       ::lead "See <https://eugenkiss.github.io/7guis/tasks#timer>"}
-     {::id `user.tutorial-7guis-5-crud/CRUD ::title "7GUIs CRUD"
+     #_{::id `user.tutorial-7guis-5-crud/CRUD ::title "7GUIs CRUD"
       ::lead "See <https://eugenkiss.github.io/7guis/tasks#crud>"}
      
                                         ; Demos
-     {::id `user.demo-todomvc/TodoMVC ::demo true ::lead ""}
-     {::id `user.demo-todomvc-composed/TodoMVC-composed ::demo true
+     #_{::id `user.demo-todomvc/TodoMVC ::demo true ::lead ""}
+     #_{::id `user.demo-todomvc-composed/TodoMVC-composed ::demo true
       ::lead ""}
-     {::id `user.demo-explorer/DirectoryExplorer ::demo true
+     #_{::id `user.demo-explorer/DirectoryExplorer ::demo true
       ::lead "Server-streamed virtual pagination over node_modules. Check the DOM!"} 
-     {::id `wip.demo-stage-ui4/CrudForm ::lead "Database-backed CRUD form using Datomic"}
+     #_{::id `wip.demo-stage-ui4/CrudForm ::lead "Database-backed CRUD form using Datomic"}
      #_{::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}
-     {::id `wip.js-interop/QRCode, ::lead "Generate QRCodes with a lazily loaded JS library"}]]
-   ["HFQL"
+     #_{::id `wip.js-interop/QRCode, ::lead "Generate QRCodes with a lazily loaded JS library"}]]
+   #_["HFQL"
     [{::id `wip.teeshirt-orders/Webview-HFQL
       ::lead "A teeshirt orders demo with entity relationship constraints"}]]])
 
