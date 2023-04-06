@@ -383,3 +383,12 @@ body.hyperfiddle{
     width: 100%;
 }
 
+
+.user-examples-target.QRCode {
+    max-height: 250px;
+    height: 250px;
+}
+
+.user-examples-target.QRCode input{
+    margin-bottom: 1rem;
+}

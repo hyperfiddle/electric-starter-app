@@ -41,7 +41,8 @@
             wip.demo-custom-types
             wip.tracing
             user.demo-reagent-interop ; yarn
-            wip.demo-stage-ui4))
+            wip.demo-stage-ui4 ; yarn
+            wip.js-interop))
 
 (e/defn NotFoundPage []
   (e/client (dom/h1 (dom/text "Page not found"))))
@@ -91,7 +92,9 @@
    ; `user.demo-tic-tac-toe/TicTacToe user.demo-tic-tac-toe/TicTacToe   
 
    ; Tests
-   ; ::demos/dennis-exception-leak wip.dennis-exception-leak/App2 
+   ; ::demos/dennis-exception-leak wip.dennis-exception-leak/App2
+
+   `wip.js-interop/QRCode wip.js-interop/QRCode
    })
 
 #?(:clj (defn get-src [qualified-sym]
@@ -172,7 +175,8 @@
      {::id `user.demo-explorer/DirectoryExplorer ::demo true
       ::lead "Server-streamed virtual pagination over node_modules. Check the DOM!"} 
      {::id `wip.demo-stage-ui4/CrudForm ::lead "Database-backed CRUD form using Datomic"}
-     #_{::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}]]
+     #_{::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}
+     {::id `wip.js-interop/QRCode, ::lead "Generate QRCodes with a lazily loaded JS library"}]]
    ["HFQL"
     [{::id `wip.teeshirt-orders/Webview-HFQL
       ::lead "A teeshirt orders demo with entity relationship constraints"}]]])
