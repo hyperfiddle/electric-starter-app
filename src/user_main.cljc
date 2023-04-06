@@ -151,7 +151,7 @@
       ::lead "A database backed webview with reactive updates."}
      #_{::id `user.demo-todos-simple/TodoList 
       ::lead "minimal todo list. it's multiplayer, try two tabs"} 
-     #_{::id `user.demo-reagent-interop/ReagentInterop
+     {::id `user.demo-reagent-interop/ReagentInterop
       ::lead "Reagent (React.js) embedded inside Electric. The reactive mouse coordinates cross from Electric to Reagent via props."}
      #_{::id `user.demo-svg/SVG
       ::lead "SVG support. Note the animation is reactive and driven by javascript cosine."}
