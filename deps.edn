@@ -1,5 +1,5 @@
 {:paths ["src" "resources"]
- :deps {#_#_com.datomic/dev-local {:mvn/version "1.0.243"}
+ :deps {com.datomic/dev-local {:mvn/version "1.0.243"}
         com.google.guava/guava {:mvn/version "31.1-jre"} ; fix conflict - datomic cloud & shadow
         com.hyperfiddle/electric {:git/url "https://github.com/hyperfiddle/electric.git"
                                   :git/sha "fb307c3118ac030d8d2fbc55d05b8d9456da4e5f"
@@ -37,4 +37,5 @@
             :jvm-opts ["-Xss2m"]}
            :shadow-cljs  {:extra-deps {thheller/shadow-cljs {:mvn/version "2.20.1"}}
                           :main-opts  ["-m" "shadow.cljs.devtools.cli"]
-                          :jvm-opts   ["-Xss2m"]}}}
+                          :jvm-opts   ["-Xss2m"]}}
+ :mvn/repos {"cognitect-dev-tools" {:url "https://dev-tools.cognitect.com/maven/releases/"}}}

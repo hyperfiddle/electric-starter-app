@@ -1,7 +1,12 @@
 FROM clojure:openjdk-11-tools-deps AS clojure-deps
 WORKDIR /app
 COPY deps.edn deps.edn
+COPY .m2 /root/.m2
 COPY src-build src-build
+ARG DATOMIC_DEV_LOCAL_USER
+ARG DATOMIC_DEV_LOCAL_PASSWORD
+ENV DATOMIC_DEV_LOCAL_USER=$DATOMIC_DEV_LOCAL_USER
+ENV DATOMIC_DEV_LOCAL_PASSWORD=$DATOMIC_DEV_LOCAL_PASSWORD
 RUN clojure -A:dev -M -e :ok        # preload deps
 RUN clojure -T:build noop           # preload build deps
 
