@@ -3,8 +3,7 @@
             [hyperfiddle.api :as hf]
             [hyperfiddle.hfql-tree-grid :as ttgui]
             [hyperfiddle.electric :as e]
-            wip.orders-datascript
-            ))
+            wip.orders-datascript))
 
 (e/defn Webview-HFQL []
   (e/client
