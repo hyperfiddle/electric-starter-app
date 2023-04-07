@@ -1,8 +1,8 @@
 {:paths ["src" "resources"]
  :deps {com.datomic/dev-local {:mvn/version "1.0.243"}
         com.google.guava/guava {:mvn/version "31.1-jre"} ; fix conflict - datomic cloud & shadow
-        com.hyperfiddle/electric {:git/url "https://github.com/hyperfiddle/electric.git" 
-                                  :git/sha "447810b9401d66d6f6d5a7bf3da685f406efa7a5" ; no HFQL
+        com.hyperfiddle/electric {:git/url "https://github.com/hyperfiddle/electric.git"
+                                  :git/sha "a6cbc88b22f2953da2c9a75f178576fb1abf893a"
                                   #_#_:mvn/version "v2-alpha-167-gbd475584"
                                   #_#_:local/root "../electric"}
         com.hyperfiddle/rcf {:mvn/version "20220926-202227"}
@@ -37,5 +37,7 @@
             :jvm-opts ["-Xss2m"]}
            :shadow-cljs  {:extra-deps {thheller/shadow-cljs {:mvn/version "2.22.10"}}
                           :main-opts  ["-m" "shadow.cljs.devtools.cli"]
-                          :jvm-opts   ["-Xss2m"]}}
+                          :jvm-opts   ["-Xss2m"]}
+           :hfql {:extra-deps {com.hyperfiddle/hfql {:git/url "git@github.com:hyperfiddle/hfql.git"
+                                                     :git/sha "39458cc87e3adeb7ed78293198c35d0fdca5d5a4"}}}}
  :mvn/repos {"cognitect-dev-tools" {:url "https://dev-tools.cognitect.com/maven/releases/"}}}

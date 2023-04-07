@@ -3,14 +3,15 @@
             #?(:clj [datascript.core :as d])
             #?(:clj [datascript.impl.entity :refer [entity?]])
             [hyperfiddle.api :as hf]
-            [hyperfiddle.electric :as e]
-            hyperfiddle.hfql-tree-grid))
+            [hyperfiddle.hfql :refer [hfql]]
+            [hyperfiddle.hfql-tree-grid :as hfql-tree-grid]
+            [hyperfiddle.electric :as e]))
 
 (declare conn schema nav orders)
 (def ^:dynamic db)
 
 (e/defn Teeshirt-orders []
-  (hf/hfql [db hf/db] ; convey reactive db to clojure dynamic
+  (hfql [db hf/db] ; convey reactive db to clojure dynamic
     {(orders .)
      [:db/id
       :order/email
@@ -26,7 +27,7 @@
 
 (e/defn Webview-HFQL []
   (e/client
-    (hyperfiddle.hfql-tree-grid/with-gridsheet-renderer
+    (hfql-tree-grid/with-gridsheet-renderer
       (e/server
         (binding [hf/db (e/watch conn)
                   hf/*schema* schema
