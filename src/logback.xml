@@ -1,3 +1,4 @@
+<!-- Jetty logger config -->
 <!-- Options: http://logback.qos.ch/manual/layouts.html -->
 <configuration scan="true" scanPeriod="5 seconds">
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
