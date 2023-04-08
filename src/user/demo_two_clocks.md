@@ -9,10 +9,10 @@ What's happening
 
 Key ideas
 
-* **multi-tier**: the `TwoClocks` function spans both frontend and backend, which are both developed in a single programming language and compilation unit. See [Multitier programming (wikipedia)](https://en.wikipedia.org/wiki/Multitier_programming)
+* **multi-tier**: the `TwoClocks` function spans both frontend and backend, which are developed together in a single programming language and compilation unit. See [Multitier programming (wikipedia)](https://en.wikipedia.org/wiki/Multitier_programming)
 * **reactive**: the function body is reactive, keeping the DOM in sync with the clocks. Both the frontend and backend parts of the function are reactive.
 * **network-transparent**: the network is also reactive. the function transmits data over the network (as implied by the AST) in a way which is invisible to the application programmer. See: [Network transparency (wikipedia)](https://en.wikipedia.org/wiki/Network_transparency)
-* **streaming lexical scope**: this is not RPC (request/response), that would be too slow. The server streams `s` optimistically, because it knows the client depends on it. If the client had to request each server clock tick, the timer would pause visibly between each request.
+* **streaming lexical scope**: this is not RPC (request/response), that would be too slow. The server streams `s` without being asked, because it knows the client depends on it. If the client had to request each server clock tick, the timer would pause visibly between each request.
 
 Novel forms
 

@@ -50,4 +50,4 @@ Network transparent composition is not the heavy, leaky abstraction you might th
   * Electric generalizes further: stream function -> reactive function -> distributed function
 * With Electric, you can refactor across the frontend/backend boundary, all in one place, without caring about any plumbing. 
   * Refactoring is an algebraic activity with local reasoning, just as it should be. 
-  * Functional programming!
+  * Functional programming without the BS

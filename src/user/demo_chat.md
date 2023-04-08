@@ -1,24 +1,34 @@
 What's happening
 
-* There's a list of messages on the frontend, backed by a server side atom.
-* Typing in the frontend input runs a callback on keypress
-  * Pressing enter adds the input's content to the server-side atom, then resets the input.
-* Server-side state is global, a new message is streamed to all connected clients.
-* Up to 10 messages are retained.
-* First render and pressing enter throws a `Pending` exception, which turns the page yellow for a brief instant.
+* Chat messages are stored in an atom on the server
+* It's multiplayer, each connected session sees the same messages
+* Messages submit on enter keypress (and clear the input)
+* All connected clients see new messages immediately
+* The background flashes yellow when something is loading
 
 Key Ideas
 
-* **global/local state**: is defined by the language's scope itself. State access scope is modeled by the program.
-* **Pending**: Establishing a stream (initial render, running an effect on the remote peer) implies an initial latency.
-  * Electric models this intial latency by throwing `Pending`.
-* **try/catch**: Reactive try catch implies the `try` branch stays up while throwing, and the `catch` branch runs until `try` stops throwing.
-
+* **multiplayer**: server global state is shared by all clients connected to that server, because they share the same JVM.
+* **JavaScript interop**: cljs interop forms work as expected
+* **latency**: `e/client` and `e/server` return reactive values across sites. When a remote value is accessed but not yet available, Electric throws a `Pending` exception.
+* **reactive try/catch**: in reactive programming, exceptions (like `Pending`) are ephemeral: they can "go away" when an upstream dependency changes, causing the exception to no longer be thrown.
 
 Novel forms
-* `Pending`: An exception thrown by Electric to model initial latency, on first render or when running an effect on the remote peer.
-* `try/catch`: reactive try catch, runs `catch` branch in parallel with `try`.
-* `dom/input`: a low level DOM control, used here to implement submit-on-enter.
-* `dom/node`: the live dom element here, maintained in dynamic scope for point writes.
 
-Discuss why Pending is an exception and how we use that to flash the yellow background as a simple loading indicator.
+* `Pending`: an exception thrown when the client accesses a remote value that is not yet available
+* `try/catch`: reactive try catch
+* `dom/input`: a low level DOM control, used here to implement submit-on-enter
+* `dom/node`: the live dom node, maintained in dynamic scope for local point writes
+
+Pending details
+
+* Q: Why is Pending modeled as an exception? It's not exceptional? A: The semantics match
+* Any uncaught Pending exceptions are silenced and disarded by the Electric entrypoint
+* When Pending is thrown, the `catch` body is mounted (turning the background yellow)
+* Eventually the remote value becomes available and the Pending exception "goes away", unmounting the `catch` body and removing the yellow style.
+
+Why does each connected client receive realtime updates?
+
+* each client get's its own "server instance", bound to the websocket session
+* `(e/def msgs ...)` is global, therefore shared across all sessions (same JVM)
+* other than shared global state, the server instances are independent. All sesison state is isolated and bound to the websocket session, just as HTTP request handlers are bound to a request.
