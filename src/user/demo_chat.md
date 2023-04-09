@@ -8,10 +8,10 @@ What's happening
 
 Key Ideas
 
-* **multiplayer**: server global state is shared by all clients connected to that server, because they share the same JVM.
-* **JavaScript interop**: cljs interop forms work as expected
+* **multiplayer**: the server global state atom is shared by all clients connected to that server, because they share the same JVM.
 * **latency**: `e/client` and `e/server` return reactive values across sites. When a remote value is accessed but not yet available, Electric throws a `Pending` exception.
 * **reactive try/catch**: in reactive programming, exceptions (like `Pending`) are ephemeral: they can "go away" when an upstream dependency changes, causing the exception to no longer be thrown.
+* **JavaScript interop**: cljs interop forms work as expected, side effects are no problem
 
 Novel forms
 
