@@ -12,3 +12,4 @@ Key ideas
 Novel forms
 * `ui/checkbox`
 * discard
+* `binding`

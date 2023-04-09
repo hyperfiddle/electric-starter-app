@@ -5,4 +5,4 @@ Key ideas
 * Datascript is on the server, it can be any database
 
 Novel forms
-* none
+* `e/watch` on datascript connection
