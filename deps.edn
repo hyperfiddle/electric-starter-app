@@ -22,7 +22,7 @@
  :aliases {:dev
            {:extra-deps
             {binaryage/devtools {:mvn/version "1.0.6"}
-             thheller/shadow-cljs {:mvn/version "2.20.1"}}
+             thheller/shadow-cljs {:mvn/version "2.22.10"}}
             :jvm-opts
             ["-Xss2m" ; https://github.com/hyperfiddle/photon/issues/11
              "-XX:-OmitStackTraceInFastThrow" ;; RCF
@@ -35,7 +35,7 @@
             :extra-deps {io.github.clojure/tools.build {:git/tag "v0.8.2" :git/sha "ba1a2bf"}
                          io.github.seancorfield/build-clj {:git/tag "v0.8.0" :git/sha "9bd8b8a"}}
             :jvm-opts ["-Xss2m"]}
-           :shadow-cljs  {:extra-deps {thheller/shadow-cljs {:mvn/version "2.20.1"}}
+           :shadow-cljs  {:extra-deps {thheller/shadow-cljs {:mvn/version "2.22.10"}}
                           :main-opts  ["-m" "shadow.cljs.devtools.cli"]
                           :jvm-opts   ["-Xss2m"]}}
  :mvn/repos {"cognitect-dev-tools" {:url "https://dev-tools.cognitect.com/maven/releases/"}}}
