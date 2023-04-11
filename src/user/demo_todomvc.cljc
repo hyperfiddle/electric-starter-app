@@ -8,10 +8,10 @@
    [hyperfiddle.electric-dom2 :as dom]
    [hyperfiddle.electric-ui4 :as ui]))
 
-(defonce !conn #?(:clj (d/create-conn {}) :cljs nil))       ; server
-(e/def db)                                                  ; server
-(e/def transact!) ; server
-(def !state #?(:cljs (atom {::filter :all                   ; client
+#?(:clj (defonce !conn (d/create-conn {})))    ; server
+(e/def db)                                     ; server
+(e/def transact!)                              ; server
+#?(:cljs (def !state (atom {::filter :all      ; client
                             ::editing nil
                             ::delay   0})))
 
@@ -54,7 +54,7 @@
 
       (when (pos? done)
         (ui/button (e/fn [] (e/server (when-some [ids (seq (query-todos db :done))]
-                                          (transact! (mapv (fn [id] [:db/retractEntity id]) ids)) nil)))
+                                        (transact! (mapv (fn [id] [:db/retractEntity id]) ids)) nil)))
           (dom/props {:class "clear-completed"})
           (dom/text "Clear completed " done))))))
 
@@ -67,11 +67,11 @@
                               (when (= id (::editing state)) "editing")]})
           (dom/div (dom/props {:class "view"})
             (ui/checkbox (= :done status) (e/fn [v]
-                                              (let [status (case v true :done, false :active, nil)]
-                                                (e/server (transact! [{:db/id id, :task/status status}]) nil)))
+                                            (let [status (case v true :done, false :active, nil)]
+                                              (e/server (transact! [{:db/id id, :task/status status}]) nil)))
               (dom/props {:class "toggle"}))
             (dom/label (dom/text description)
-                       (dom/on "dblclick" (e/fn [_] (swap! !state assoc ::editing id)))))
+              (dom/on "dblclick" (e/fn [_] (swap! !state assoc ::editing id)))))
           (when (= id (::editing state))
             (dom/span (dom/props {:class "input-load-mask"})
               (dom/on-pending (dom/props {:aria-busy true})
@@ -104,8 +104,8 @@
               all    (e/server (todo-count db :all))
               done   (e/server (todo-count db :done))]
           (ui/checkbox (cond (= all done)   true
-                             (= all active) false
-                             :else          nil)
+                         (= all active) false
+                         :else          nil)
             (e/fn [v] (let [status (case v (true nil) :done, false :active)]
                         (e/server (transact! (toggle-all! db status)) nil)))
             (dom/props {:class "toggle-all"})))
@@ -148,15 +148,15 @@
     (dom/dt (dom/text "query :all")) (dom/dd (dom/text (pr-str (e/server (query-todos db :all)))))
     (dom/dt (dom/text "state")) (dom/dd (dom/text (pr-str state)))
     (dom/dt (dom/text "delay")) (dom/dd
-                                   (ui/long (::delay state) (e/fn [v] (swap! !state assoc ::delay v))
-                                     (dom/props {:step 1, :min 0, :style {:width :min-content}}))
-                                   (dom/text " ms"))))
+                                  (ui/long (::delay state) (e/fn [v] (swap! !state assoc ::delay v))
+                                    (dom/props {:step 1, :min 0, :style {:width :min-content}}))
+                                  (dom/text " ms"))))
 
 #?(:clj
    (defn slow-transact! [!conn delay tx]
      (try (Thread/sleep delay) ; artificial latency
-          (d/transact! !conn tx)
-          (catch InterruptedException _))))
+       (d/transact! !conn tx)
+       (catch InterruptedException _))))
 
 (e/defn TodoMVC []
   (e/client
@@ -177,5 +177,4 @@
   (query-todos @!conn :all)
   (query-todos @!conn :active)
   (query-todos @!conn :done)
-  (d/q '[:find (count ?e) . :where [?e :task/status]] @!conn)
-  )
+  (d/q '[:find (count ?e) . :where [?e :task/status]] @!conn))

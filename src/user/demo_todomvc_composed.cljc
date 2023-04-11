@@ -1,12 +1,11 @@
 (ns user.demo-todomvc-composed
-  (:require
-    #?(:clj [datascript.core :as d])
-    [hyperfiddle.electric :as e]
-    [hyperfiddle.electric-dom2 :as dom]
-    [hyperfiddle.electric-ui4 :as ui]
-    [user.demo-todomvc :as todomvc]))
+  (:require #?(:clj [datascript.core :as d])
+            [hyperfiddle.electric :as e]
+            [hyperfiddle.electric-dom2 :as dom]
+            [hyperfiddle.electric-ui4 :as ui]
+            [user.demo-todomvc :as todomvc]))
 
-(def !n #?(:clj (atom 1)))
+#?(:clj (def !n (atom 1)))
 
 (e/defn PopoverCascaded [i F]
   (let [!focused (atom false) focused (e/watch !focused)]
@@ -33,4 +32,5 @@
 
               (e/for [i (range n)] ; <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                 (PopoverCascaded. i
-                  (e/fn [] (todomvc/TodoMVC-UI. state)))))))))))
+                  (e/fn [] 
+                    (todomvc/TodoMVC-UI. state)))))))))))
