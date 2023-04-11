@@ -7,19 +7,20 @@ What's happening
 * The Electric compiler infers the backend/frontend boundary and generates the full-stack app (client and server that coordinate)
 * Network sync is automatic and invisible
 
+Novel forms
+
+* `e/defn`: defines an Electric function, which is reactive. Electric fns follow all the same rules as ordinary Clojure functions.
+* `e/client`, `e/server`: compile time markers, valid in any Electric body
+* `e/system-time-ms`: reactive clock, defined with [Missionary](https://github.com/leonoel/missionary)
+* `hyperfiddle.electric-dom`: reactive DOM rendering combinators
+
 Key ideas
 
 * **multi-tier**: the `TwoClocks` function spans both frontend and backend, which are developed together in a single programming language and compilation unit. See [Multitier programming (wikipedia)](https://en.wikipedia.org/wiki/Multitier_programming)
 * **reactive**: the function body is reactive, keeping the DOM in sync with the clocks. Both the frontend and backend parts of the function are reactive.
 * **network-transparent**: the network is also reactive. the function transmits data over the network (as implied by the AST) in a way which is invisible to the application programmer. See: [Network transparency (wikipedia)](https://en.wikipedia.org/wiki/Network_transparency)
 * **streaming lexical scope**: this is not RPC (request/response), that would be too slow. The server streams `s` without being asked, because it knows the client depends on it. If the client had to request each server clock tick, the timer would pause visibly between each request.
-
-Novel forms
-
-* `e/defn`: defines an Electric function, which is reactive. Electric fns follow all the same rules as ordinary Clojure functions.
-* `e/client`, `e/server`: compile time markers, valid in any Electric body
-* `e/system-time-ms`: reactive clock, defined with [Missionary](https://github.com/leonoel/missionary)
-* `hyperfiddle.electric-dom`: reactive DOM rendering combinators. Electric is already a general-purpose reactive engine, so electric-dom is nearly trivial, it's just 300 LOC of mostly syntax helpers only. There is neither virtual dom, reconcilier, nor diffing.
+* **dom rendering is free**: Electric is already a general-purpose reactive engine, so electric-dom is nearly trivial, it's just 300 LOC of mostly syntax helpers only. There is neither virtual dom, reconcilier, nor diffing.
 
 Electric is a reactivity compiler
 

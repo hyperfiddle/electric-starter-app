@@ -6,6 +6,11 @@ What's happening
 * There's a reactive for loop to render the table.
 * The view code deeply nests client and server calls, arbitrarily, even through loops.
 
+Novel forms
+
+* `ui/input`: a text input control with "batteries included" loading/syncing state.
+* `e/for-by`: a reactive map operator, stabilized to bind each child branch state (e.g. DOM element) to an entity in the collection by id (provided by userland fn - similar to [React.js key](https://stackoverflow.com/questions/28329382/understanding-unique-keys-for-array-children-in-react-js/43892905#43892905)).
+
 Key ideas
 
 * **ordinary Clojure/Script functions**: `clojure.core/defn` works as it does in Clojure/Script, it's still a normal blocking function and is opaque to Electric. Electric does not mess with the `clojure.core/defn` macro.
@@ -13,11 +18,6 @@ Key ideas
 * **direct query/view composition**: `jvm-system-properties`, a server function, composes directly with the frontend DOM table. Thus unifying your code into one paradigm, promoting readability, and making it easier to craft complex interactions between client and server components, maintain and refactor them.
 * **reactive-for**: The table rows are renderered by a for loop. Reactive loops are efficient and recompute branches only precisely when needed.
 * **network transfer can be reasoned about clearly**: values are only transferred between sites when and if they are used. The `system-props` collection is never actually accessed from a client region and therefore never escapes the server.
-
-Novel forms
-
-* `ui/input`: a text input control with "batteries included" loading/syncing state.
-* `e/for-by`: a reactive map operator, stabilized to bind each child branch state (e.g. DOM element) to an entity in the collection by id (provided by userland fn - similar to [React.js key](https://stackoverflow.com/questions/28329382/understanding-unique-keys-for-array-children-in-react-js/43892905#43892905)).
 
 Reactive for details
 
@@ -38,7 +38,6 @@ Reasoning about network transfer
 * In the `e/for-by`, `k` and `v` exist in a server scope, and yet are accessed from a client scope.
 * Electric tracks this and sends a stream of individual `k` and `v` updates over network.
 * The collection value `system-props` is not accessed from client scope, so Electric will not move it. Values are only moved if they are accessed.
-* For more detail about reactive network efficiency, see [this clojureverse answer](https://clojureverse.org/t/electric-clojure-a-signals-dsl-for-fullstack-web-ui/9788/32?u=dustingetz).
 
 Network transparent composition is not the heavy, leaky abstraction you might think it is
 

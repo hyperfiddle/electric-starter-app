@@ -2,13 +2,13 @@ What's happening
 * There is auth
 * Presence – logged in users can see who else is in the room (try two tabs)
 
-Key ideas
-* Electric's websocket can be hosted by any ordinary Clojure web server, you provide this.
-* Auth is same as any other web app, you have access to the request.
-
 Novel forms
 * `e/*http-request*` the ring request that established the websocket connection
 * `do` sequences effects, returning the final result (same as Clojure). Reactive objects in the body are constructed in order and then run concurrently, so e.g. `(do (Blinker.) (Blinker.))` will have concurrent blinkers.
+
+Key ideas
+* Electric's websocket can be hosted by any ordinary Clojure web server, you provide this.
+* Auth is same as any other web app, you have access to the request.
 
 HTTP server details
 * App server for this app: [`electric_server_java8_jetty9.clj`](https://github.com/hyperfiddle/electric-examples-app/blob/main/src/electric_server_java8_jetty9.clj)

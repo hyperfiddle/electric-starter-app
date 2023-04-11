@@ -8,10 +8,6 @@ What's happening
 Key ideas
 - **entire app as a function**: with everything - frontend, backend, state, network, reactivity, dom rendering, resource lifecycle, load states. Unified into just functions.
 
-Novel forms
-- `dom/on-pending`
-- `ui/checkbox`
-
 App as a function:
 
 ```clojure

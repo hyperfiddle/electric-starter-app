@@ -5,6 +5,13 @@ What's happening
 * `(BlinkerComponent.)` is being constructed and destructed 
 * The timer `e/system-time-secs` is a float and updates at the browser animation rate, let's say 60hz. It's being truncated with `int`.
 
+Novel forms
+
+* `e/system-time-secs` reactive system clock with millisecond precision (expressed as a float) and scheduled through requestAnimationFrame.
+* `new`: boots (calls) an `e/fn` or `e/defn`. Clojure's syntax sugar also works, i.e. `(BlinkerComponent.)`.
+* `e/on-unmount` : takes a regular (non-reactive) function to run before unmount.
+* Why no `e/mount`? The `println` here runs on mount, we'd like to see a concrete use case not covered by this.
+
 Key ideas
 
 * **Electric functions have object lifecycle**: Reactive expressions have a "mount" and "unmount" lifecycle. `println` here runs on "mount" and never again since it has only constant arguments, unless the component is destroyed and recreated.
@@ -13,13 +20,6 @@ Key ideas
 * **work-skipping**: the reactive timer does not needlessly spam downstream rendering. Once the timer is truncated to `0` or `1`, downstream is only recomputed on the transition.
 * **backpressure**: Electric Clojure programs are automatically backpressured by Missionary continuous flows.
 * **the reactive clock is lazy**: it only schedules the next tick when the current tick is consumed, which means if you switch to another tab, the browser will stop scheduling animation frames and the clock will pause.
-
-Novel forms
-
-* `new`: boots (calls) an `e/fn` or `e/defn`. Clojure's syntax sugar also works, i.e. `(BlinkerComponent.)`.
-* `e/on-unmount` : takes a regular (non-reactive) function to run before unmount.
-* Why no `e/mount`? It doesn't seem needed, let us know if you have a use case.
-* `e/system-time-secs` reactive system clock with millisecond precision (expressed as a float) and scheduled through requestAnimationFrame.
 
 Dynamic extent
 
