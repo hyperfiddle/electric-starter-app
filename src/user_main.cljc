@@ -41,7 +41,7 @@
             wip.demo-custom-types
             wip.tracing
             user.demo-reagent-interop ; yarn
-            ;; wip.demo-stage-ui4 ; yarn
+            wip.demo-stage-ui4 ; yarn
             wip.js-interop))
 
 (e/defn NotFoundPage []
@@ -53,33 +53,33 @@
   {`user.demo-two-clocks/TwoClocks user.demo-two-clocks/TwoClocks
    `user.demo-toggle/Toggle user.demo-toggle/Toggle
    `user.demo-system-properties/SystemProperties user.demo-system-properties/SystemProperties
-   #_#_`user.demo-chat/Chat user.demo-chat/Chat
-   #_#_`user.tutorial-lifecycle/Lifecycle user.tutorial-lifecycle/Lifecycle
-   #_#_`user.demo-chat-extended/ChatExtended user.demo-chat-extended/ChatExtended
-   #_#_`user.demo-webview/Webview user.demo-webview/Webview
-   #_#_`user.demo-todos-simple/TodoList user.demo-todos-simple/TodoList
+   `user.demo-chat/Chat user.demo-chat/Chat
+   `user.tutorial-lifecycle/Lifecycle user.tutorial-lifecycle/Lifecycle
+   `user.demo-chat-extended/ChatExtended user.demo-chat-extended/ChatExtended
+   `user.demo-webview/Webview user.demo-webview/Webview
+   `user.demo-todos-simple/TodoList user.demo-todos-simple/TodoList
    `user.demo-reagent-interop/ReagentInterop user.demo-reagent-interop/ReagentInterop
-   ;; `wip.demo-stage-ui4/CrudForm wip.demo-stage-ui4/CrudForm
-   #_#_`user.demo-svg/SVG user.demo-svg/SVG
+   `wip.demo-stage-ui4/CrudForm wip.demo-stage-ui4/CrudForm
+   `user.demo-svg/SVG user.demo-svg/SVG
    ; -- `wip.tracing/TracingDemo wip.tracing/TracingDemo
    `wip.demo-custom-types/CustomTypes wip.demo-custom-types/CustomTypes
 
    ; 7 GUIs
-   #_#_`user.tutorial-7guis-1-counter/Counter user.tutorial-7guis-1-counter/Counter
-   #_#_`user.tutorial-7guis-2-temperature/TemperatureConverter user.tutorial-7guis-2-temperature/TemperatureConverter
-   #_#_`user.tutorial-7guis-4-timer/Timer user.tutorial-7guis-4-timer/Timer
-   #_#_`user.tutorial-7guis-5-crud/CRUD user.tutorial-7guis-5-crud/CRUD
+   `user.tutorial-7guis-1-counter/Counter user.tutorial-7guis-1-counter/Counter
+   `user.tutorial-7guis-2-temperature/TemperatureConverter user.tutorial-7guis-2-temperature/TemperatureConverter
+   `user.tutorial-7guis-4-timer/Timer user.tutorial-7guis-4-timer/Timer
+   `user.tutorial-7guis-5-crud/CRUD user.tutorial-7guis-5-crud/CRUD
 
    ; Demos
-   #_#_`user.demo-todomvc/TodoMVC user.demo-todomvc/TodoMVC
-   #_#_`user.demo-todomvc-composed/TodoMVC-composed user.demo-todomvc-composed/TodoMVC-composed
-   #_#_`user.demo-explorer/DirectoryExplorer user.demo-explorer/DirectoryExplorer
+   ;`user.demo-todomvc/TodoMVC user.demo-todomvc/TodoMVC
+   ;`user.demo-todomvc-composed/TodoMVC-composed user.demo-todomvc-composed/TodoMVC-composed
+   ;`user.demo-explorer/DirectoryExplorer user.demo-explorer/DirectoryExplorer
    ;-- `wip.datomic-browser/DatomicBrowser wip.datomic-browser/DatomicBrowser -- separate repo now, should it come back?
    ; `user.demo-color/Color user.demo-color/Color
    ; -- user.demo-10k-dom/Dom-10k-Elements user.demo-10k-dom/Dom-10k-Elements ; todo too slow to unmount, crashes
 
    ; Hyperfiddle demos
-   #_#_`wip.teeshirt-orders/Webview-HFQL wip.teeshirt-orders/Webview-HFQL
+   ;`wip.teeshirt-orders/Webview-HFQL wip.teeshirt-orders/Webview-HFQL
    ; `wip.demo-branched-route/RecursiveRouter wip.demo-branched-route/RecursiveRouter
    ; `wip.demo-explorer2/DirectoryExplorer-HFQL wip.demo-explorer2/DirectoryExplorer-HFQL
 
@@ -93,7 +93,7 @@
    ; Tests
    ; ::demos/dennis-exception-leak wip.dennis-exception-leak/App2
 
-   #_#_`wip.js-interop/QRCode wip.js-interop/QRCode
+   ;`wip.js-interop/QRCode wip.js-interop/QRCode
    })
 
 #?(:clj (defn resolve-var-or-ns [sym]
@@ -151,42 +151,42 @@
       ::lead "This demo toggles between client and server with a button."}
      {::id `user.demo-system-properties/SystemProperties
       ::lead "A larger example of a HTML table backed by a server-side query. Type into the input and see the query update live."} 
-     #_{::id `user.demo-chat/Chat ::lead "A multiplayer chat app. Try two tabs."}
-     #_{::id `user.tutorial-lifecycle/Lifecycle ::lead "mount/unmount component lifecycle"}
-     #_{::id `user.demo-chat-extended/ChatExtended 
+     {::id `user.demo-chat/Chat ::lead "A multiplayer chat app. Try two tabs."}
+     {::id `user.tutorial-lifecycle/Lifecycle ::title "Component Lifecycle" ::lead "mount/unmount component lifecycle"}
+     #_{::id 'user ::title "Electric Entrypoint" ::suppress-demo true
+        ::lead "This is the Electric entrypoint (in user.cljs). `hyperfiddle.electric/boot` is the Electric compiler entrypoint."}
+     {::id `user.demo-chat-extended/ChatExtended 
       ::lead "Extended chat demo with auth and presence. When multiple sessions are connected, you can see who else is present."}
-     #_{::id `user.demo-webview/Webview 
+     {::id `user.demo-webview/Webview 
       ::lead "A database backed webview with reactive updates."}
-     #_{::id `user.demo-todos-simple/TodoList 
+     {::id `user.demo-todos-simple/TodoList 
       ::lead "minimal todo list. it's multiplayer, try two tabs"} 
      {::id `user.demo-reagent-interop/ReagentInterop
       ::lead "Reagent (React.js) embedded inside Electric. The reactive mouse coordinates cross from Electric to Reagent via props."}
-     #_{::id `user.demo-svg/SVG
+     {::id `user.demo-svg/SVG
       ::lead "SVG support. Note the animation is reactive and driven by javascript cosine."}
-     #_{::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}
-     
+
                                         ; 7 GUIs
-     #_{::id `user.tutorial-7guis-1-counter/Counter ::title "7GUIs Counter" 
+     {::id `user.tutorial-7guis-1-counter/Counter ::title "7GUIs Counter" 
       ::lead "See <https://eugenkiss.github.io/7guis/tasks#counter>"}
-     #_{::id `user.tutorial-7guis-2-temperature/TemperatureConverter ::title "7GUIs Temperature Converter"
+     {::id `user.tutorial-7guis-2-temperature/TemperatureConverter ::title "7GUIs Temperature Converter"
       ::lead "See <https://eugenkiss.github.io/7guis/tasks#temp>"}
-     #_{::id `user.tutorial-7guis-4-timer/Timer ::title "7GUIs Timer"
+     {::id `user.tutorial-7guis-4-timer/Timer ::title "7GUIs Timer"
       ::lead "See <https://eugenkiss.github.io/7guis/tasks#timer>"}
-     #_{::id `user.tutorial-7guis-5-crud/CRUD ::title "7GUIs CRUD"
+     {::id `user.tutorial-7guis-5-crud/CRUD ::title "7GUIs CRUD"
       ::lead "See <https://eugenkiss.github.io/7guis/tasks#crud>"}
      
                                         ; Demos
-     #_{::id `user.demo-todomvc/TodoMVC ::demo true ::lead ""}
-     #_{::id `user.demo-todomvc-composed/TodoMVC-composed ::demo true
-      ::lead ""}
-     #_{::id `user.demo-explorer/DirectoryExplorer ::demo true
-      ::lead "Server-streamed virtual pagination over node_modules. Check the DOM!"} 
-     #_{::id `wip.demo-stage-ui4/CrudForm ::lead "Database-backed CRUD form using Datomic"}
-     #_{::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}
-     #_{::id `wip.js-interop/QRCode, ::lead "Generate QRCodes with a lazily loaded JS library"}]]
+    ;;  {::id `user.demo-todomvc/TodoMVC ::suppress-code true  ::lead "TodoMVC as a function"}
+    ;;  {::id `user.demo-todomvc-composed/TodoMVC-composed ::suppress-code true ::lead "Demo of app composition by putting a whole fullstack app inside a for loop."}
+    ;;  {::id `user.demo-explorer/DirectoryExplorer ::suppress-code true ::lead "Server-streamed virtual pagination over node_modules. Check the DOM!"} 
+    ;;  #_{::id `wip.demo-stage-ui4/CrudForm ::lead "Database-backed CRUD form using Datomic"}
+    ;;  {::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}
+    ;;  {::id `wip.js-interop/QRCode ::lead "Generate QRCodes with a lazily loaded JS library"}
+     ]]
    #_["HFQL"
     [{::id `wip.teeshirt-orders/Webview-HFQL
-      ::lead "A teeshirt orders demo with entity relationship constraints"}]]])
+      ::lead "HFQL hello world. HFQL is a data notation for CRUD apps."}]]])
 
 (def tutorials-index (->> tutorials
                        (mapcat (fn [[_group entries]] entries))
