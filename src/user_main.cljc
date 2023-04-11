@@ -188,9 +188,10 @@
     [{::id `wip.teeshirt-orders/Webview-HFQL
       ::lead "A teeshirt orders demo with entity relationship constraints"}]]])
 
-(def tutorials-index (contrib.data/index-by ::id (->> tutorials
-                                                   (mapcat (fn [[_group entries]] entries))
-                                                   (map-indexed (fn [idx entry] (assoc entry ::order idx))))))
+(def tutorials-index (->> tutorials
+                       (mapcat (fn [[_group entries]] entries))
+                       (map-indexed (fn [idx entry] (assoc entry ::order idx)))
+                       (contrib.data/index-by ::id)))
 (def tutorials-seq (vec (sort-by ::order (vals tutorials-index))))
 
 (defn get-prev-next [page]
