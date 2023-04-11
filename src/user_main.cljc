@@ -225,21 +225,23 @@
 
 (e/defn Examples []
   (let [[page & [?panel]] history/route
-        demo? (::demo (get tutorials-index page))]
+        suppress-code? (::suppress-code (get tutorials-index page))
+        suppress-demo? (::suppress-demo (get tutorials-index page))]
     (case ?panel
       code (Code. page) ; iframe url for just code
       app (history/router 1 (App. page)) ; iframe url for just app
       (do
-        (when demo?
+        (when suppress-code?
           (.. dom/node -classList (add "user-examples-demo"))
           (e/on-unmount #(.. dom/node -classList (remove "user-examples-demo"))))
         (dom/h1 (dom/text "Tutorial – Electric Clojure")) 
         (Nav. page false)
         (dom/div (dom/props {:class "user-examples-lead"}) 
-                 (e/server (Markdown. (::lead (get tutorials-index page)))))
-        (history/router 1 ; focus route slot 1 to store state: `[page <state>]
-          (App. page))
-        (when-not demo?
+          (e/server (Markdown. (::lead (get tutorials-index page)))))
+        (when-not suppress-demo?
+          (history/router 1 ; focus route slot 1 to store state: `[page <state>]
+            (App. page)))
+        (when-not suppress-code?
           (Code. page))
         (Readme. page)
         (Nav. page true)))))
