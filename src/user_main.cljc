@@ -96,19 +96,27 @@
    #_#_`wip.js-interop/QRCode wip.js-interop/QRCode
    })
 
-#?(:clj (defn get-src [qualified-sym]
-          (try (-> (ns-resolve *ns* qualified-sym) meta :file
-                 (->> (str "src/")) slurp)
-               (catch java.io.FileNotFoundException _))))
+#?(:clj (defn resolve-var-or-ns [sym]
+          (if (qualified-symbol? sym)
+            (ns-resolve *ns* sym)
+            (the-ns sym))))
 
-#?(:clj (defn get-readme [qualified-sym]
-          (try (-> (ns-resolve *ns* qualified-sym) meta :file
-                 (clojure.string/split #"\.cljc") first (str ".md")
+#?(:clj (defn get-src [sym]
+          (try (-> (resolve-var-or-ns sym) meta :file 
+                 (->> (str "src/")) slurp)
+            (catch java.io.FileNotFoundException _))))
+
+#?(:clj (defn get-readme [sym]
+          (try (-> (resolve-var-or-ns sym) meta :file
+                 (clojure.string/split #"\.(clj|cljs|cljc)") first (str ".md")
                  (->> (str "src/")) slurp)
                (catch java.io.FileNotFoundException _))))
 
 (comment
   (get-src `user.demo-two-clocks/TwoClocks)
+  (get-src 'user)
+  (get-readme 'user)
+  (-> (resolve-var-or-ns 'user) meta :file)
   (get-readme `user.demo-two-clocks/TwoClocks))
 
 (e/defn Code [page]
