@@ -46,7 +46,7 @@
 
 (def db hf/*$*) ; for @(requiring-resolve 'user.example-datascript-db/db)
 
-(defn get-schema [db attribute] (get (:schema db) attribute))
+(defn get-schema [db a] (get (:schema db) a))
 
 (defn nav!
   ([_ e] e)
