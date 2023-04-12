@@ -37,7 +37,7 @@
             #_wip.demo-branched-route
             #_wip.hfql
             wip.tag-picker
-            wip.teeshirt-orders
+            #_wip.teeshirt-orders ; sensitive to electric dep, HFQL moved
             wip.demo-custom-types
             wip.tracing
             user.demo-reagent-interop ; yarn
