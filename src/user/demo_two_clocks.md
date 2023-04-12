@@ -38,12 +38,10 @@ Electric code is analyzed at the expression level.
 * Arguments, e.g. `s`, is an edge in the DAG.
 * Expressions are recomputed when any argument updates.
 
-To visualize the DAG:
-
-* node `(- s c)` has:
-  * three incoming edges `#{- s c}`, and
-  * one outgoing edge—the anonymous result—pointing to `(dom/text "skew: " _)`.
-  * So, if `s` changes, `(- s c)` is recomputed using memoized `c`, and then the `dom/text` reruns (a point write).
+To visualize the DAG, node `(- s c)` has:
+* three incoming edges `#{- s c}`, and
+* one outgoing edge—the anonymous result—pointing to `(dom/text "skew: " _)`.
+* So, if `s` changes, `(- s c)` is recomputed using memoized `c`, and then the `dom/text` reruns (a point write).
   
 There is an isomorphism between programs and DAGs
 
