@@ -71,9 +71,9 @@
    `user.tutorial-7guis-5-crud/CRUD user.tutorial-7guis-5-crud/CRUD
 
    ; Demos
-   ;`user.demo-todomvc/TodoMVC user.demo-todomvc/TodoMVC
-   ;`user.demo-todomvc-composed/TodoMVC-composed user.demo-todomvc-composed/TodoMVC-composed
-   ;`user.demo-explorer/DirectoryExplorer user.demo-explorer/DirectoryExplorer
+   `user.demo-todomvc/TodoMVC user.demo-todomvc/TodoMVC
+   `user.demo-todomvc-composed/TodoMVC-composed user.demo-todomvc-composed/TodoMVC-composed
+   `user.demo-explorer/DirectoryExplorer user.demo-explorer/DirectoryExplorer
    ;-- `wip.datomic-browser/DatomicBrowser wip.datomic-browser/DatomicBrowser -- separate repo now, should it come back?
    ; `user.demo-color/Color user.demo-color/Color
    ; -- user.demo-10k-dom/Dom-10k-Elements user.demo-10k-dom/Dom-10k-Elements ; todo too slow to unmount, crashes
@@ -93,7 +93,7 @@
    ; Tests
    ; ::demos/dennis-exception-leak wip.dennis-exception-leak/App2
 
-   ;`wip.js-interop/QRCode wip.js-interop/QRCode
+   `wip.js-interop/QRCode wip.js-interop/QRCode
    })
 
 #?(:clj (defn resolve-var-or-ns [sym]
@@ -177,12 +177,12 @@
       ::lead "See <https://eugenkiss.github.io/7guis/tasks#crud>"}
      
                                         ; Demos
-    ;;  {::id `user.demo-todomvc/TodoMVC ::suppress-code true  ::lead "TodoMVC as a function"}
-    ;;  {::id `user.demo-todomvc-composed/TodoMVC-composed ::suppress-code true ::lead "Demo of app composition by putting a whole fullstack app inside a for loop."}
-    ;;  {::id `user.demo-explorer/DirectoryExplorer ::suppress-code true ::lead "Server-streamed virtual pagination over node_modules. Check the DOM!"} 
+    {::id `user.demo-todomvc/TodoMVC ::suppress-code true  ::lead "TodoMVC as a function"}
+    {::id `user.demo-todomvc-composed/TodoMVC-composed ::suppress-code true ::lead "Demo of app composition by putting a whole fullstack app inside a for loop."}
+    {::id `user.demo-explorer/DirectoryExplorer ::suppress-code true ::lead "Server-streamed virtual pagination over node_modules. Check the DOM!"} 
     ;;  #_{::id `wip.demo-stage-ui4/CrudForm ::lead "Database-backed CRUD form using Datomic"}
     ;;  {::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}
-    ;;  {::id `wip.js-interop/QRCode ::lead "Generate QRCodes with a lazily loaded JS library"}
+    {::id `wip.js-interop/QRCode ::lead "Generate QRCodes with a lazily loaded JS library"}
      ]]
    #_["HFQL"
     [{::id `wip.teeshirt-orders/Webview-HFQL
