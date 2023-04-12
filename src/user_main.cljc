@@ -22,7 +22,7 @@
             user.demo-todomvc-composed
 
             user.demo-explorer
-            wip.demo-explorer2
+            #_wip.demo-explorer2
             user.demo-10k-dom
             user.demo-svg
             user.demo-todos-simple
@@ -34,7 +34,7 @@
             user.demo-color
             user.demo-tic-tac-toe
             user.tutorial-lifecycle
-            wip.demo-branched-route
+            #_wip.demo-branched-route
             #_wip.hfql
             wip.tag-picker
             wip.teeshirt-orders
