@@ -34,6 +34,7 @@
             user.demo-color
             user.demo-tic-tac-toe
             user.tutorial-lifecycle
+            user.tutorial-backpressure
             #_wip.demo-branched-route
             #_wip.hfql
             wip.tag-picker
@@ -54,6 +55,7 @@
    `user.demo-toggle/Toggle user.demo-toggle/Toggle
    `user.demo-system-properties/SystemProperties user.demo-system-properties/SystemProperties
    `user.demo-chat/Chat user.demo-chat/Chat
+   `user.tutorial-backpressure/Backpressure user.tutorial-backpressure/Backpressure
    `user.tutorial-lifecycle/Lifecycle user.tutorial-lifecycle/Lifecycle
    `user.demo-chat-extended/ChatExtended user.demo-chat-extended/ChatExtended
    `user.demo-webview/Webview user.demo-webview/Webview
@@ -152,6 +154,7 @@
      {::id `user.demo-system-properties/SystemProperties
       ::lead "A larger example of a HTML table backed by a server-side query. Type into the input and see the query update live."} 
      {::id `user.demo-chat/Chat ::lead "A multiplayer chat app. Try two tabs."}
+     {::id `user.tutorial-backpressure/Backpressure ::lead "This is just the Two Clocks demo with slight modifications, there is more to learn here."}
      {::id `user.tutorial-lifecycle/Lifecycle ::title "Component Lifecycle" ::lead "mount/unmount component lifecycle"}
      #_{::id 'user ::title "Electric Entrypoint" ::suppress-demo true
         ::lead "This is the Electric entrypoint (in user.cljs). `hyperfiddle.electric/boot` is the Electric compiler entrypoint."}
