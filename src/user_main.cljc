@@ -93,7 +93,7 @@
    ; Tests
    ; ::demos/dennis-exception-leak wip.dennis-exception-leak/App2
 
-   `wip.js-interop/QRCode wip.js-interop/QRCode
+   ;`wip.js-interop/QRCode wip.js-interop/QRCode
    })
 
 #?(:clj (defn resolve-var-or-ns [sym]
@@ -182,7 +182,7 @@
     {::id `user.demo-explorer/DirectoryExplorer ::suppress-code true ::lead "Server-streamed virtual pagination over node_modules. Check the DOM!"} 
     ;;  #_{::id `wip.demo-stage-ui4/CrudForm ::lead "Database-backed CRUD form using Datomic"}
     ;;  {::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}
-    {::id `wip.js-interop/QRCode ::lead "Generate QRCodes with a lazily loaded JS library"}
+    #_{::id `wip.js-interop/QRCode ::lead "Generate QRCodes with a lazily loaded JS library"}
      ]]
    #_["HFQL"
     [{::id `wip.teeshirt-orders/Webview-HFQL
