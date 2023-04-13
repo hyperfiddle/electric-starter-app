@@ -14,9 +14,9 @@ Novel forms
 Key Ideas
 * **distributed lambda**: the button callback spans both client and server. As does the `Toggle` function itself.
 * **"single state atom"** UI pattern, except the atom is on the server.
-* **Clojure/Script interop**: The atom definition is ordinary Clojure code, which works because this is an ordinary `.cljc` file.
 * **reactive control flow**: `if`, `case` and other Clojure control flow forms are reactive. Here, when `x` toggles, `(case x)` will *switch* between branches. In the DAG, if-nodes look like a railroad switch:
   - <p>![railroad switch](https://clojureverse.org/uploads/default/original/2X/7/7b52e4535db802fb51a368bae4461829e7c0bfe5.jpeg)</p>
+* **Clojure/Script interop**: The atom definition is ordinary Clojure code, which works because this is an ordinary `.cljc` file.
 
 Client/server value transfer
 * Only values can be serialized and moved across the network. 
@@ -26,7 +26,7 @@ Client/server value transfer
 
 We target full Clojure/Script compatibility
 * That means, any valid Clojure expression, when pasted into an Electric body, will evaluate to the same result, and produce the same side effects, in the same order. Electric is additive  Clojure, it takes nothing away.
-* There are minor edge cases (especially as our compiler matures)
 * To achieve this, Electric implements a proper Clojure/Script analyzer to support all Clojure special forms.
+* There are minor edge cases (especially as our compiler matures), mostly inconsequential.
 * macros work, side effects work, platform interop works, data structures are the same, clojure.core works
 * **It's just Clojure!**
