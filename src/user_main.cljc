@@ -180,9 +180,9 @@
       ::lead "See <https://eugenkiss.github.io/7guis/tasks#crud>"}
      
                                         ; Demos
-    {::id `user.demo-todomvc/TodoMVC ::suppress-code true  ::lead "TodoMVC as a function"}
-    {::id `user.demo-todomvc-composed/TodoMVC-composed ::suppress-code true ::lead "Demo of app composition by putting a whole fullstack app inside a for loop."}
-    {::id `user.demo-explorer/DirectoryExplorer ::suppress-code true ::lead "Server-streamed virtual pagination over node_modules. Check the DOM!"} 
+    #_{::id `user.demo-todomvc/TodoMVC ::suppress-code true  ::lead "TodoMVC as a function"}
+    #_{::id `user.demo-todomvc-composed/TodoMVC-composed ::suppress-code true ::lead "Demo of app composition by putting a whole fullstack app inside a for loop."}
+    #_{::id `user.demo-explorer/DirectoryExplorer ::suppress-code true ::lead "Server-streamed virtual pagination over node_modules. Check the DOM!"} 
     ;;  #_{::id `wip.demo-stage-ui4/CrudForm ::lead "Database-backed CRUD form using Datomic"}
     ;;  {::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}
     #_{::id `wip.js-interop/QRCode ::lead "Generate QRCodes with a lazily loaded JS library"}
