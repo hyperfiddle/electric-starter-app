@@ -7,8 +7,8 @@ Novel forms
 * `do` sequences effects, returning the final result (same as Clojure). Reactive objects in the body are constructed in order and then run concurrently, so e.g. `(do (Blinker.) (Blinker.))` will have concurrent blinkers.
 
 Key ideas
-* Electric's websocket can be hosted by any ordinary Clojure web server, you provide this.
-* Auth is same as any other web app, you have access to the request.
+* **regular web server**: Electric's websocket can be hosted by any ordinary Clojure web server, you provide this.
+* **auth** is same as any other web app, you have access to the request, cookies, etc
 
 HTTP server details
 * App server for this app: [`electric_server_java8_jetty9.clj`](https://github.com/hyperfiddle/electric-examples-app/blob/main/src/electric_server_java8_jetty9.clj)
@@ -30,5 +30,3 @@ More on Electric functions/objects and dynamic extent
 When you send a message and the server effect is pending, now the input flashes yellow instead of the whole page
 * The style is mounted when it's parent e/fn is mounted, and the style is unmounted when the e/fn is unmounted.
 * So the style's extent is the duration of the callback, and the callback is the duration of the Pending exception plus one tick for the final result. Once the result is known, the callback (and the style) are unmounted and removed from the DAG.
-
-* Electric lambdas are values that can be passed around; they can be thought of as "higher order DAGs", "DAG values" or "pieces of DAG".

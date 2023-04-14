@@ -19,6 +19,7 @@ Key Ideas
 * **latency**: `e/client` and `e/server` return reactive values across sites. When a remote value is accessed but not yet available, Electric throws a `Pending` exception.
 * **reactive try/catch**: in reactive programming, exceptions (like `Pending`) are ephemeral: they can "go away" when an upstream dependency changes, causing the exception to no longer be thrown.
 * **JavaScript interop**: cljs interop forms work as expected, side effects are no problem
+* **30 LOC**: where is all the client/server framework boilerplate? No GraphQL, no fetch, no API modeling, no async types, etc. One thing missing in this tutorial is error handling (resilient state sync, i.e. optimistic updates with rollback). Electric bundles UI controls for this out of the box, to be discussed in a future tutorial.
 
 Pending details
 

@@ -153,7 +153,7 @@
       ::lead "This demo toggles between client and server with a button."}
      {::id `user.demo-system-properties/SystemProperties
       ::lead "A larger example of a HTML table backed by a server-side query. Type into the input and see the query update live."} 
-     {::id `user.demo-chat/Chat ::lead "A multiplayer chat app. Try two tabs."}
+     {::id `user.demo-chat/Chat ::lead "A multiplayer chat app in 30 LOC, all one file. Try two tabs."}
      {::id `user.tutorial-backpressure/Backpressure ::lead "This is just the Two Clocks demo with slight modifications, there is more to learn here."}
      {::id `user.tutorial-lifecycle/Lifecycle ::title "Component Lifecycle" ::lead "mount/unmount component lifecycle"}
      #_{::id 'user ::title "Electric Entrypoint" ::suppress-demo true
