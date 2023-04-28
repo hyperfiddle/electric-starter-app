@@ -13,9 +13,9 @@ jobs:
         with:
           fetch-depth: 0
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: NO_COLOR=1 flyctl deploy --build-arg VERSION=$(git describe --tags --long --always --dirty) --build-arg DATOMIC_DEV_LOCAL_USER=$DATOMIC_DEV_LOCAL_USER --build-arg DATOMIC_DEV_LOCAL_PASSWORD=$DATOMIC_DEV_LOCAL_PASSWORD  --build-arg ssh_prv_key="$HFQL_PK" --remote-only
+      - run: NO_COLOR=1 flyctl deploy --build-arg VERSION=$(git describe --tags --long --always --dirty) --build-arg DATOMIC_DEV_LOCAL_USER=$DATOMIC_DEV_LOCAL_USER --build-arg DATOMIC_DEV_LOCAL_PASSWORD=$DATOMIC_DEV_LOCAL_PASSWORD  --build-arg hfql_ssh_prv_key="$HFQL_SSH_PRV_KEY" --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           DATOMIC_DEV_LOCAL_USER: ${{ secrets.DATOMIC_DEV_LOCAL_USER }}
           DATOMIC_DEV_LOCAL_PASSWORD: ${{ secrets.DATOMIC_DEV_LOCAL_PASSWORD }}
-          HFQL_PK: ${{ secrets.HFQL_PK }}
+          HFQL_SSH_PRV_KEY: ${{ secrets.HFQL_SSH_PRV_KEY }}

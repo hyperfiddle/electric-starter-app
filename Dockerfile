@@ -18,15 +18,14 @@ RUN mkdir -p /root/.ssh && \
     ssh-keyscan github.com >> /root/.ssh/known_hosts
 
 # Create a wrapper for clojure binary
+ARG hfql_ssh_prv_key
+# Private keys MUST be written to a file this way ("$var") and end with a newline
+# If passed as a command arg directly, Github shell will strip newlines and corrupt it.
+RUN echo "$hfql_ssh_prv_key" > /root/.ssh/id_rsa
+
 RUN mkdir -p /usr/local/sbin/ && \
-    echo -e '#!/bin/sh \n eval $(ssh-agent -s) && ssh-add -k ~/.ssh/id_rsa && exec /usr/local/bin/clojure "$@"' >> /usr/local/sbin/clojure && \
+    echo -e '#!/bin/sh \n eval $(ssh-agent -s) && exec /usr/local/bin/clojure "$@"' >> /usr/local/sbin/clojure && \
     chmod +x /usr/local/sbin/clojure
-
-ARG ssh_prv_key
-
-# Add the keys and set permissions
-RUN echo "$ssh_prv_key" > /root/.ssh/id_rsa && \
-    chmod 600 /root/.ssh/id_rsa
 
 COPY .m2 /root/.m2
 COPY shadow-cljs.edn shadow-cljs.edn
