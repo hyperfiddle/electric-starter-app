@@ -18,11 +18,18 @@ shadow-cljs - nREPL server started on port 9001
 ClojureScript optimized build, Dockerfile, Uberjar, Github actions CD to fly.io
 
 ```
-clojure -X:build build-client          # optimized release build
-clojure -X:build uberjar               # contains demos and demo server, currently
 HYPERFIDDLE_ELECTRIC_APP_VERSION=`git describe --tags --long --always --dirty`
+clojure -X:build build-client          # optimized release build
+clojure -X:build uberjar :jar-name "app.jar" :version '"'$HYPERFIDDLE_ELECTRIC_APP_VERSION'"'
+java -DHYPERFIDDLE_ELECTRIC_SERVER_VERSION=$HYPERFIDDLE_ELECTRIC_APP_VERSION -jar app.jar
+```
+
+```
 docker build --build-arg VERSION='"'$HYPERFIDDLE_ELECTRIC_APP_VERSION'"' -t electric-starter-app .
 docker run --rm -p 7070:8080 electric-starter-app
+```
+
+```
 # flyctl launch ... ? create fly app, generate fly.toml, see dashboard
 # https://fly.io/apps/electric-starter-app
 
