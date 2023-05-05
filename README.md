@@ -25,7 +25,7 @@ java -DHYPERFIDDLE_ELECTRIC_SERVER_VERSION=$HYPERFIDDLE_ELECTRIC_APP_VERSION -ja
 ```
 
 ```
-docker build --build-arg VERSION='"'$HYPERFIDDLE_ELECTRIC_APP_VERSION'"' -t electric-starter-app .
+docker build --build-arg VERSION="$HYPERFIDDLE_ELECTRIC_APP_VERSION" -t electric-starter-app .
 docker run --rm -p 7070:8080 electric-starter-app
 ```
 
@@ -33,7 +33,7 @@ docker run --rm -p 7070:8080 electric-starter-app
 # flyctl launch ... ? create fly app, generate fly.toml, see dashboard
 # https://fly.io/apps/electric-starter-app
 
-NO_COLOR=1 flyctl deploy --build-arg VERSION='$HYPERFIDDLE_ELECTRIC_APP_VERSION'
+NO_COLOR=1 flyctl deploy --build-arg VERSION="$HYPERFIDDLE_ELECTRIC_APP_VERSION"
 # https://electric-starter-app.fly.dev/
 ```
 
