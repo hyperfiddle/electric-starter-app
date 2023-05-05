@@ -60,7 +60,7 @@
         (dom/p (dom/text "it's multiplayer, try two tabs"))
         (dom/div (dom/props {:class "todo-list"})
           (TodoCreate.)
-          (dom/div {:class "todo-items"}
+          (dom/div (dom/props {:class "todo-items"})
             (e/server
               (e/for-by :db/id [{:keys [db/id]} (todo-records db)]
                 (TodoItem. id))))
