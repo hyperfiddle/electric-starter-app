@@ -1,5 +1,7 @@
 # Examples app — Electric Clojure
 
+Live app: https://electric.hyperfiddle.net/
+
 
 ```
 $ yarn                          # demos only - react interop, codemirror
