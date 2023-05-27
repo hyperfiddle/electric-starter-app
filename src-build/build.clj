@@ -20,8 +20,11 @@
 (defn clean-cljs [_]
   (b/delete {:path "resources/public/js"}))
 
-(defn build-client [{:keys [optimize debug verbose version]
-                     :or {optimize true, debug false, verbose false, version version}}]
+(defn build-client
+  "Prod optimized ClojureScript client build. (Note: in dev, the client is built 
+on startup)"
+  [{:keys [optimize debug verbose version]
+    :or {optimize true, debug false, verbose false, version version}}]
   (println "Building client. Version:" version)
   (shadow-server/start!)
   (shadow-api/release :prod {:debug debug,

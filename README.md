@@ -19,7 +19,6 @@ ClojureScript optimized build, Dockerfile, Uberjar, Github actions CD to fly.io
 
 ```
 HYPERFIDDLE_ELECTRIC_APP_VERSION=`git describe --tags --long --always --dirty`
-clojure -X:build build-client          # optimized release build
 clojure -X:build uberjar :jar-name "app.jar" :version '"'$HYPERFIDDLE_ELECTRIC_APP_VERSION'"'
 java -DHYPERFIDDLE_ELECTRIC_SERVER_VERSION=$HYPERFIDDLE_ELECTRIC_APP_VERSION -jar app.jar
 ```
