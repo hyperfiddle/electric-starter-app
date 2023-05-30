@@ -1,5 +1,6 @@
 node_modules
 resources/public/js
+.calva
 .cpcache
 .shadow-cljs
 .nrepl-port
@@ -11,3 +12,4 @@ report.html
 *.iml
 .lsp
 .clj-kondo
+/target

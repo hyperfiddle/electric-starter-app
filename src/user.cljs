@@ -1,4 +1,4 @@
-(ns user ^:dev/always ; recompile (macroexpand) electric-main when any cljs src changes
+(ns ^:dev/always user ; Electric currently needs to rebuild everything when any file changes. Will fix
   (:require
     app.todo-list
     hyperfiddle.electric

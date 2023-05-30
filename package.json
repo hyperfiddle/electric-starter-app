@@ -1,9 +1,0 @@
-{
-  "name": "photon-starter-app",
-  "version": "0.1.0",
-  "private": true,
-  "devDependencies": {
-    "shadow-cljs": "~2.18.0"
-  },
-  "dependencies": {}
-}
