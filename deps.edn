@@ -1,7 +1,7 @@
 {:paths ["src" "resources"]
  :deps {com.datomic/dev-local {:mvn/version "1.0.243"}
         com.google.guava/guava {:mvn/version "31.1-jre"} ; fix conflict - datomic cloud & shadow
-        com.hyperfiddle/electric {:mvn/version "v2-alpha-338-geec2f3df"}
+        com.hyperfiddle/electric {:mvn/version "v2-alpha-349-ge9996713"}
         com.hyperfiddle/rcf {:mvn/version "20220926-202227"}
         info.sunng/ring-jetty9-adapter
         {:mvn/version "0.14.3" ; (Jetty 9) is Java 8 compatible;
