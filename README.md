@@ -19,7 +19,7 @@ Reproduce this now and confirm error handling works so you trust it:
 
 ![screenshot of electric error reporting](readme-electric-error-reporting-proof.png)
 
-Electric is a reactive (async) language. Like React.js, we construct synthetic async stack traces. If you aren't seeing synthetic stack traces, something is wrong!
+Electric is a reactive (async) language. Like React.js, we reconstruct synthetic async stack traces. If you aren't seeing them, something is wrong!
 
 # Logging
 
@@ -34,9 +34,7 @@ DEBUG hyperfiddle.electric.impl.env: reloading app.todo-list
 DEBUG hyperfiddle.electric-jetty-adapter: Client disconnected for an unknown reason (browser default close code) {:status 1005, :reason nil}
 ```
 
-**Silence the Electric debug logs by live editing logback.xml** and setting `name="hyperfiddle"` to `level="INFO"`, it will hot code reload so no restart is needed.
-
-Please **do NOT disable logs entirely**; the Electric server logs one important warning at the `INFO` level we call **unserializable reference transfer**, here is an example:
+**Silence the Electric debug logs by live editing logback.xml** and setting `name="hyperfiddle"` to `level="INFO"`, it will hot code reload so no restart is needed. Please **do NOT disable logs entirely**; the Electric server logs one important warning at the `INFO` level we call **unserializable reference transfer**, here is an example:
 
 ```
 (e/defn TodoCreate []
@@ -56,10 +54,10 @@ INFO  hyperfiddle.electric.impl.io: Unserializable reference transfer: datascrip
 ...
 ```
 
-We choose not to throw an exception here because it is almost always unintentional when this happens. **Do not disable this warning, it will save you one day!** [Now that our exception handling is more mature, perhaps we should revisit this decision in the future.]
-
-If you want to target this exact message, use this:
+We decided not to throw an exception here because it is almost always unintentional when this happens. **Do not disable this warning, it will save you one day!** If you want to target this exact message, use this:
 `<logger name="hyperfiddle.electric.impl.io" level="DEBUG" additivity="false"><appender-ref ref="STDOUT" /></logger>`
+
+[Note: Perhaps we should revisit this decision in the future now that our exception handling is more mature.]
 
 # Deployment
 
