@@ -1,6 +1,6 @@
 <!-- Jetty logger config -->
-<!-- Options: http://logback.qos.ch/manual/layouts.html -->
-<configuration scan="true" scanPeriod="5 seconds">
+<!-- Options: http://logback.qos.ch/manual/layouts.html, also ChatGPT -->
+<configuration scan="true" scanPeriod="5 seconds"> <!-- scan and scanPeriod enable hot reload of this file, leave on -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%highlight(%-5level) %logger: %msg%n</pattern>
