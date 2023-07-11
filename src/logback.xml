@@ -1,6 +1,6 @@
-<!-- Jetty logger config -->
-<!-- Options: http://logback.qos.ch/manual/layouts.html, also ChatGPT -->
-<configuration scan="true" scanPeriod="5 seconds"> <!-- scan and scanPeriod enable hot reload of this file, leave on -->
+<!-- Jetty logger config. See http://logback.qos.ch/manual/layouts.html and 
+ask ChatGPT. `scan` and `scanPeriod` enable hot reload of logger config, leave on! -->
+<configuration scan="true" scanPeriod="5 seconds"> 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%highlight(%-5level) %logger: %msg%n</pattern>
@@ -12,5 +12,5 @@
     </root>
 
     <logger name="hyperfiddle" level="DEBUG" additivity="false"><appender-ref ref="STDOUT" /></logger>
-    <logger name="hyperfiddle.electric-jetty-adapter" level="WARN" additivity="false"><appender-ref ref="STDOUT" /></logger>
+    <logger name="app" level="DEBUG" additivity="false"><appender-ref ref="STDOUT" /></logger>
 </configuration>
