@@ -13,6 +13,14 @@ shadow-cljs - nREPL server started on port 9001
 👉 App server available at http://0.0.0.0:8080
 ```
 
+# Error reporting
+
+Reproduce this now and confirm error handling works so you trust it:
+
+![screenshot of electric error reporting](readme-electric-error-reporting-proof.png)
+
+Electric is a reactive (async) language. Like React.js, we construct synthetic async stack traces. If you aren't seeing synthetic stack traces, something is wrong!
+
 # Logging
 
 The Electric server logs. The default logger config is slightly verbose by default to force you to see it working:
