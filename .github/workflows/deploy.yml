@@ -1,4 +1,4 @@
-name: hyperfiddle/electric-examples-app
+name: hyperfiddle/electric-fiddle
 on:
   push:
     branches:
