@@ -3,7 +3,8 @@
             [electric-fiddle.fiddle :refer [Fiddle]]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
-            [hyperfiddle.history :as history]))
+            [hyperfiddle.history :as history]
+            #?(:clj [markdown.core :refer [md-to-html-string]])))
 
 #?(:clj (defn parse-sections [md-str]
           (->> md-str clojure.string/split-lines
@@ -14,7 +15,7 @@
 
 (e/defn Markdown [?md-str]
   (e/client
-    (let [html (e/server (some-> ?md-str markdown.core/md-to-html-string))]
+    (let [html (e/server (some-> ?md-str md-to-html-string))]
       (set! (.-innerHTML dom/node) html))))
 
 (def essays {'electric-y-combinator "src/dustingetz/electric_y_combinator.md"})
