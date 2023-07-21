@@ -41,4 +41,8 @@ fly certs show "*.electricfiddle.net"
 https://dustingetz.electricfiddle.net/
 https://www.electricfiddle.net/
 https://electricfiddle.net/
+
+# Github actions
+fly tokens create deploy
+# https://github.com/hyperfiddle/electric-fiddle/settings/secrets/actions/
 ```
