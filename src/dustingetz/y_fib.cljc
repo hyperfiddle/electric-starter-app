@@ -20,4 +20,4 @@
         (* x (Recur. (dec x)))))))
 
 (e/defn Y-fib [route]
-  (new (Y. Fib) 19))
+  (new (Y. Fib) 15))
