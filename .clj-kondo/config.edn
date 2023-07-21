@@ -2,4 +2,6 @@
            hyperfiddle.electric/defn clojure.core/defn
            hyperfiddle.electric/for  clojure.core/for
            hyperfiddle.electric/fn   clojure.core/fn}
- :linters {:redundant-expression {:level :off}}}
+ :linters {:redundant-expression {:level :off}
+           :var-same-name-except-case {:level :off}
+           :clojure-lsp/unused-public-var {:level :off}}}

@@ -1,17 +1,8 @@
-body.hyperfiddle{
+body.electric-fiddle{
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     -webkit-text-size-adjust: none;
     text-size-adjust: none;
 
-    display: grid;
-    grid-template-areas: "title title"
-                         "nav nav"
-                         "lead lead"
-                         "code result"
-                         "readme readme"
-                         "footer-nav footer-nav";
-    grid-template-rows: auto 1.5rem auto auto min-content;
-    grid-template-columns: min-content auto;
     gap: 1rem;
     margin: 0;
     padding: 1rem;
@@ -21,92 +12,35 @@ body.hyperfiddle{
     box-sizing: content-box;
     position: relative;
     background-color:white;
+    
+    padding-bottom: 10vh; /* add space, for mobile especially */
 }
 
-.hyperfiddle.user-examples-demo {
-    grid-template-areas: "title"
-                         "nav"
-                         "lead"
-                         "result"
-                         "readme"
-                         "footer-nav";
-    grid-template-columns: auto;
-
+.electric-fiddle .user-examples{
+    display: grid;
+    grid-template-areas: "code result";
+    grid-template-rows: auto;
+    grid-template-columns: min-content auto;
+    margin: 1em 0 1em; /* gh markdown removes final p's margin */
 }
 
-.hyperfiddle.user-examples fieldset{
+.electric-fiddle .user-examples fieldset{
     background-color: white;
     overflow: auto;
     min-inline-size: auto;
 }
-.hyperfiddle.user-examples fieldset legend{
+.electric-fiddle .user-examples fieldset legend{
     margin: 0 1rem;
 }
 
-
-.user-examples > h1{
-    grid-area: title;
+.electric-fiddle > h1{
     white-space: nowrap;
-}
-
-
-.user-examples-nav{
-    grid-area: nav;
-}
-
-.user-examples-footer-nav{
-    grid-area: footer-nav;
-    padding-bottom: 10vh;
-}
-
-.user-examples-nav,
-.user-examples-footer-nav{
-    display: grid;
-    grid-auto-flow: column;
-    width: auto;
-    place-items: center;
-    align-self:center;
-    justify-self: start;
-}
-
-.user-examples-nav *,
-.user-examples-footer-nav *{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-}
-
-.user-examples-select{
-    margin: 0 1rem;
-    display:flex;
-    align-items: center;
-    position: relative;
-}
-
-.user-examples-select > select{
-    appearance: none;
-    flex:1;
-    border: 1px gray solid;
-    border-radius: 3px;
-    padding: 0.25rem 3rem 0.25rem 0.5rem;
-}
-
-.user-examples-select > svg{
-    width: 1rem;
-    position: absolute;
-    right: 0.5rem;
-    pointer-events:none;
-}
-
-.user-examples-lead {
-    grid-area: lead;
 }
 
 .user-examples-target{
     grid-area:result;
     padding: 1rem;
-    max-height: 41rem;
+    max-height: 40rem; /* it was 41 why ? */
 }
 
 .user-examples-code{
@@ -118,41 +52,25 @@ body.hyperfiddle{
     padding-right: 1rem;
 }
 
-.user-examples-readme{
-    grid-area:readme;
-    padding-bottom: 10vh;
+.electric-fiddle .user-examples-readme{
     line-height: 24px;
     max-width: 80ch;
 }
 
 
 @media (max-width: 980px) and (hover: none) and (pointer: coarse) {
-    .user-examples-select > select{
-        padding: 0.5rem 3rem 0.5rem 1rem;
-    }
-    .user-examples-select optgroup, .user-examples-select option{
-        font-size: 1rem;
-    }
     .user-examples-code{
         overflow: scroll;
         margin:0;
     }
-    .user-examples-target.SystemProperties input{
-        font-size: 1em;
-    }
-
-    .user-examples-target.SystemProperties td{
-        white-space: nowrap;
-    }
-
 }
 
 @media (max-width: 980px){
-    body.hyperfiddle{
-        display: flex;
-        flex-direction: column;
-        grid-template-areas: "title" "nav" "lead" "result" "code" "readme" "footer-nav";
-        grid-template-rows: auto auto auto min-content auto minmax(20rem, 1fr)
+    body.electric-fiddle .user-examples{
+        /* display: flex;
+        flex-direction: column; */
+        grid-template-areas: "result" "code";
+        grid-template-rows: min-content auto;
         grid-template-columns: 100%;
     }
 
@@ -165,56 +83,19 @@ body.hyperfiddle{
         overflow:auto;
         max-height: 50vh;
     }
-
-    .user-examples-nav,
-    .user-examples-footer-nav{
-        grid-template-areas: "select select" "prev next";
-        gap: 1rem;
-    }
-    .user-examples-nav-start{
-        grid-template-areas: "select next";
-    }
-
-    .user-examples-nav-end{
-        grid-template-areas: "prev select";
-    }
-
-    .user-examples-nav .user-examples-nav-prev {
-        grid-area: prev;
-    }
-    .user-examples-nav .user-examples-nav-next {
-        grid-area: next;
-    }
-
-    .user-examples-select{
-        grid-area: select;
-    }
-
-    .user-examples-select > select{
-        font-size: 1em;
-        padding: 0.25em 3em 0.25rem 0.5rem;
-    }
-    .user-examples-select > svg{
-        width: 1em;
-        right: 1em;
-    }
 }
 
 @media (orientation: landscape) and (hover: none) and (pointer: coarse) {
-    body.hyperfiddle{
+    body.electric-fiddle{
         font-size: 16px;
-        grid-template-areas: "title" "nav" "lead" "result" "code" "readme" "footer-nav";
-        grid-template-rows: auto auto auto min-content min-content auto;
+        grid-template-areas: "result" "code";
+        grid-template-rows: min-content min-content;
         grid-template-columns: 100%;
         line-height: initial;
     }
 
-    body.hyperfiddle h1 {
+    body.electric-fiddle h1 {
         margin:0;
-    }
-
-    .user-examples-select{
-        font-size: 1rem;
     }
 
     .user-examples-code{
@@ -226,170 +107,5 @@ body.hyperfiddle{
 
 }
 
-.user-examples-target.SystemProperties input{
-    margin: 0.25em 0 1rem 0;
-    padding: 0.25em;
-}
-
-
-.user-examples-target.SystemProperties table{
-    max-width: 100%;
-    width: 100%;
-}
-
-.user-examples-target.SystemProperties td{
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
 @media (min-width: 981px) and (max-width: 1200px) {}
 @media (min-width: 1201px) {}
-
-
-.user-examples-target.Webview-HFQL{
-    padding:0;
-}
-
-.user-examples-target.Webview-HFQL .wip\.teeshirt-orders\/orders.needle,
-.user-examples-target.Webview-HFQL .wip\.orders-datascript\/orders.needle{
-    width: 9rem;
-    padding: 0 0.5em;
-}
-
-.user-examples-target.Webview-HFQL label:has(+ .wip\.orders-datascript\/orders.needle) {
-    position:relative;
-}
-.user-examples-target.Webview-HFQL label:has(+ .wip\.orders-datascript\/orders.needle):after {
-    content: "🔎";
-    position: absolute;
-    right: calc(-100% + 0.25em);
-    pointer-events: none;
-    filter: grayscale(100%) opacity(75%);
-}
-
-.user-examples-target.Webview-HFQL .hyperfiddle-gridsheet-wrapper{
-    min-width: 100%;
-    width: fit-content;
-    height: 100%;
-    margin: 0;
-    box-sizing: border-box;
-    border: 0;
-}
-
-.user-examples-target.Webview-HFQL .hyperfiddle-gridsheet{
-    grid-template-columns: 9rem min-content repeat(3, max-content);
-    white-space: nowrap;
-    word-break : keep-all;
-    line-height: initial;
-    min-width: 100%;
-}
-
-
-.user-examples-target.DirectoryExplorer{
-    font-size: initial;
-    line-height: initial;
-    max-height: 90vh;
-}
-
-.user-examples-target.Chat input,
-.user-examples-target.ChatExtended input,
-.user-examples-target.Webview input,
-.user-examples-target.TodoList input
-{
-    font-size: 1em;
-    padding: 0.25em 0.5em;
-}
-
-.user-examples-target.Webview input{
-    margin-bottom: 1em;
-}
-
-.user-examples-target.Lifecycle{
-    height: 9rem;
-}
-
-
-.user-examples-target.TodoList .todo-items{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.user-examples-target.TodoList .todo-items > li {
-    margin: 0.25em 0;
-}
-.user-examples-target.TodoList .todo-items > li > input[type=checkbox]{
-    margin-right: 0.5em;
-}
-
-
-@media (max-width: 980px){
-    .user-examples-target.TodoList .todo-items {
-        padding-top: 0.5em;
-    }
-    .user-examples-target.TodoList .todo-items > li {
-        display: flex;
-        align-items: center;
-        margin: 0.5em 0;
-    }
-    .user-examples-target.TodoList .todo-items > li > input[type=checkbox]{
-        width: 1.5em;
-        height: 1.5em;
-    }
-}
-
-.user-examples-target.ReagentInterop{
-    max-height: initial;
-    height: min-content;
-    padding: 0;
-    margin: 0;
-}
-
-.user-examples-target.CustomTypes{
-    white-space: nowrap;
-}
-
-
-.user-examples-target.TodoMVC{
-    padding: 0.5em;
-}
-.user-examples-target.TodoMVC .todomvc,
-.user-examples-target.TodoMVC-composed .todomvc{
-    max-width: 40em;
-}
-
-.user-examples-target.TodoMVC-composed .todomvc > div{
-    min-width: 40em;
-}
-
-@media (max-width: 980px){
-    .user-examples-target.TodoMVC .todomvc,
-    .user-examples-target.TodoMVC-composed .todomvc{
-        margin: auto;
-    }
-
-    .user-examples-target.TodoMVC-composed .todomvc > div{
-        min-width: minmax(40em,100vw);
-    }
-
-}
-
-.user-examples-target.TodoMVC-composed {
-    min-height: 70vh;
-    height: 100vh;
-}
-
-.user-examples-target.CrudForm .wip-demo-stage-ui4-staged{
-    width: 100%;
-}
-
-
-.user-examples-target.QRCode {
-    max-height: 250px;
-    height: 250px;
-}
-
-.user-examples-target.QRCode input{
-    margin-bottom: 1rem;
-}

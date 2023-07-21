@@ -1,13 +1,10 @@
 {:paths ["src" "resources"]
- :deps {com.datomic/dev-local {:mvn/version "1.0.243"}
-        com.google.guava/guava {:mvn/version "31.1-jre"} ; fix conflict - datomic cloud & shadow
-        com.hyperfiddle/electric {:mvn/version "v2-alpha-349-ge9996713"}
+ :deps {com.hyperfiddle/electric {:mvn/version "v2-alpha-349-ge9996713"}
         com.hyperfiddle/rcf {:mvn/version "20220926-202227"}
         info.sunng/ring-jetty9-adapter
-        {:mvn/version "0.14.3" ; (Jetty 9) is Java 8 compatible;
-         ;:mvn/version "0.17.7" ; (Jetty 10) is NOT Java 8 compatible
+        {:mvn/version "0.17.7" ; (Jetty 10) is NOT Java 8 compatible
          :exclusions [org.slf4j/slf4j-api info.sunng/ring-jetty9-adapter-http3]} ; no need
-        org.clojure/clojure {:mvn/version "1.11.1"}
+        org.clojure/clojure {:mvn/version "1.12.0-alpha2"}
         org.clojure/clojurescript {:mvn/version "1.11.60"}
         org.clojure/tools.logging {:mvn/version "1.2.4"}
         ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
@@ -34,7 +31,4 @@
             :jvm-opts ["-Xss2m"]}
            :shadow-cljs  {:extra-deps {thheller/shadow-cljs {:mvn/version "2.22.10"}}
                           :main-opts  ["-m" "shadow.cljs.devtools.cli"]
-                          :jvm-opts   ["-Xss2m"]}
-           :hfql {:extra-deps {com.hyperfiddle/hfql {:git/url "git@github.com:hyperfiddle/hfql.git"
-                                                     :git/sha "39458cc87e3adeb7ed78293198c35d0fdca5d5a4"}}}}
- :mvn/repos {"cognitect-dev-tools" {:url "https://dev-tools.cognitect.com/maven/releases/"}}}
+                          :jvm-opts   ["-Xss2m"]}}}
