@@ -12,4 +12,5 @@
 
 (comment 
   ; wait for shadow to finish
+  (main)
   (rcf/enable!))
