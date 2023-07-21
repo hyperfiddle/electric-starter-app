@@ -11,7 +11,7 @@ If this is your first time seeing Electric, start with the [live tutorial](https
 
 ### Figure 1: Fibonacci with Electric Y Combinator
 
-!embed[](dustingetz.y-fib/Demo-Y-fib)
+!fiddle[](dustingetz.y-fib/Demo-Y-fib)
 
 What's happening
 - Recursive fibonacci
@@ -28,7 +28,7 @@ Ok, lets try something harder:
 
 ### Figure 2: Recursive walk over server file system, streamed to DOM
 
-!embed[](dustingetz.y-dir/Demo-Y-dir)
+!fiddle[](dustingetz.y-dir/Demo-Y-dir)
 
 What's happening
 - Recursive file system traversal over "./src" directory on the server

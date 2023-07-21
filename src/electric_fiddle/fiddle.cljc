@@ -1,6 +1,7 @@
-(ns contrib.stuff
+(ns electric-fiddle.fiddle
   (:require clojure.string
-            #?(:clj markdown.core)
+            [contrib.electric-codemirror :refer [CodeMirror]]
+            [electric-fiddle.api :as App]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]))
 
@@ -14,6 +15,22 @@
                  (->> (str "src/")) slurp)
             (catch java.io.FileNotFoundException _))))
 
+(comment
+  (get-src 'dustingetz.y-fib/Demo-Y-fib)
+  (get-src 'dustingetz.y-dir/Demo-Y-dir))
+
+(e/defn Fiddle [page]
+  (dom/div (dom/props {:class "user-examples"})
+    (dom/fieldset
+      (dom/props {:class "user-examples-code"})
+      (dom/legend (dom/text "Code"))
+      (CodeMirror. {:parent dom/node :readonly true} identity identity (e/server (get-src page))))
+    (dom/fieldset
+      (dom/props {:class ["user-examples-target" (some-> page name)]})
+      (dom/legend (dom/text "Result"))
+      (new (get App/pages page)))))
+
+#_
 #?(:clj (defn get-companion-md [sym]
           (try (some-> sym ; nil if userland typo
                  resolve-var-or-ns meta :file
@@ -36,15 +53,8 @@
   (find-ns 'contrib.stuff)
   (find-ns 'user)
   (find-ns 'user.electric-y-combinator)
-  
+
   (get-companion-md `dustingetz.electric-y-combinator)
   (get-companion-md 'user.electric-y-combinator/Page)
   (resolve-var-or-ns `user.electric-y-combinator/Page)
-  (resolve-var-or-ns 'user.electric-y-combinator)
-  
-  )
-
-(e/defn Markdown [?md-str]
-  (e/client
-    (let [html (e/server (some-> ?md-str markdown.core/md-to-html-string))]
-      (set! (.-innerHTML dom/node) html))))
+  (resolve-var-or-ns 'user.electric-y-combinator))
