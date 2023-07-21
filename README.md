@@ -75,12 +75,27 @@ docker run --rm -p 7070:8080 electric-starter-app
 ```
 
 ```
-# flyctl launch ... ? create fly app, generate fly.toml, see dashboard
-# https://fly.io/apps/electric-starter-app
+fly launch # generate fly.toml
+fly status
+fly regions list
+fly platform vm-sizes
+fly scale vm shared-cpu-4x
+NO_COLOR=1 fly deploy --build-arg VERSION="$HYPERFIDDLE_ELECTRIC_APP_VERSION"
+# `NO_COLOR=1` disables docker-cli pagination to see full log in case of exception
+# `--build-only` tests the build on fly.io without deploying
 
-NO_COLOR=1 flyctl deploy --build-arg VERSION="$HYPERFIDDLE_ELECTRIC_APP_VERSION"
-# https://electric-starter-app.fly.dev/
+https://fly.io/docs/about/pricing/
+https://fly.io/docs/apps/scale-machine/
+https://community.fly.io/t/how-to-specify-regions-to-run-in/3048
+
+# DNS
+fly ips list
+fly ips allocate-v4
+# configure DNS A and AAAA records
+fly certs create "*.electricfiddle.net" # quote * to avoid shell expansion
+fly certs list
+fly certs check "*.electricfiddle.net"
+fly certs show "*.electricfiddle.net"
+
+https://electric-starter-app.fly.dev/
 ```
-
-- `NO_COLOR=1` disables docker-cli fancy shell GUI, so that we see the full log (not paginated) in case of exception
-- `--build-only` tests the build on fly.io without deploying
