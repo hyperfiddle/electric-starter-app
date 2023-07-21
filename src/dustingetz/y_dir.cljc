@@ -2,7 +2,8 @@
   (:require [contrib.str :refer [includes-str?]]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
-            [hyperfiddle.electric-ui4 :as ui]))
+            [hyperfiddle.electric-ui4 :as ui]
+            dustingetz.y-fib))
 
 #?(:clj (defn file-is-dir [h] (.isDirectory h)))
 #?(:clj (defn file-is-file [h] (.isFile h)))
@@ -34,7 +35,7 @@
         (let [name_ (e/server (file-get-name h))]
           (e/client (dom/li (dom/text name_))))))))
 
-(e/defn Demo-Y-dir []
+(e/defn Y-dir [route]
   (dom/div
     (let [!s (atom "") s (e/watch !s)]
       (ui/input s (e/fn [v] (reset! !s v))) 

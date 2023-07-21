@@ -2,12 +2,14 @@
   (:require [hyperfiddle.electric :as e]
             
             ; fiddle database, todo dynamic
-            dustingetz.essay
-            dustingetz.y-fib
-            dustingetz.y-dir)) 
+            [dustingetz.essay :refer [Essay]]
+            [dustingetz.y-fib :refer [Y-fib]]
+            [dustingetz.y-dir :refer [Y-dir]]
+            [electric-fiddle.fiddle :refer [Fiddle]]))
 
 ; todo: macro to auto-install demos by attaching clj metadata to e/defn vars?
 (e/def pages
-  {`dustingetz.y-fib/Demo-Y-fib dustingetz.y-fib/Demo-Y-fib
-   `dustingetz.y-dir/Demo-Y-dir dustingetz.y-dir/Demo-Y-dir
-   `dustingetz.essay/Essay dustingetz.essay/Essay})
+  {`Fiddle Fiddle
+   `Y-fib Y-fib
+   `Y-dir Y-dir
+   `Essay Essay})

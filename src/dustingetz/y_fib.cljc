@@ -12,14 +12,12 @@
   (dom/div (dom/text x))
   x)
 
-(e/defn Fac [n]
-  (let [Fac* (Y. (e/fn [Recur]
-                   (e/fn [x]
-                     (Trace.
-                       (case x
-                         0 1
-                         (* x (Recur. (dec x))))))))]
-    (Fac*. n)))
+(e/defn Fib [Recur]
+  (e/fn [x]
+    (Trace.
+      (case x
+        0 1
+        (* x (Recur. (dec x)))))))
 
-(e/defn Demo-Y-fib [] 
-  (Fac. 19))
+(e/defn Y-fib [route]
+  (new (Y. Fib) 19))

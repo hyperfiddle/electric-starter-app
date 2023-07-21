@@ -23,21 +23,24 @@
   (e/client
     (dom/h1 (dom/text `Index))
     (e/for [[k _] essays]
-      (dom/div (history/link [k] (dom/text (name k)))))))
+      (let [href (vec (concat history/route [k]))]
+        (dom/div (history/link href 
+                   (dom/text (name k))
+                   #_(dom/text " " (history/build-route history/history href))))))))
 
 (defn parse-fiddle-name-from-md-directive [s]
-  (symbol (second (re-find #"!fiddle\[]\(([^\)]+)" s))))
+  (second (re-find #"!fiddle\[]\(([^\)]+)" s)))
 
-(e/defn Essay []
-  #_(e/client (dom/div #_(dom/props {:class ""}))) ; fix css grid next 
-  (let [filename (get essays history/route)]
+(e/defn Essay [[essay]]
+  #_(e/client (dom/div #_(dom/props {:class ""}))) ; fix css grid next
+  (let [essay-filename (get essays essay)]
     (cond
-      (nil? history/route) (Index. essays)
-      (nil? filename) (dom/h1 (dom/text "essay not found: " history/route))
+      (nil? essay) (Index. essays)
+      (nil? essay-filename) (dom/h1 (dom/text "essay not found: " history/route))
       () (e/server
-           (e/for [s (parse-sections (slurp filename))]
+           (e/for [s (parse-sections (slurp essay-filename))]
              (e/client
                (if (= \! (first s))
-                 (Fiddle. (parse-fiddle-name-from-md-directive s))
+                 (Fiddle. [(symbol (parse-fiddle-name-from-md-directive s))])
                  (dom/div (dom/props {:class "markdown-body user-examples-readme"})
                    (e/server (Markdown. s))))))))))

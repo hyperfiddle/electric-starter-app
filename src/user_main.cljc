@@ -37,6 +37,13 @@
     (e/for [[k _] App/pages]
       (dom/div (history/link [k] (dom/text (name k)))))))
 
+(e/defn Apply [F [a b c :as args]]
+  (condp = (count args)
+    0 (new F)
+    1 (new F a)
+    2 (new F a b)
+    3 (new F a b c)))
+
 (e/defn Main []
   (binding [history/encode route->path
             history/decode #(or (path->route %) [`Index])]
@@ -45,9 +52,11 @@
       (binding [dom/node js/document.body
                 App/pages electric-fiddle.index/pages]
         (let [[page & args] history/route]
+          #_(dom/pre (dom/text (pr-str history/route)))
           (case page 
-            `Index (Index.)
-            (binding [history/build-route (fn [[fiddle paths] paths']
-                                            (apply vector fiddle paths'))] ; page local
-              (history/router 1
-                (new (get App/pages page NotFoundPage))))))))))
+            `Index (Index.) ; avoid Electric compiler cycle ?
+            #_(binding [history/build-route (fn [top-route paths']
+                                              (vec (concat top-route #_(butlast top-route) paths')))]) ; page local fiddle links
+            #_(history/router 1)
+                ; no Electric varadic fns, fix arity
+            (new #_Apply. (get App/pages page NotFoundPage) args)))))))

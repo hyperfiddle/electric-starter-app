@@ -3,7 +3,8 @@
             [contrib.electric-codemirror :refer [CodeMirror]]
             [electric-fiddle.api :as App]
             [hyperfiddle.electric :as e]
-            [hyperfiddle.electric-dom2 :as dom]))
+            [hyperfiddle.electric-dom2 :as dom]
+            [hyperfiddle.history :as history]))
 
 #?(:clj (defn resolve-var-or-ns [sym]
           (if (qualified-symbol? sym)
@@ -16,19 +17,32 @@
             (catch java.io.FileNotFoundException _))))
 
 (comment
-  (get-src 'dustingetz.y-fib/Demo-Y-fib)
-  (get-src 'dustingetz.y-dir/Demo-Y-dir))
+  (get-src 'dustingetz.y-fib/Y-fib)
+  (get-src 'dustingetz.y-dir/Y-dir))
 
-(e/defn Fiddle [page]
-  (dom/div (dom/props {:class "user-examples"})
-    (dom/fieldset
-      (dom/props {:class "user-examples-code"})
-      (dom/legend (dom/text "Code"))
-      (CodeMirror. {:parent dom/node :readonly true} identity identity (e/server (get-src page))))
-    (dom/fieldset
-      (dom/props {:class ["user-examples-target" (some-> page name)]})
-      (dom/legend (dom/text "Result"))
-      (new (get App/pages page)))))
+(e/defn Index [] ; duplicated from user-main/Index to avoid cycle in Electric compiler
+  (e/client
+    (dom/h1 (dom/text `Index))
+    #_(binding [history/build-route (fn [top-route paths'] (vec (concat (butlast top-route) paths')))])
+    (e/for [[k _] App/pages]
+      (let [href (vec (concat history/route [k]))]
+        (dom/div (history/link href
+                   (dom/text (name k))
+                   #_(dom/text " " (history/build-route history/history href))))))))
+
+(e/defn Fiddle [[fiddle & args :as route]]
+  #_(dom/pre (dom/text (pr-str route)))
+  (cond
+    (nil? fiddle) (Index.)
+    () (dom/div (dom/props {:class "user-examples"})
+         (dom/fieldset
+           (dom/props {:class "user-examples-code"})
+           (dom/legend (dom/text "Code"))
+           (CodeMirror. {:parent dom/node :readonly true} identity identity (e/server (get-src fiddle))))
+         (dom/fieldset
+           (dom/props {:class ["user-examples-target" (some-> fiddle name)]})
+           (dom/legend (dom/text "Result"))
+           (new (get App/pages fiddle) args)))))
 
 #_
 #?(:clj (defn get-companion-md [sym]
