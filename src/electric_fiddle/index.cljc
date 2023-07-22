@@ -3,6 +3,7 @@
             
             ; fiddle database, todo dynamic
             [dustingetz.essay :refer [Essay]]
+            [dustingetz.hfql-teeshirt-orders :refer [HFQL-demo]]
             [dustingetz.y-fib :refer [Y-fib]]
             [dustingetz.y-dir :refer [Y-dir]]
             [electric-fiddle.fiddle :refer [Fiddle]]))
@@ -12,4 +13,5 @@
   {`Fiddle Fiddle
    `Y-fib Y-fib
    `Y-dir Y-dir
-   `Essay Essay})
+   `Essay Essay
+   `HFQL-demo HFQL-demo})

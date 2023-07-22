@@ -18,7 +18,9 @@
     (let [html (e/server (some-> ?md-str md-to-html-string))]
       (set! (.-innerHTML dom/node) html))))
 
-(def essays {'electric-y-combinator "src/dustingetz/electric_y_combinator.md"})
+(def essays 
+  {'electric-y-combinator "src/dustingetz/electric_y_combinator.md"
+   'hfql-intro "src/dustingetz/hfql_intro.md"})
 
 (e/defn Index [essays]
   (e/client
