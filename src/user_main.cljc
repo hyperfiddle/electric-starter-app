@@ -29,7 +29,7 @@
   (path->route "") := nil
   )
 
-(e/defn NotFoundPage [] (e/client (dom/h1 (dom/text "Page not found: " (pr-str history/route)))))
+(e/defn NotFoundPage [args] (e/client (dom/h1 (dom/text "Page not found: " (pr-str history/route)))))
 
 (e/defn Index []
   (e/client
