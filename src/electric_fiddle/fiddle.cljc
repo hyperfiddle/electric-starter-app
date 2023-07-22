@@ -4,21 +4,8 @@
             [electric-fiddle.api :as App]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
+            #?(:clj [electric-fiddle.read-src :refer [read-ns-src read-src]])
             [hyperfiddle.history :as history]))
-
-#?(:clj (defn resolve-var-or-ns [sym]
-          (if (qualified-symbol? sym)
-            (ns-resolve *ns* sym)
-            (find-ns sym))))
-
-#?(:clj (defn get-src [sym]
-          (try (-> (resolve-var-or-ns sym) meta :file
-                 (->> (str "src/")) slurp)
-            (catch java.io.FileNotFoundException _))))
-
-(comment
-  (get-src 'dustingetz.y-fib/Y-fib)
-  (get-src 'dustingetz.y-dir/Y-dir))
 
 (e/defn Index [] ; duplicated from user-main/Index to avoid cycle in Electric compiler
   (e/client
@@ -30,15 +17,27 @@
                    (dom/text (name k))
                    #_(dom/text " " (history/build-route history/history href))))))))
 
-(e/defn Fiddle [[fiddle & args :as route]]
-  #_(dom/pre (dom/text (pr-str route)))
+(e/defn Fiddle-ns [[fiddle & args :as route]]
   (cond
     (nil? fiddle) (Index.)
     () (dom/div (dom/props {:class "user-examples"})
          (dom/fieldset
            (dom/props {:class "user-examples-code"})
            (dom/legend (dom/text "Code"))
-           (CodeMirror. {:parent dom/node :readonly true} identity identity (e/server (get-src fiddle))))
+           (CodeMirror. {:parent dom/node :readonly true} identity identity (e/server (read-ns-src fiddle))))
+         (dom/fieldset
+           (dom/props {:class ["user-examples-target" (some-> fiddle name)]})
+           (dom/legend (dom/text "Result"))
+           (new (get App/pages fiddle) args)))))
+
+(e/defn Fiddle [[fiddle & args :as route]]
+  (cond
+    (nil? fiddle) (Index.)
+    () (dom/div (dom/props {:class "user-examples"})
+         (dom/fieldset
+           (dom/props {:class "user-examples-code"})
+           (dom/legend (dom/text "Code"))
+           (CodeMirror. {:parent dom/node :readonly true} identity identity (e/server (read-src fiddle))))
          (dom/fieldset
            (dom/props {:class ["user-examples-target" (some-> fiddle name)]})
            (dom/legend (dom/text "Result"))
@@ -53,8 +52,8 @@
             (catch java.io.FileNotFoundException _))))
 
 (comment
-  (get-src `user.demo-two-clocks/TwoClocks)
-  (get-src 'user)
+  (get-ns-src `user.demo-two-clocks/TwoClocks)
+  (get-ns-src 'user)
   (get-companion-md 'user)
   (-> (resolve-var-or-ns 'user) meta :file)
   (get-companion-md `user.demo-two-clocks/TwoClocks)

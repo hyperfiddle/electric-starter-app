@@ -1,6 +1,6 @@
 (ns dustingetz.essay
   (:require clojure.string
-            [electric-fiddle.fiddle :refer [Fiddle]]
+            [electric-fiddle.fiddle :refer [Fiddle Fiddle-ns]]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.history :as history]
@@ -29,8 +29,8 @@
                    (dom/text (name k))
                    #_(dom/text " " (history/build-route history/history href))))))))
 
-(defn parse-fiddle-name-from-md-directive [s]
-  (second (re-find #"!fiddle\[]\(([^\)]+)" s)))
+(defn parse-fiddle-ns-directive [s] (second (re-find #"!fiddle-ns\[]\(([^\)]+)" s)))
+(defn parse-fiddle-directive [s] (second (re-find #"!fiddle\[]\(([^\)]+)" s)))
 
 (e/defn Essay [[essay]]
   #_(e/client (dom/div #_(dom/props {:class ""}))) ; fix css grid next
@@ -41,7 +41,8 @@
       () (e/server
            (e/for [s (parse-sections (slurp essay-filename))]
              (e/client
-               (if (= \! (first s))
-                 (Fiddle. [(symbol (parse-fiddle-name-from-md-directive s))])
-                 (dom/div (dom/props {:class "markdown-body user-examples-readme"})
-                   (e/server (Markdown. s))))))))))
+               (cond
+                 (.startsWith s "!fiddle-ns") (Fiddle-ns. [(symbol (parse-fiddle-ns-directive s))])
+                 (.startsWith s "!fiddle") (Fiddle. [(symbol (parse-fiddle-directive s))])
+                 () (dom/div (dom/props {:class "markdown-body user-examples-readme"})
+                      (e/server (Markdown. s))))))))))
