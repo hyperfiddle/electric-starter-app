@@ -27,32 +27,3 @@
           (if ?wrap
             (new (get App/pages ?wrap) [(get App/pages target)])
             (new (get App/pages target) [])))))))
-
-#_
-#?(:clj (defn get-companion-md [sym]
-          (try (some-> sym ; nil if userland typo
-                 resolve-var-or-ns meta :file
-                 (clojure.string/split #"\.(clj|cljs|cljc)") first (str ".md")
-                 (->> (str "src/")) slurp)
-            (catch java.io.FileNotFoundException _))))
-
-(comment
-  (get-ns-src `user.demo-two-clocks/TwoClocks)
-  (get-ns-src 'user)
-  (get-companion-md 'user)
-  (-> (resolve-var-or-ns 'user) meta :file)
-  (get-companion-md `user.demo-two-clocks/TwoClocks)
-  (resolve-var-or-ns `user.demo-two-clocks/TwoClocks)
-  (resolve-var-or-ns `user.demo-two-clocks)
-  (qualified-symbol? `user.demo-two-clocks/TwoClocks)
-  (ns-resolve *ns* `user.demo-two-clocks/TwoClocks)
-  (the-ns 'user.demo-two-clocks)
-  (find-ns 'user.demo-two-clocks)
-  (find-ns 'contrib.stuff)
-  (find-ns 'user)
-  (find-ns 'user.electric-y-combinator)
-
-  (get-companion-md `dustingetz.electric-y-combinator)
-  (get-companion-md 'user.electric-y-combinator/Page)
-  (resolve-var-or-ns `user.electric-y-combinator/Page)
-  (resolve-var-or-ns 'user.electric-y-combinator))
