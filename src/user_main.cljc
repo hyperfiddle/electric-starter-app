@@ -8,7 +8,8 @@
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.history :as history]
-            electric-fiddle.index))
+            [electric-fiddle.index :refer [Index]]
+            electric-fiddle.registry))
 
 (defn route->path [route] (clojure.string/join "/" (map contrib.ednish/encode-uri route)))
 (defn path->route [s]
@@ -31,12 +32,6 @@
 
 (e/defn NotFoundPage [args] (e/client (dom/h1 (dom/text "Page not found: " (pr-str history/route)))))
 
-(e/defn Index []
-  (e/client
-    (dom/h1 (dom/text "Index — Electric Fiddle"))
-    (e/for [[k _] App/pages]
-      (dom/div (history/link [k] (dom/text (name k)))))))
-
 (e/defn Apply [F [a b c :as args]]
   (condp = (count args)
     0 (new F)
@@ -46,17 +41,14 @@
 
 (e/defn Main []
   (binding [history/encode route->path
-            history/decode #(or (path->route %) [`Index])]
+            history/decode #(or (path->route %) [`electric-fiddle.index/Index])]
     (history/router (history/HTML5-History.)
       (set! (.-title js/document) (str (some-> (identity history/route) first name (str " – ")) "Electric Clojure"))
       (binding [dom/node js/document.body
-                App/pages electric-fiddle.index/pages]
+                App/pages electric-fiddle.registry/pages]
         (let [[page & args] history/route]
           #_(dom/pre (dom/text (pr-str history/route)))
-          (case page 
-            `Index (Index.) ; avoid Electric compiler cycle ?
-            #_(binding [history/build-route (fn [top-route paths']
-                                              (vec (concat top-route #_(butlast top-route) paths')))]) ; page local fiddle links
-            #_(history/router 1)
-                ; no Electric varadic fns, fix arity
-            (new #_Apply. (get App/pages page NotFoundPage) args)))))))
+          #_(binding [history/build-route (fn [top-route paths']
+                                            (vec (concat top-route #_(butlast top-route) paths')))]) ; page local fiddle links
+          #_(history/router 1)
+          (new #_Apply. (get App/pages page NotFoundPage) args)))))) ; no Electric varadic fns, fix arity

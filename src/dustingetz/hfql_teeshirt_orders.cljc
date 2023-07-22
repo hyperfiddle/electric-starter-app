@@ -2,6 +2,7 @@
   (:require [clojure.spec.alpha :as s]
             #?(:clj [datascript.core :as d])
             #?(:clj [datascript.impl.entity :refer [entity?]])
+            [electric-fiddle.index :refer [Index]]
             [hyperfiddle.api :as hf]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
@@ -22,7 +23,7 @@
 (e/defn Teeshirt-orders [args]
   (e/client
     (dom/h1 (dom/text "hi"))
-    (dom/pre (dom/text (pr-str (e/server (orders "")))))
+    (dom/pre (dom/text (pr-str (e/server (orders ""))))) ; todo convey hf/db to db
     (dom/pre (dom/text (pr-str (e/server (str hf/db)))))
     (dom/pre (dom/text (pr-str (e/server (hfql [db hf/db] 42)))))
     (dom/pre (dom/text (pr-str (e/server (hfql [db hf/db] :db/id 1))))))
@@ -40,7 +41,9 @@
     (binding [hf/db (e/watch conn) ; the three methods can be combined into one database protocol
               hf/*schema* schema ; multimethod - no, collision with other fiddles
               hf/*nav!*   nav]
-      (e/client (F. args)))))
+      (e/client 
+        (if-not F (Index. [])
+          (F. args))))))
 
 ; todo multimethod dispatch
 #?(:clj (defn schema [db a] (get-in db [:schema a])))

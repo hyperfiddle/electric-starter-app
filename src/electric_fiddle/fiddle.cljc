@@ -5,22 +5,12 @@
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             #?(:clj [electric-fiddle.read-src :refer [read-ns-src read-src]])
-            [hyperfiddle.history :as history]))
-
-(e/defn Index [] ; duplicated from user-main/Index to avoid cycle in Electric compiler
-  (e/client
-    (dom/h1 (dom/text `Index))
-    #_(binding [history/build-route (fn [top-route paths'] (vec (concat (butlast top-route) paths')))])
-    (e/for [[k _] App/pages]
-      (let [href (vec (concat history/route [k]))]
-        (dom/div (history/link href
-                   (dom/text (name k))
-                   #_(dom/text " " (history/build-route history/history href))))))))
+            [electric-fiddle.index :refer [Index]]))
 
 (e/defn Fiddle [[directive alt-text target ?wrap :as route]]
   #_(assert (contains? #{"fiddle-ns fiddle"} directive))
   #_(dom/pre (dom/text (pr-str route)))
-  (if (nil? (seq route)) (Index.) ; todo varargs at user-main
+  (if (nil? (seq route)) (Index. []) ; todo varargs at user-main
     (let [target (symbol target)
           ?wrap (some-> ?wrap symbol)]
       (dom/div (dom/props {:class "user-examples"})
