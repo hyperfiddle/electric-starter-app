@@ -1,10 +1,11 @@
 (ns dustingetz.essay
   (:require clojure.string
-            [electric-fiddle.fiddle :refer [Fiddle Fiddle-ns]]
+            [electric-fiddle.fiddle :refer [Fiddle]]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.history :as history]
-            #?(:clj [markdown.core :refer [md-to-html-string]])))
+            #?(:clj [markdown.core :refer [md-to-html-string]])
+            [hyperfiddle.rcf :refer [tests]]))
 
 #?(:clj (defn parse-sections [md-str]
           (->> md-str clojure.string/split-lines
@@ -31,8 +32,15 @@
                    (dom/text (name k))
                    #_(dom/text " " (history/build-route history/history href))))))))
 
-(defn parse-fiddle-ns-directive [s] (second (re-find #"!fiddle-ns\[]\(([^\)]+)" s)))
-(defn parse-fiddle-directive [s] (second (re-find #"!fiddle\[]\(([^\)]+)" s)))
+(defn parse-md-directive [s]
+  (let [[_ a b c d] (re-find #"!(.*?)\[(.*?)\]\((.*?)\)(?:\((.*?)\))?" s)]
+    [a b c d]))
+
+(tests
+  (parse-md-directive "!foo[example](https://example.com)")
+  := ["foo" "example" "https://example.com" nil]
+  (parse-md-directive "!foo[example](b)(c)")
+  := ["foo" "example" "b" "c"])
 
 (e/defn Essay [[essay]]
   #_(e/client (dom/div #_(dom/props {:class ""}))) ; fix css grid next
@@ -43,8 +51,7 @@
       () (e/server
            (e/for [s (parse-sections (slurp essay-filename))]
              (e/client
-               (cond
-                 (.startsWith s "!fiddle-ns") (Fiddle-ns. [(symbol (parse-fiddle-ns-directive s))])
-                 (.startsWith s "!fiddle") (Fiddle. [(symbol (parse-fiddle-directive s))])
-                 () (dom/div (dom/props {:class "markdown-body user-examples-readme"})
-                      (e/server (Markdown. s))))))))))
+               (if (.startsWith s "!")
+                 (Fiddle. (parse-md-directive s))
+                 (dom/div (dom/props {:class "markdown-body user-examples-readme"})
+                   (e/server (Markdown. s))))))))))

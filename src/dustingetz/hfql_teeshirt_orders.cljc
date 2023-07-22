@@ -35,13 +35,14 @@
           {(orders "")
            [:db/id]})))))
 
-(e/defn HFQL-demo [args]
+(e/defn HFQL-demo [[F & args :as route]]
   (e/server
-    (binding [hf/db (e/watch conn)
-              hf/*schema* schema
+    (binding [hf/db (e/watch conn) ; the three methods can be combined into one database protocol
+              hf/*schema* schema ; multimethod - no, collision with other fiddles
               hf/*nav!*   nav]
-      (Teeshirt-orders. args))))
+      (e/client (F. args)))))
 
+; todo multimethod dispatch
 #?(:clj (defn schema [db a] (get-in db [:schema a])))
 #?(:clj (defn nav [db e a]
           (let [v (a (d/entity db e))]

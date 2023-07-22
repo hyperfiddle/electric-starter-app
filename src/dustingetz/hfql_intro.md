@@ -2,7 +2,7 @@
 
 by Dustin Getz, 2023 July
 
-!fiddle[](dustingetz.hfql-teeshirt-orders/HFQL-demo)
+!fiddle[](dustingetz.hfql-teeshirt-orders/Teeshirt-orders)(dustingetz.hfql-teeshirt-orders/HFQL-demo)
 
 Hyperfiddle Query Language
 

@@ -17,31 +17,26 @@
                    (dom/text (name k))
                    #_(dom/text " " (history/build-route history/history href))))))))
 
-(e/defn Fiddle-ns [[fiddle & args :as route]]
-  (cond
-    (nil? fiddle) (Index.)
-    () (dom/div (dom/props {:class "user-examples"})
-         (dom/fieldset
-           (dom/props {:class "user-examples-code"})
-           (dom/legend (dom/text "Code"))
-           (CodeMirror. {:parent dom/node :readonly true} identity identity (e/server (read-ns-src fiddle))))
-         (dom/fieldset
-           (dom/props {:class ["user-examples-target" (some-> fiddle name)]})
-           (dom/legend (dom/text "Result"))
-           (new (get App/pages fiddle) args)))))
-
-(e/defn Fiddle [[fiddle & args :as route]]
-  (cond
-    (nil? fiddle) (Index.)
-    () (dom/div (dom/props {:class "user-examples"})
-         (dom/fieldset
-           (dom/props {:class "user-examples-code"})
-           (dom/legend (dom/text "Code"))
-           (CodeMirror. {:parent dom/node :readonly true} identity identity (e/server (read-src fiddle))))
-         (dom/fieldset
-           (dom/props {:class ["user-examples-target" (some-> fiddle name)]})
-           (dom/legend (dom/text "Result"))
-           (new (get App/pages fiddle) args)))))
+(e/defn Fiddle [[directive alt-text target ?wrap :as route]]
+  #_(assert (contains? #{"fiddle-ns fiddle"} directive))
+  #_(dom/pre (dom/text (pr-str route)))
+  (if (nil? (seq route)) (Index.) ; todo varargs at user-main
+    (let [target (symbol target)
+          ?wrap (some-> ?wrap symbol)]
+      (dom/div (dom/props {:class "user-examples"})
+        (dom/fieldset
+          (dom/props {:class "user-examples-code"})
+          (dom/legend (dom/text "Code"))
+          (CodeMirror. {:parent dom/node :readonly true} identity identity
+            (e/server (case directive
+                        "fiddle-ns" (read-ns-src target)
+                        "fiddle" (read-src target)))))
+        (dom/fieldset
+          (dom/props {:class ["user-examples-target" (some-> target name)]})
+          (dom/legend (dom/text "Result"))
+          (if ?wrap
+            (new (get App/pages ?wrap) [(get App/pages target)])
+            (new (get App/pages target) [])))))))
 
 #_
 #?(:clj (defn get-companion-md [sym]
