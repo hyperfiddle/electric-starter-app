@@ -1,0 +1,9 @@
+[submodule "vendor/hfql"]
+	path = vendor/hfql
+	url = git@github.com:hyperfiddle/hfql.git
+[submodule "vendor/electric"]
+	path = vendor/electric
+	url = git@github.com:hyperfiddle/electric.git
+[submodule "vendor/rcf"]
+	path = vendor/rcf
+	url = git@github.com:hyperfiddle/rcf.git

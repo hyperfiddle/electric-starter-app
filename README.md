@@ -3,6 +3,7 @@
 Live app: <https://dustingetz.electricfiddle.net/>
 
 ```
+$ git submodule update --init --recursive
 $ yarn
 $ clj -A:dev -X user/main
 

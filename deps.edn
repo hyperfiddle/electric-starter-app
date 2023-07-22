@@ -1,6 +1,7 @@
 {:paths ["src" "resources"]
- :deps {com.hyperfiddle/electric {:mvn/version "v2-alpha-349-ge9996713"}
-        com.hyperfiddle/rcf {:mvn/version "20220926-202227"}
+ :deps {com.hyperfiddle/electric {:local/root "vendor/electric"}
+        com.hyperfiddle/hfql {:local/root "vendor/hfql"}
+        com.hyperfiddle/rcf {:local/root "vendor/rcf"}
         info.sunng/ring-jetty9-adapter
         {:mvn/version "0.17.7" ; (Jetty 10) is NOT Java 8 compatible
          :exclusions [org.slf4j/slf4j-api info.sunng/ring-jetty9-adapter-http3]} ; no need
