@@ -1,4 +1,4 @@
-(ns user-main
+(ns electric-fiddle.main
   (:require clojure.edn
             clojure.string
             contrib.data
@@ -8,15 +8,13 @@
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.history :as history]
-            [electric-fiddle.index :refer [Index]]
-            electric-fiddle.registry))
+            electric-fiddle.index
+            user-registry))
 
 (defn route->path [route] (clojure.string/join "/" (map contrib.ednish/encode-uri route)))
 (defn path->route [s]
   (let [s (contrib.ednish/discard-leading-slash s)]
     (case s "" nil (->> (clojure.string/split s #"/") (mapv contrib.ednish/decode-uri)))))
-
-; nested routes don't work yet, check dir explorer etc
 
 (comment
   (clojure.string/split "/user.demo-two-clocks!TwoClocks" #"/")
@@ -28,16 +26,9 @@
   (path->route "/user.demo-two-clocks!TwoClocks/") := [`user.demo-two-clocks/TwoClocks]
   (path->route "/user.demo-two-clocks!TwoClocks/foo") := [`user.demo-two-clocks/TwoClocks 'foo]
   (path->route "") := nil
-  )
+  (path->route nil) := nil)
 
 (e/defn NotFoundPage [args] (e/client (dom/h1 (dom/text "Page not found: " (pr-str history/route)))))
-
-(e/defn Apply [F [a b c :as args]]
-  (condp = (count args)
-    0 (new F)
-    1 (new F a)
-    2 (new F a b)
-    3 (new F a b c)))
 
 (e/defn Main []
   (binding [history/encode route->path
@@ -45,7 +36,7 @@
     (history/router (history/HTML5-History.)
       (set! (.-title js/document) (str (some-> (identity history/route) first name (str " – ")) "Electric Clojure"))
       (binding [dom/node js/document.body
-                App/pages electric-fiddle.registry/pages]
+                App/pages user-registry/pages]
         (let [[page & args] history/route]
           #_(dom/pre (dom/text (pr-str history/route)))
           #_(binding [history/build-route (fn [top-route paths']

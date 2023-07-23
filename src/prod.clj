@@ -1,6 +1,6 @@
 (ns prod
   (:gen-class)
-  (:require user-main ; in prod, load app into server so it can accept clients
+  (:require main ; in prod, load app into server so it can accept clients
             [electric-server-java11-jetty10 :refer [start-server!]]))
 
 (def electric-server-config

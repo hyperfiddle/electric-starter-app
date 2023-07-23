@@ -1,20 +1,15 @@
 (ns ^:dev/always user ; rebuild everything when any file changes. Will fix
-  (:require hyperfiddle.electric
-            hyperfiddle.rcf
-            user-main))
+  (:require electric-fiddle.main
+            [hyperfiddle.electric :as e]
+            hyperfiddle.rcf))
 
-(def electric-main (hyperfiddle.electric/boot (user-main/Main.)))
+(def electric-entrypoint (e/boot (electric-fiddle.main/Main.)))
 (defonce reactor nil)
 
 (defn ^:dev/after-load ^:export start! []
-  (set! reactor (electric-main
-                 #(js/console.log "Reactor success:" %)
-                 (fn [error]
-                   (case (:hyperfiddle.electric/type (ex-data error))
-                     :hyperfiddle.electric-client/stale-client 
-                     (do (js/console.log "Client/server version mismatch, refreshing page.")
-                       (.reload (.-location js/window))) 
-                     (js/console.error "Reactor failure:" error)))))
+  (set! reactor (electric-entrypoint
+                  #(js/console.log "Reactor success:" %)
+                  #(js/console.error "Reactor failure:" %)))
   (hyperfiddle.rcf/enable!))
 
 (defn ^:dev/before-load stop! []

@@ -1,6 +1,6 @@
-(ns dustingetz.essay
+(ns electric-fiddle.essay
   (:require clojure.string
-            [electric-fiddle.fiddle :refer [Fiddle]]
+            [electric-fiddle.fiddle :refer [Fiddle-embed]]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.history :as history]
@@ -12,7 +12,7 @@
             (partition-by #(not= \! (first %))) ; isolate the directive lines
             (map #(apply str (interpose "\n" %))))))
 
-(comment (parse-sections (slurp (essays "electric-y-combinator"))))
+(comment (parse-sections (slurp (essays 'electric-y-combinator))))
 
 (e/defn Markdown [?md-str]
   (e/client
@@ -52,6 +52,6 @@
            (e/for [s (parse-sections (slurp essay-filename))]
              (e/client
                (if (.startsWith s "!")
-                 (Fiddle. (parse-md-directive s))
+                 (Fiddle-embed. (parse-md-directive s))
                  (dom/div (dom/props {:class "markdown-body user-examples-readme"})
                    (e/server (Markdown. s))))))))))

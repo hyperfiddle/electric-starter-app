@@ -1,11 +1,11 @@
-(ns electric-fiddle.registry
+(ns user-registry
   (:require [hyperfiddle.electric :as e]
             
             ; fiddle database, todo dynamic
-            [dustingetz.essay :refer [Essay]]
             [dustingetz.hfql-teeshirt-orders :refer [HFQL-demo Teeshirt-orders]]
             [dustingetz.y-fib :refer [Y-fib]]
             [dustingetz.y-dir :refer [Y-dir]]
+            [electric-fiddle.essay :refer [Essay]]
             [electric-fiddle.fiddle :refer [Fiddle]]
             [electric-fiddle.index :refer [Index]]))
 

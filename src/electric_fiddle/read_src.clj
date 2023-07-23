@@ -26,15 +26,6 @@ Example: (source-fn 'filter)"
               (read read-opts (PushbackReader. pbr)))
             (str text)))))))
 
-(defmacro source
-  "Prints the source code for the given symbol, if it can find it.
-  This requires that the symbol resolve to a Var defined in a
-  namespace for which the .clj is in the classpath.
-
-  Example: (source filter)"
-  [n]
-  `(println (or (read-src '~n) (str "Source not found"))))
-
 (tests
   (read-src `first)
   := "(def
@@ -55,5 +46,6 @@ Example: (source-fn 'filter)"
     (catch java.io.FileNotFoundException _)))
 
 (comment
-  (read-ns-src 'dustingetz.y-fib/Y-fib)
-  (read-ns-src 'dustingetz.y-dir/Y-dir))
+  (resolve-var-or-ns 'electric-fiddle.read-src/read-src)
+  (-> *1 meta :file)
+  (read-ns-src 'electric-fiddle.read-src))
