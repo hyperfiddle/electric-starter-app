@@ -23,7 +23,7 @@
 (e/defn Teeshirt-orders [args]
   (e/client
     (dom/h1 (dom/text "hi"))
-    (dom/pre (dom/text (pr-str (e/server (orders ""))))) ; todo convey hf/db to db
+    (dom/pre (dom/text (pr-str (e/server ((e/partial-dynamic [db hf/db] #(orders "")))))))
     (dom/pre (dom/text (pr-str (e/server (str hf/db)))))
     (dom/pre (dom/text (pr-str (e/server (hfql [db hf/db] 42)))))
     (dom/pre (dom/text (pr-str (e/server (hfql [db hf/db] :db/id 1))))))
