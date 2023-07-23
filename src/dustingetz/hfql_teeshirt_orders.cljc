@@ -2,6 +2,8 @@
   (:require [clojure.spec.alpha :as s]
             #?(:clj [datascript.core :as d])
             #?(:clj [datascript.impl.entity :refer [entity?]])
+            [contrib.electric-codemirror :refer [CodeMirror]]
+            contrib.str
             [electric-fiddle.index :refer [Index]]
             [hyperfiddle.api :as hf]
             [hyperfiddle.electric :as e]
@@ -20,21 +22,23 @@
                        [(clojure.string/includes? ?email ?needle)]]
                   db (or needle "")))))
 
-(e/defn Teeshirt-orders [args]
+(e/defn Scratch [_]
   (e/client
     (dom/h1 (dom/text "hi"))
     (dom/pre (dom/text (pr-str (e/server ((e/partial-dynamic [db hf/db] #(orders "")))))))
     (dom/pre (dom/text (pr-str (e/server (str hf/db)))))
     (dom/pre (dom/text (pr-str (e/server (hfql [db hf/db] 42)))))
-    (dom/pre (dom/text (pr-str (e/server (hfql [db hf/db] :db/id 1))))))
-  
-  (e/client
+    (dom/pre (dom/text (pr-str (e/server (hfql [db hf/db] :db/id 1)))))
     (hfql-tree-grid/with-gridsheet-renderer
-      (e/server (hfql [db hf/db] :db/id 1))
-      (e/server
-        (hfql [db hf/db] ; convey reactive db to clojure dynamic
-          {(orders "")
-           [:db/id]})))))
+      (e/server (hfql [db hf/db] :db/id 1)))))
+
+(e/defn Teeshirt-orders [args]
+  (CodeMirror. {:parent dom/node :readonly true} identity contrib.str/pprint-str
+    (e/server
+      (hfql [db hf/db] ; convey reactive db to clojure dynamic
+        {(orders "")
+         [:db/id
+          :order/email]}))))
 
 (e/defn HFQL-demo [[F & args :as route]]
   (e/server
