@@ -3,7 +3,8 @@
         com.hyperfiddle/hfql {:local/root "vendor/hfql"}
         com.hyperfiddle/rcf {:local/root "vendor/rcf"}
         info.sunng/ring-jetty9-adapter
-        {:mvn/version "0.17.7" ; (Jetty 10) is NOT Java 8 compatible
+        {:mvn/version "0.14.3" ; (Jetty 9) is Java 8 compatible;
+         ;:mvn/version "0.17.7" ; (Jetty 10) is NOT Java 8 compatible
          :exclusions [org.slf4j/slf4j-api info.sunng/ring-jetty9-adapter-http3]} ; no need
         org.clojure/clojure {:mvn/version "1.12.0-alpha2"}
         org.clojure/clojurescript {:mvn/version "1.11.60"}

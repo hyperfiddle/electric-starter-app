@@ -1,5 +1,5 @@
 (ns user
-  (:require [electric-server-java11-jetty10 :refer [start-server!]]
+  (:require [electric-server-java8-jetty9 :refer [start-server!]]
             [hyperfiddle.rcf :as rcf]))
 
 (def electric-server-config 
