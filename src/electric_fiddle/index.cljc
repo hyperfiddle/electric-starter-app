@@ -8,7 +8,7 @@
 (e/defn Index [route] ; duplicated from user-main/Index to avoid cycle in Electric compiler
   (e/client
     (dom/h1 (dom/text `Index))
-    (dom/pre (dom/text (pr-str history/route)))
+    #_(dom/pre (dom/text (pr-str history/route)))
     #_(binding [history/build-route (fn [top-route paths'] (vec (concat (butlast top-route) paths')))])
     (e/for [[k _] App/pages]
       (let [href (vec (concat
