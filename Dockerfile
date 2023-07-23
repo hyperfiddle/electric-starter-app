@@ -32,6 +32,7 @@ COPY shadow-cljs.edn shadow-cljs.edn
 COPY deps.edn deps.edn
 COPY src src
 COPY src-build src-build
+COPY vendor vendor
 COPY resources resources
 ARG REBUILD=unknown
 ARG VERSION
