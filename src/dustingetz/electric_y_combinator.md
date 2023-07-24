@@ -33,15 +33,17 @@ Ok, lets try something harder:
 What's happening
 - Recursive file system traversal over "./src" directory on the server
 - there's a DOM text input that filters the tree, try typing "electric", both client and server refresh live
-- Automatic incremental/streaming network (i.e. **streaming lexical scope**), not request/response. No dataloaders
-- **direct frontend/backend composition**: the tree walker, `Dir-tree`, interweaves `e/client` and `e/server` forms arbitrarily. e.g. L26 composes `dom/li` with `file-get-name`, the filename streams across the boundary in mid-flight.
-- the network topology is complex, and irrelevant – Electric takes care of it
+- **direct frontend/backend composition**: the tree walker, `Dir-tree`, interweaves `e/client` and `e/server` forms arbitrarily. e.g. L26 composes `dom/li` with `file-get-name`, the filename streams across the boundary in mid-flight. The network topology is complex, and irrelevant – Electric takes care of it.
+- **automatic incremental/streaming network** (i.e. **streaming lexical scope**), not request/response. No dataloaders.
+- **reactive recursion**: the DOM resources are reused across reaction frames, they are not recreated unnecessarily. 
+  - I.e., when we type into the input, the DOM change is minimized
+  - this minimization is not implemented in electric-dom but rather emergent from the *evaluation model of the language*
+    - the actual "reactive stack frames" are reused
+    - the DOM resource lifecycle (mount/unmount) is simply bound to the lifecycle of the reactive frame they exist in!
 
 Key ideas
 - **network-transparent composition**: the Electric functions transmit data over the network (as implied by the AST) in a way which is invisible to the application programmer
 - **strong composition**: it's actual lambda, which means it scales with complexity. Higher order functions, closures, recursion, are the exact primitive you need to build rigorous abstractions that don't leak.
-- **reactive recursion**: the DOM resources are reused across reaction frames, they are not recreated unnecessarily.
-
 
 
 # Conclusion
