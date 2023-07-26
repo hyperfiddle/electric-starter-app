@@ -4,6 +4,7 @@
             [electric-fiddle.api :as App]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
+            [hyperfiddle.history :as history]
             #?(:clj [electric-fiddle.read-src :refer [read-ns-src read-src]])
             [electric-fiddle.index :refer [Index]]))
 
@@ -16,6 +17,7 @@
     (dom/fieldset
       (dom/props {:class ["user-examples-target" (some-> target name)]})
       (dom/legend (dom/text "Result"))
+      #_(history/router 1)
       (if ?wrap
         (new (get App/pages ?wrap) [(get App/pages target)])
         (new (get App/pages target) [])))))

@@ -1,5 +1,6 @@
-{:paths ["src" "resources"]
- :deps {com.hyperfiddle/electric {:local/root "vendor/electric"}
+{:paths ["src" "resources" "vendor/hfql/src-docs"]
+ :deps {com.datomic/peer {:mvn/version "1.0.6735"}
+        com.hyperfiddle/electric {:local/root "vendor/electric"}
         com.hyperfiddle/hfql {:local/root "vendor/hfql"}
         com.hyperfiddle/rcf {:local/root "vendor/rcf"}
         info.sunng/ring-jetty9-adapter
