@@ -13,11 +13,11 @@
             [dustingetz.y-dir :refer [Y-dir]]
             [electric-fiddle.essay :refer [Essay]]
             [electric-fiddle.fiddle :refer [Fiddle]]
-            [electric-fiddle.index :refer [Index]]))
+            #_[electric-fiddle.index :refer [Index]]))
 
 ; todo: macro to auto-install demos by attaching clj metadata to e/defn vars?
 (e/def pages
-  {`Index Index
+  {;`Index Index -- don't list in index
    `Fiddle Fiddle
    `Y-fib Y-fib
    `Y-dir Y-dir

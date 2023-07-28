@@ -18,13 +18,18 @@
     (dom/fieldset
       (dom/props {:class ["user-examples-target" (some-> target name)]})
       (dom/legend (dom/text "Result"))
-      #_(history/router 1)
-      (let [Target (get App/pages target)
-            Wrap (if ?wrap (get App/pages ?wrap ::not-found))]
-        (cond
-          (= ::not-found Wrap) (dom/h1 (dom/text "not found, wrap: " ?wrap))
-          (some? Wrap) (Wrap. [Target])
-          () (Target. []))))))
+      #_(dom/pre (dom/text (pr-str history/route)))
+      #_(binding [history/build-route (fn [[page :as page-route] local-route]
+                                        (println 'page-route page-route 'local-route local-route)
+                                        `[~@(case page `Index nil page-route)
+                                          ~@local-route])])
+      (history/router nil
+        (let [Target (get App/pages target)
+              Wrap (when ?wrap (get App/pages ?wrap ::not-found))]
+          (cond
+            (= ::not-found Wrap) (dom/h1 (dom/text "not found, wrap: " ?wrap))
+            (some? Wrap) (Wrap. [Target])
+            () (Target. [])))))))
 
 (e/defn Fiddle [[target-s ?wrap :as route]] ; direct fiddle link
   #_(dom/pre (dom/text (pr-str route)))

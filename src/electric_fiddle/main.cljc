@@ -8,7 +8,7 @@
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.history :as history]
-            electric-fiddle.index
+            [electric-fiddle.index :refer [Index]]
             user-registry))
 
 (defn route->path [route] (clojure.string/join "/" (map contrib.ednish/encode-uri route)))
@@ -32,14 +32,20 @@
 
 (e/defn Main []
   (binding [history/encode route->path
-            history/decode #(or (path->route %) [`electric-fiddle.index/Index])]
+            history/decode #(or (path->route %) [`Index])]
     (history/router (history/HTML5-History.)
       (set! (.-title js/document) (str (some-> (identity history/route) first name (str " – ")) "Electric Clojure"))
       (binding [dom/node js/document.body
                 App/pages user-registry/pages]
         (let [[page & args] history/route]
-          #_(dom/pre (dom/text (pr-str history/route)))
+          (dom/pre (dom/text (pr-str history/route)))
           #_(binding [history/build-route (fn [top-route paths']
                                             (vec (concat top-route #_(butlast top-route) paths')))]) ; page local fiddle links
-          #_(history/router 1)
-          (new #_Apply. (get App/pages page NotFoundPage) args)))))) ; no Electric varadic fns, fix arity
+          (binding [history/build-route (fn [[page :as page-route] local-route]
+                                          (println 'page-route page-route 'local-route local-route)
+                                          `[~@(case page `Index nil page-route)
+                                            ~@local-route])]
+            (history/router 1 ; weird, paired with Index ~@
+              (case page
+                `Index (Index. [])
+                (new #_Apply. (get App/pages page NotFoundPage) args))))))))) ; no Electric varadic fns, fix arity

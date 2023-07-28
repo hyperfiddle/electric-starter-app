@@ -5,7 +5,9 @@
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.history :as history]
             #?(:clj [markdown.core :refer [md-to-html-string]])
-            [hyperfiddle.rcf :refer [tests]]))
+            [hyperfiddle.rcf :refer [tests]]
+            [electric-fiddle.api :as App]
+            electric-fiddle.index))
 
 #?(:clj (defn parse-sections [md-str]
           (->> md-str clojure.string/split-lines
@@ -24,15 +26,6 @@
    'hfql-intro "src/dustingetz/hfql_intro.md"
    'hfql-teeshirt-orders "src/dustingetz/hfql_teeshirt_orders.md"})
 
-(e/defn Index [essays]
-  (e/client
-    (dom/h1 (dom/text `Index))
-    (e/for [[k _] essays]
-      (let [href (vec (concat history/route [k]))]
-        (dom/div (history/link href 
-                   (dom/text (name k))
-                   #_(dom/text " " (history/build-route history/history href))))))))
-
 (defn parse-md-directive [s]
   (let [[_ a b c d] (re-find #"!(.*?)\[(.*?)\]\((.*?)\)(?:\((.*?)\))?" s)]
     [a b c d]))
@@ -47,7 +40,7 @@
   #_(e/client (dom/div #_(dom/props {:class ""}))) ; fix css grid next
   (let [essay-filename (get essays essay)]
     (cond
-      (nil? essay) (Index. essays)
+      (nil? essay) (binding [App/pages essays] (electric-fiddle.index/Index. []))
       (nil? essay-filename) (dom/h1 (dom/text "essay not found: " history/route))
       () (e/server
            (e/for [s (parse-sections (slurp essay-filename))]
