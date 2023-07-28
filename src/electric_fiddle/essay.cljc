@@ -21,7 +21,8 @@
 
 (def essays 
   {'electric-y-combinator "src/dustingetz/electric_y_combinator.md"
-   'hfql-intro "src/dustingetz/hfql_intro.md"})
+   'hfql-intro "src/dustingetz/hfql_intro.md"
+   'hfql-teeshirt-orders "src/dustingetz/hfql_teeshirt_orders.md"})
 
 (e/defn Index [essays]
   (e/client

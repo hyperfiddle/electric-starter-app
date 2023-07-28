@@ -11,12 +11,10 @@
   (comment (.stop server)))
 
 (comment
+  (def shadow-start! (delay @(requiring-resolve 'shadow.cljs.devtools.server/start!)))
+  (def shadow-watch (delay @(requiring-resolve 'shadow.cljs.devtools.api/watch)))
+  (do (@shadow-start!) (@shadow-watch :dev))
   ; wait for shadow to finish
   (main)
   (rcf/enable!)
-  (rcf/enable! false)
-  (def shadow-start! (delay @(requiring-resolve 'shadow.cljs.devtools.server/start!)))
-  (def shadow-watch (delay @(requiring-resolve 'shadow.cljs.devtools.api/watch)))
-  (@shadow-start!)
-  (@shadow-watch :dev)
-  )
+  (rcf/enable! false))

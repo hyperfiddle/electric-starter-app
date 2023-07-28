@@ -9,6 +9,7 @@
             [electric-fiddle.index :refer [Index]]))
 
 (e/defn Fiddle-impl [target ?wrap src]
+  #_(dom/pre (dom/text target " " ?wrap " " src))
   (dom/div (dom/props {:class "user-examples"})
     (dom/fieldset
       (dom/props {:class "user-examples-code"})
@@ -18,9 +19,12 @@
       (dom/props {:class ["user-examples-target" (some-> target name)]})
       (dom/legend (dom/text "Result"))
       #_(history/router 1)
-      (if ?wrap
-        (new (get App/pages ?wrap) [(get App/pages target)])
-        (new (get App/pages target) [])))))
+      (let [Target (get App/pages target)
+            Wrap (if ?wrap (get App/pages ?wrap ::not-found))]
+        (cond
+          (= ::not-found Wrap) (dom/h1 (dom/text "not found, wrap: " ?wrap))
+          (some? Wrap) (Wrap. [Target])
+          () (Target. []))))))
 
 (e/defn Fiddle [[target-s ?wrap :as route]] ; direct fiddle link
   #_(dom/pre (dom/text (pr-str route)))

@@ -1,11 +1,11 @@
-# HFQL 101
+# HFQL intro
 
 by Dustin Getz, 2023 July - wip
 
-!fiddle[](dustingetz.hfql-teeshirt-orders/Teeshirt-orders)(dustingetz.hfql-teeshirt-orders/HFQL-demo)
+!fiddle[](dustingetz.hfql-intro/Teeshirt-orders)(dustingetz.hfql-intro/HFQL-demo)
 
-!fiddle[](dustingetz.hfql-teeshirt-orders/Teeshirt-orders-2)(dustingetz.hfql-teeshirt-orders/HFQL-demo)
+!fiddle[](dustingetz.hfql-intro/Teeshirt-orders-2)(dustingetz.hfql-intro/HFQL-demo)
 
-!fiddle[](dustingetz.hfql-teeshirt-orders/Teeshirt-orders-3)(dustingetz.hfql-teeshirt-orders/HFQL-demo)
+!fiddle[](dustingetz.hfql-intro/Teeshirt-orders-3)(dustingetz.hfql-intro/HFQL-demo)
 
 * Fix router
