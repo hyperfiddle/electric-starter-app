@@ -1,4 +1,6 @@
-{:paths ["src" "resources" "vendor/hfql/src-docs"]
+{:paths ["src" "resources" "vendor/hfql/src-docs"
+         #_"vendor/hfql/resources" ; don't need use symlink instead
+         ]
  :deps {com.datomic/peer {:mvn/version "1.0.6735"}
         com.hyperfiddle/electric {:local/root "vendor/electric"}
         com.hyperfiddle/hfql {:local/root "vendor/hfql"}
