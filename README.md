@@ -24,7 +24,8 @@ fly launch # generate fly.toml
 fly status
 fly regions list
 fly platform vm-sizes
-fly scale fly scale vm shared-cpu-4x
+fly scale show
+fly scale vm shared-cpu-4x
 fly deploy
 https://fly.io/docs/about/pricing/
 https://fly.io/docs/apps/scale-machine/
@@ -46,4 +47,8 @@ https://electricfiddle.net/
 # Github actions
 fly tokens create deploy
 # https://github.com/hyperfiddle/electric-fiddle/settings/secrets/actions/
+
+fly scale show
+fly scale count 1 --region ewr
+fly scale count 1 --region cdg
 ```
