@@ -9,7 +9,7 @@
   (e/client
     (dom/h1 (dom/text `Index))
     (dom/pre (dom/text (pr-str history/route)))
-    (e/for [[k _] App/pages]
+    (e/for [[k _] (sort App/pages)]
       (let [href `[~@history/route ~k]]
         (dom/div (history/link href (dom/text (name k)))
           (dom/text " " (history/build-route history/history href)))))))
