@@ -1,3 +1,3 @@
-# HFQL demo
+# Teeshirt Orders – HFQL demo
 
-!fiddle[](dustingetz.hfql-teeshirt-orders/Webview-HFQL)
+!fiddle-ns[](dustingetz.hfql-teeshirt-orders/Webview-HFQL)

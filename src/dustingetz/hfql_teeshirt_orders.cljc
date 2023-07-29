@@ -11,7 +11,10 @@
     {(orders .)
      [:db/id
       :order/email
-      :order/gender]}))
+      (props :order/gender {::hf/options (genders)
+                            ::hf/option-label (e/fn [x] (name x))})
+      (props :order/shirt-size {::hf/options (shirt-sizes order/gender .) 
+                                ::hf/option-label (e/fn [x] (name x))})]}))
 
 (e/defn Webview-HFQL [_]
   (e/client
