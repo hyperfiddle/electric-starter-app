@@ -1,17 +1,26 @@
 (ns build
   "build electric.jar library artifact and demos"
   (:require [clojure.tools.build.api :as b]
-            [org.corfield.build :as bb]
             [shadow.cljs.devtools.api :as shadow-api] ; so as not to shell out to NPM for shadow
-            [shadow.cljs.devtools.server :as shadow-server]
-            ))
+            [shadow.cljs.devtools.server :as shadow-server]))
 
 (def lib 'com.hyperfiddle/electric)
 (def version (b/git-process {:git-args "describe --tags --long --always --dirty"}))
 (def basis (b/create-basis {:project "deps.edn"}))
 
-(defn clean [opts]
-  (bb/clean opts))
+(defn default-target
+  "Return the default target directory name."
+  {:arglists '([])}
+  ([] (default-target nil))
+  ([target]
+   (or target "target")))
+
+(defn clean
+  "Remove the target folder."
+  [{:keys [target] :as opts}]
+  (println "\nCleaning target...")
+  (b/delete {:path (default-target target)})
+  opts)
 
 (def class-dir "target/classes")
 (defn default-jar-name [{:keys [version] :or {version version}}]
