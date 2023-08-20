@@ -6,9 +6,8 @@
         com.hyperfiddle/hfql {:local/root "vendor/hfql"}
         com.hyperfiddle/rcf {:local/root "vendor/rcf"}
         info.sunng/ring-jetty9-adapter
-        {:mvn/version "0.14.3" ; (Jetty 9) is Java 8 compatible;
-         ;:mvn/version "0.17.7" ; (Jetty 10) is NOT Java 8 compatible
-         :exclusions [org.slf4j/slf4j-api info.sunng/ring-jetty9-adapter-http3]} ; no need
+        {:mvn/version "0.17.7" ; (Jetty 10) is NOT Java 8 compatible
+         :exclusions [org.slf4j/slf4j-api info.sunng/ring-jetty9-adapter-http3]}
         org.clojure/clojure {:mvn/version "1.12.0-alpha2"}
         org.clojure/clojurescript {:mvn/version "1.11.60"}
         org.clojure/tools.logging {:mvn/version "1.2.4"}
@@ -19,7 +18,8 @@
         nextjournal/clojure-mode {:git/url "https://github.com/nextjournal/clojure-mode"
                                   :sha "ac038ebf6e5da09dd2b8a31609e9ff4a65e36852"}}
  :aliases {:dev
-           {:extra-deps
+           {:extra-paths ["src-dev"]
+            :extra-deps
             {binaryage/devtools {:mvn/version "1.0.6"}
              thheller/shadow-cljs {:mvn/version "2.22.10"}}
             :jvm-opts

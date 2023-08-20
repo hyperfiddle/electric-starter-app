@@ -1,6 +1,4 @@
-;; Start from this example if you don’t need Java 8 compat.
-;; See `deps.edn`.
-(ns electric-server-java11-jetty10
+(ns electric-fiddle.server
   (:require [clojure.java.io :as io]
             [hyperfiddle.electric-jetty-adapter :as adapter]
             [clojure.tools.logging :as log]

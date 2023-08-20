@@ -1,13 +1,11 @@
 (ns user
-  (:require [electric-server-java8-jetty9 :refer [start-server!]]
+  (:require [electric-fiddle.config :as config]
+            [electric-fiddle.server :refer [start-server!]]
             [hyperfiddle.rcf :as rcf]))
 
-(def electric-server-config 
-  {:host "0.0.0.0", :port 8080, :resources-path "public", :manifest-path "public/js/manifest.edn"})
-
-(defn main []
+(defn main [& args]
   (println "Starting Electric compiler and server...") ; run after REPL redirects stdout
-  (def server (start-server! electric-server-config))
+  (def server (start-server! config/electric-server-config))
   (comment (.stop server)))
 
 (comment
