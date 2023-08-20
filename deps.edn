@@ -28,6 +28,8 @@
              ]
             :exec-fn user/main
             :exec-args {}}
+           :prod
+           {:extra-paths ["src-prod"]}
            :build
            {:extra-paths ["src-build"]
             :ns-default build
