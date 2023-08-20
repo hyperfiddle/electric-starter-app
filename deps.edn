@@ -13,7 +13,6 @@
         org.clojure/tools.logging {:mvn/version "1.2.4"}
         ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
         ring-basic-authentication/ring-basic-authentication {:mvn/version "1.1.1"}
-        reagent/reagent {:mvn/version "1.1.1"}
         markdown-clj/markdown-clj {:mvn/version "1.11.4"}
         nextjournal/clojure-mode {:git/url "https://github.com/nextjournal/clojure-mode"
                                   :sha "ac038ebf6e5da09dd2b8a31609e9ff4a65e36852"}}
