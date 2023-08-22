@@ -11,7 +11,6 @@ ask ChatGPT. `scan` and `scanPeriod` enable hot reload of logger config, leave o
         <appender-ref ref="STDOUT" />
     </root>
 
-    <logger name="hyperfiddle" level="DEBUG" additivity="false"><appender-ref ref="STDOUT" /></logger>
-    <!-- <logger name="hyperfiddle.electric.impl.io" level="INFO" additivity="false"><appender-ref ref="STDOUT" /></logger> -->
     <logger name="app" level="DEBUG" additivity="false"><appender-ref ref="STDOUT" /></logger>
+    <logger name="hyperfiddle" level="DEBUG" additivity="false"><appender-ref ref="STDOUT" /></logger>
 </configuration>
