@@ -1,5 +1,5 @@
 {:paths ["src" "resources"]
- :deps {com.hyperfiddle/electric {:mvn/version "v2-alpha-349-ge9996713"}
+ :deps {com.hyperfiddle/electric {:mvn/version "v2-alpha-422-g96e5c0a5"}
         com.hyperfiddle/rcf {:mvn/version "20220926-202227"}
         info.sunng/ring-jetty9-adapter
         {:mvn/version "0.14.3" ; (Jetty 9) is Java 8 compatible;
@@ -9,6 +9,7 @@
         org.clojure/clojurescript {:mvn/version "1.11.60"}
         org.clojure/tools.logging {:mvn/version "1.2.4"}
         ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
+        datascript/datascript {:mvn/version "1.5.2"}
         ring-basic-authentication/ring-basic-authentication {:mvn/version "1.1.1"}}
  :aliases {:dev
            {:extra-deps
