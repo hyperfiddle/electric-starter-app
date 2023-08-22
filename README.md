@@ -21,6 +21,7 @@ Deployment
 
 ```
 fly launch # generate fly.toml
+fly deploy --build-only # test remotely to workaround Apple Silicon docker issues
 fly status
 fly regions list
 fly platform vm-sizes
