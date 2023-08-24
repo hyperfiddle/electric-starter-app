@@ -11,8 +11,6 @@
     </root>
 
     <logger name="hyperfiddle" level="DEBUG" additivity="false"><appender-ref ref="STDOUT" /></logger>
-    <logger name="hyperfiddle.electric-impl.runtime" level="WARN" additivity="false"><appender-ref ref="STDOUT" /></logger>
-    <logger name="hyperfiddle.electric-jetty-adapter" level="WARN" additivity="false"><appender-ref ref="STDOUT" /></logger>
     <logger name="electric-fiddle" level="DEBUG" additivity="false"><appender-ref ref="STDOUT" /></logger>
     <logger name="dustingetz" level="DEBUG" additivity="false"><appender-ref ref="STDOUT" /></logger>
 </configuration>

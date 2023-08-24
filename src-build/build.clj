@@ -1,66 +1,35 @@
 (ns build
-  "build electric.jar library artifact and demos"
   (:require [clojure.tools.build.api :as b]
-            [org.corfield.build :as bb]
-            [clojure.java.shell :as sh]))
+            [shadow.cljs.devtools.api :as shadow-api]
+            [shadow.cljs.devtools.server :as shadow-server]))
 
-(def lib 'com.hyperfiddle/electric)
+;(def lib 'com.hyperfiddle/electric-fiddle)
 (def version (b/git-process {:git-args "describe --tags --long --always --dirty"}))
-(def basis (b/create-basis {:project "deps.edn"}))
+;(def basis (b/create-basis {:project "deps.edn" :aliases [:prod]}))
+;(def class-dir "target/classes")
+;(def defaults {:src-pom "src-build/pom-template.xml" :lib lib})
 
-(defn clean [opts]
-  (bb/clean opts))
+(defn build-client
+  "build Electric app client. note: in-process shadow compilation requires 
+application classpath to be available, i.e. `clj -X:build` not `clj -T:build`"
+  ; No point in sheltering shadow from app classpath, shadow loads it anyway!
+  ; Simply fix the tools.build conflict by excluding guava-android
+  [{:keys [optimize debug verbose version]
+    :or {optimize true, debug false, verbose false, version version}}]
+  (println "Building client, version:" version)
+  (b/delete {:path "resources/public/js"})
+  ; "java.lang.NoClassDefFoundError: com/google/common/collect/Streams" is fixed by
+  ; adding com.google.guava/guava {:mvn/version "31.1-jre"} to deps, 
+  ; see https://hf-inc.slack.com/archives/C04TBSDFAM6/p1692636958361199
+  (shadow-server/start!)
+  (shadow-api/release :prod
+    {:debug debug,
+     :verbose verbose,
+     :config-merge
+     [{:compiler-options {:optimizations (if optimize :advanced :simple)}
+       :closure-defines {'hyperfiddle.electric-client/VERSION version}}]})
+  (shadow-server/stop!))
 
-(def class-dir "target/classes")
-(defn default-jar-name [{:keys [version] :or {version version}}]
-  (format "target/%s-%s-standalone.jar" (name lib) version))
-
-(defn clean-cljs [_]
-  (b/delete {:path "resources/public/js"}))
-
-(defn build-client [{:keys [optimize debug verbose version]
-                     :or {optimize true, debug false, verbose false, version version}}]
-  (println "Building client. Version:" version)
-  ; this command must run the same on: local machine, docker build, github actions.
-  ; shell out to let Shadow manage the classpath, it's not obvious how to set that up.
-  ; This is the only stable way we know to do it.
-  (let [command (->> ["clj" "-M:shadow-cljs" "release" "prod"
-                      (when debug "--debug")
-                      (when verbose "--verbose")
-                      "--config-merge"
-                      (pr-str {:compiler-options {:optimizations (if optimize :advanced :simple)}
-                               :closure-defines  {'hyperfiddle.electric-client/VERSION version}})]
-                  (remove nil?))]
-    (apply println "Running:" command)
-    (let [{:keys [exit out err]} (apply sh/sh command)]
-      (when-not (zero? exit)  (println "Exit code" exit))
-      (when err (println err))
-      (when out (println out)))))
-
-(defn uberjar [{:keys [jar-name version optimize debug verbose]
-                :or   {version version, optimize true, debug false, verbose false}}]
-  (println "Cleaning up before build")
-  (clean nil)
-
-  (println "Cleaning cljs compiler output")
-  (clean-cljs nil)
-
-  (build-client {:optimize optimize, :debug debug, :verbose verbose, :version version})
-
-  (println "Bundling sources")
-  (b/copy-dir {:src-dirs   ["src" "resources"]
-               :target-dir class-dir})
-
-  (println "Compiling server. Version:" version)
-  (b/compile-clj {:basis      basis
-                  :src-dirs   ["src"]
-                  :ns-compile '[prod]
-                  :class-dir  class-dir})
-
-  (println "Building uberjar")
-  (b/uber {:class-dir class-dir
-           :uber-file (str (or jar-name (default-jar-name {:version version})))
-           :basis     basis
-           :main      'prod}))
-
-(defn noop [_])                         ; run to preload mvn deps
+; TODO: Bake the git version into the index.html
+; TODO: Bake the electric version into the prod artifact
+; Do we care about uberjar?

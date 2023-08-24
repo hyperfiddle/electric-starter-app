@@ -9,7 +9,7 @@
         {:mvn/version "0.17.7" ; (Jetty 10) is NOT Java 8 compatible
          :exclusions [org.slf4j/slf4j-api info.sunng/ring-jetty9-adapter-http3]}
         org.clojure/clojure {:mvn/version "1.12.0-alpha2"}
-        org.clojure/clojurescript {:mvn/version "1.11.60"}
+        org.clojure/clojurescript {:mvn/version "1.11.60"} ; technically :dev
         org.clojure/tools.logging {:mvn/version "1.2.4"}
         ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
         ring-basic-authentication/ring-basic-authentication {:mvn/version "1.1.1"}
@@ -20,7 +20,7 @@
            {:extra-paths ["src-dev"]
             :extra-deps
             {binaryage/devtools {:mvn/version "1.0.6"}
-             thheller/shadow-cljs {:mvn/version "2.22.10"}}
+             thheller/shadow-cljs {:mvn/version "2.25.2"}}
             :jvm-opts
             ["-Xss2m" ; https://github.com/hyperfiddle/photon/issues/11
              "-XX:-OmitStackTraceInFastThrow" ;; RCF
@@ -30,11 +30,14 @@
            :prod
            {:extra-paths ["src-prod"]}
            :build
+           ; use `clj -X:build build-client`, NOT -T! build/app classpath contamination cannot be prevented
+           ; see https://www.notion.so/hyperfiddle/logger-epic-303a8024a8fd4b09a40a67871d3161cf?pvs=4
            {:extra-paths ["src-build"]
             :ns-default build
-            :extra-deps {io.github.clojure/tools.build {:git/tag "v0.8.2" :git/sha "ba1a2bf"}
-                         io.github.seancorfield/build-clj {:git/tag "v0.8.0" :git/sha "9bd8b8a"}}
-            :jvm-opts ["-Xss2m"]}
-           :shadow-cljs  {:extra-deps {thheller/shadow-cljs {:mvn/version "2.22.10"}}
-                          :main-opts  ["-m" "shadow.cljs.devtools.cli"]
-                          :jvm-opts   ["-Xss2m"]}}}
+            :extra-deps {io.github.clojure/tools.build
+                         {:mvn/version "0.9.5"
+                          :exclusions [com.google.guava/guava ; https://clojurians.slack.com/archives/C6N245JGG/p1692799642324169
+                                       org.slf4j/slf4j-nop ; conflict with app classpath in clj -X:build build-client, so we add a build logger config
+                                       ]}
+                         thheller/shadow-cljs {:mvn/version "2.25.2"}}
+            :jvm-opts ["-Xss2m"]}}}

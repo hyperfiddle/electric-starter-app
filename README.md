@@ -5,7 +5,7 @@ Live app: <https://dustingetz.electricfiddle.net/>
 ```
 $ git submodule update --init --recursive
 $ yarn
-$ clj -A:dev -X user/main
+$ clj -X:dev user/main
 
 Starting Electric compiler and server...
 shadow-cljs - server version: 2.20.1 running at http://localhost:9630
@@ -20,6 +20,11 @@ shadow-cljs - nREPL server started on port 9001
 Deployment
 
 ```
+clojure -X:build build-client :verbose true
+clojure -X:build uberjar :jar-name "app.jar" :verbose true
+# note, build uses -X not -T, build/app classpath contamination cannot reasonably be prevented.
+# see https://www.notion.so/hyperfiddle/logger-epic-303a8024a8fd4b09a40a67871d3161cf?pvs=4
+
 fly launch # generate fly.toml
 fly deploy --build-only # test remotely to workaround Apple Silicon docker issues
 fly status
