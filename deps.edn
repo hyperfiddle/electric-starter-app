@@ -8,7 +8,8 @@
         info.sunng/ring-jetty9-adapter
         {:mvn/version "0.17.7" ; (Jetty 10) is NOT Java 8 compatible
          :exclusions [org.slf4j/slf4j-api info.sunng/ring-jetty9-adapter-http3]}
-        org.clojure/clojure {:mvn/version "1.12.0-alpha2"}
+        missionary/missionary {:mvn/version "b.31"}
+        org.clojure/clojure {:mvn/version "1.12.0-alpha4"}
         org.clojure/clojurescript {:mvn/version "1.11.60"} ; technically :dev
         org.clojure/tools.logging {:mvn/version "1.2.4"}
         ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
