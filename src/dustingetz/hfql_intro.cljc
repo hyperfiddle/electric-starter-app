@@ -10,14 +10,14 @@
             [hyperfiddle.hfql :refer [hfql]]
             [hyperfiddle.hfql-tree-grid :refer [with-gridsheet-renderer]]
             [hyperfiddle.rcf :as rcf :refer [tests tap % with]]
-            #?(:clj [user.orders-datomic :refer [orders genders shirt-sizes]]) ; from vendor/hfql
-            ))
+            #?(:clj [hfql-demo.model-teeshirt-orders-datomic :as model
+                     :refer [orders genders shirt-sizes]])))
 
 (e/defn Codemirror-edn [x]
   (CodeMirror. {:parent dom/node :readonly true} identity contrib.str/pprint-str 
     x))
 
-(e/defn Teeshirt-orders [args]
+(e/defn Teeshirt-orders-1 [args]
   (Codemirror-edn.
     (e/server
       (hfql [hf/*$* hf/db]
@@ -78,9 +78,9 @@
 
 (e/defn HFQL-demo [[F & args :as route]]
   (e/server
-    (binding [hf/db user.orders-datomic/*$* ; hfql compiler
-              hf/*nav!*   user.orders-datomic/nav! ; hfql compiler
-              hf/*schema* user.orders-datomic/schema ; hfql gridsheet renderer
+    (binding [hf/db model/*$* ; hfql compiler
+              hf/*nav!* model/nav! ; hfql compiler
+              hf/*schema* model/schema ; hfql gridsheet renderer
               ]
       (e/client
         (if-not F (Index. [])
@@ -98,17 +98,17 @@
 
 #?(:clj
    (tests
-     (alter-var-root #'hf/*$* (constantly user.orders-datomic/*$*))
+     (alter-var-root #'hf/*$* (constantly model/*$*))
      (some? hf/*$*) := true
      (orders "") := [1 2 3]
 
      (with (e/run (tap (binding [hf/db hf/*$*
-                                 hf/*nav!* user.orders-datomic/nav!]
+                                 hf/*nav!* model/nav!]
                          (hfql [] :db/id 1))))
        % := 1)
 
      (with (e/run (tap (binding [hf/db hf/*$*
-                                 hf/*nav!* user.orders-datomic/nav!]
+                                 hf/*nav!* model/nav!]
                          (hfql []
                            {(orders "")
                             [:db/id
