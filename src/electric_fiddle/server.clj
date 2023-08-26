@@ -127,6 +127,7 @@
                                           resources-path "public"
                                           manifest-path  "public/js/manifest.edn"}
                                    :as   config}]
+  (log/info "Electric application version: " VERSION)
   (try
     (let [server (ring/run-jetty (http-middleware resources-path manifest-path)
                    (merge {:port port
@@ -134,7 +135,7 @@
                            :configurator add-gzip-handler}
                      config))
           final-port (-> server (.getConnectors) first (.getPort))]
-      (println "\n👉 App server available at" (str "http://" (:host config) ":" final-port "\n"))
+      (log/info "\n👉 App server available at" (str "http://" (:host config) ":" final-port "\n"))
       server)
 
     (catch IOException err
