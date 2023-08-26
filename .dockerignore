@@ -1,14 +1,23 @@
 **/.clj-kondo
-**/.clj-kondo/.cache
 **/.cpcache
+**/.DS_Store
+**/.env
 **/.idea
 **/.lsp
 **/.nrepl-port
-**/.shadow-cljs
+**/*.~undo-tree~
 **/*.iml
-**/node_modules
 **/report.html
-**/resources/public/js
 **/yarn-error.log
 fly.toml
 yarn.lock
+
+# ignore target artifacts – docker owns the prod build
+**/.shadow-cljs
+**/node_modules
+**/output.calva-repl
+**/resources/public/*.min.css
+**/resources/public/js
+**/target
+**/tsconfig.tsbuildinfo
+# **/src/**/*.js -- we commit precompiled js files (Failure.js, Pending.js), as well as .class
