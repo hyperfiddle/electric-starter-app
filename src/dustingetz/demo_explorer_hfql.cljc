@@ -13,7 +13,7 @@
 
 (def unicode-folder "\uD83D\uDCC2") ; 📂
 
-(e/defn DirectoryExplorer-HFQL [_]
+(e/defn DirectoryExplorer-HFQL []
   (with-gridsheet-renderer
     (binding [hf/db-name "$"]
       (dom/style {:grid-template-columns "repeat(5, 1fr)"})

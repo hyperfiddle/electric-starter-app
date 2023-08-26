@@ -5,7 +5,7 @@
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.history :as history]))
 
-(e/defn Index [route] ; duplicated from user-main/Index to avoid cycle in Electric compiler
+(e/defn Index [] ; duplicated from user-main/Index to avoid cycle in Electric compiler
   (e/client
     (dom/h1 (dom/text `Index))
     (dom/pre (dom/text (pr-str history/route)))

@@ -16,7 +16,7 @@
       (props :order/shirt-size {::hf/options (model/shirt-sizes order/gender .) 
                                 ::hf/option-label (e/fn [x] (name x))})]}))
 
-(e/defn HFQL-teeshirt-orders [_]
+(e/defn HFQL-teeshirt-orders []
   (e/client
     (with-gridsheet-renderer
       (e/server

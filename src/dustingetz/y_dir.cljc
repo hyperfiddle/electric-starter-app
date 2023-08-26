@@ -35,7 +35,7 @@
         (let [name_ (e/server (file-get-name h))]
           (e/client (dom/li (dom/text name_))))))))
 
-(e/defn Y-dir [route]
+(e/defn Y-dir []
   (dom/div
     (let [!s (atom "") s (e/watch !s)]
       (ui/input s (e/fn [v] (reset! !s v))) 

@@ -28,16 +28,16 @@
               Wrap (when ?wrap (get App/pages ?wrap ::not-found))]
           (cond
             (= ::not-found Wrap) (dom/h1 (dom/text "not found, wrap: " ?wrap))
-            (some? Wrap) (Wrap. [Target])
-            () (Target. [])))))))
+            (some? Wrap) (Wrap. Target)
+            () (Target.)))))))
 
-(e/defn Fiddle [[target-s ?wrap :as route]] ; direct fiddle link
+(e/defn Fiddle [& [target-s ?wrap :as route]] ; direct fiddle link
   #_(dom/pre (dom/text (pr-str route)))
-  (if (nil? (seq route)) (Index. []) ; todo varargs at user-main 
+  (if (nil? (seq route)) (Index.)
     (Fiddle-impl. target-s (some-> ?wrap symbol)
       (e/server (read-ns-src (symbol target-s))))))
 
-(e/defn Fiddle-embed [[directive alt-text target-s ?wrap :as route]]
+(e/defn Fiddle-embed [& [directive alt-text target-s ?wrap :as route]]
   (assert (contains? #{"fiddle-ns" "fiddle"} directive) directive)
   #_(dom/pre (dom/text (pr-str route)))
   (let [target (symbol target-s)

@@ -7,7 +7,7 @@
 (e/defn Foo [v visible]
   (e/on-unmount #(println "unmounting Foo" v visible)))
 
-(e/defn Bug-unmount [_]
+(e/defn Bug-unmount []
   (let [!visible (atom [1])
         visible (e/watch !visible)]
     (ui/button (e/fn [] (swap! !visible (fn [v] (conj v (inc (last v))))))

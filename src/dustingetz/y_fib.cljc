@@ -19,5 +19,5 @@
         0 1
         (* x (Recur. (dec x)))))))
 
-(e/defn Y-fib [route]
+(e/defn Y-fib []
   (new (Y. Fib) 15))

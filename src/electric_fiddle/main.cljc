@@ -42,10 +42,10 @@
           #_(binding [history/build-route (fn [top-route paths']
                                             (vec (concat top-route #_(butlast top-route) paths')))]) ; page local fiddle links
           (binding [history/build-route (fn [[page :as page-route] local-route]
-                                          (println 'page-route page-route 'local-route local-route)
+                                          #_(println 'page-route page-route 'local-route local-route)
                                           `[~@(case page `Index nil page-route)
                                             ~@local-route])]
             (history/router 1 ; weird, paired with Index ~@
               (case page
-                `Index (Index. [])
-                (new #_Apply. (get App/pages page NotFoundPage) args))))))))) ; no Electric varadic fns, fix arity
+                `Index (Index.)
+                (e/apply (get App/pages page NotFoundPage) args)))))))))

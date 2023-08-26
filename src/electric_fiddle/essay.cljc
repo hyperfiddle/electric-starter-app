@@ -36,16 +36,16 @@
   (parse-md-directive "!foo[example](b)(c)")
   := ["foo" "example" "b" "c"])
 
-(e/defn Essay [[essay]]
+(e/defn Essay [& [?essay]]
   #_(e/client (dom/div #_(dom/props {:class ""}))) ; fix css grid next
-  (let [essay-filename (get essays essay)]
+  (let [essay-filename (get essays ?essay)]
     (cond
-      (nil? essay) (binding [App/pages essays] (electric-fiddle.index/Index. []))
+      (nil? ?essay) (binding [App/pages essays] (electric-fiddle.index/Index.))
       (nil? essay-filename) (dom/h1 (dom/text "essay not found: " history/route))
       () (e/server
            (e/for [s (parse-sections (slurp essay-filename))]
              (e/client
                (if (.startsWith s "!")
-                 (Fiddle-embed. (parse-md-directive s))
+                 (e/apply Fiddle-embed (parse-md-directive s))
                  (dom/div (dom/props {:class "markdown-body user-examples-readme"})
                    (e/server (Markdown. s))))))))))
