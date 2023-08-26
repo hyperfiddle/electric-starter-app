@@ -16,9 +16,9 @@
 ; Todo cleanup, there are better ways to do this
 #?(:clj (alter-var-root #'hyperfiddle.electric.impl.io/*write-handlers* 
           assoc MyCustomType write-handler)) ; server: write only
-#?(:cljs (set! hyperfiddle.electric.impl.io/*read-handlers* 
+#?(:cljs (set! hyperfiddle.electric.impl.io/*read-handlers* ; client: read only
            (assoc hyperfiddle.electric.impl.io/*read-handlers* 
-             "wip.demo-custom-types/MyCustomType" read-handler))) ; client: read only
+             "wip.demo-custom-types/MyCustomType" read-handler)))
 
 (e/defn CustomTypes []
   (e/server
