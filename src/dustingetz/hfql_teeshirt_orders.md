@@ -1,6 +1,6 @@
 # Teeshirt Orders – HFQL demo
 
-!fiddle-ns[](dustingetz.hfql-teeshirt-orders/Webview-HFQL)
+!fiddle-ns[](hfql-demo.hfql-teeshirt-orders/HFQL-teeshirt-orders)
 
 
 What's happening
