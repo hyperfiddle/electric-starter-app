@@ -1,4 +1,4 @@
-(ns electric-demo.datafy-fs
+(ns contrib.datafy-fs
   "nav implementation for java file system traversals"
   (:require [clojure.core.protocols :as ccp :refer [nav]]
             [clojure.datafy :refer [datafy]]
