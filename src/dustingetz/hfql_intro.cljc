@@ -76,7 +76,7 @@
           :order/gender
           :order/shirt-size]}))))
 
-(e/defn HFQL-demo [[F & args :as route]]
+(e/defn HFQL-demo-wrap [[F & args :as route]]
   (e/server
     (binding [hf/db model/*$* ; hfql compiler
               hf/*nav!* model/nav! ; hfql compiler
