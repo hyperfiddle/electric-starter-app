@@ -83,7 +83,7 @@
               hf/*schema* model/schema ; hfql gridsheet renderer
               ]
       (e/client
-        (if-not F (Index. [])
+        (if-not F (Index.)
           (F. args))))))
 
 (e/defn Scratch [_]
