@@ -31,18 +31,16 @@
             (some? Wrap) (Wrap. Target)
             () (Target.)))))))
 
-(e/defn Fiddle [& [target-s ?wrap :as route]] ; direct fiddle link
-  #_(dom/pre (dom/text (pr-str route)))
-  (if (nil? (seq route)) (Index.)
-    (Fiddle-impl. target-s (some-> ?wrap symbol)
-      (e/server (read-ns-src (symbol target-s))))))
+(e/defn Fiddle-fn [& [alt-text target-s ?wrap :as args]]
+  (let [target (symbol target-s)]
+    (Fiddle-impl. target (some-> ?wrap symbol)
+      (e/server (read-src target)))))
 
-(e/defn Fiddle-embed [& [directive alt-text target-s ?wrap :as route]]
-  (assert (contains? #{"fiddle-ns" "fiddle"} directive) directive)
-  #_(dom/pre (dom/text (pr-str route)))
-  (let [target (symbol target-s)
-        ?wrap (some-> ?wrap symbol)]
-    (Fiddle-impl. target ?wrap
-      (e/server (case directive
-                  "fiddle-ns" (read-ns-src target)
-                  "fiddle" (read-src target))))))
+(e/defn Fiddle-ns [& [alt-text target-s ?wrap :as args]]
+  (let [target (symbol target-s)]
+    (Fiddle-impl. target (some-> ?wrap symbol)
+      (e/server (read-ns-src target)))))
+
+(e/defn Fiddle [& [target-s ?wrap :as route]] ; direct fiddle link http://localhost:8080/electric-fiddle.fiddle!Fiddle/dustingetz.y-fib!Y-fib
+  (if (nil? (seq route)) (Index.)
+    (Fiddle-ns. "" target-s ?wrap)))

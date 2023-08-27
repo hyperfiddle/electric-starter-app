@@ -8,6 +8,8 @@ contents. Note the hfql-tree-grid.css symlink is working. */
 @import url('hyperfiddle/hfql-tree-grid.css');
 
 @import url('user/examples.css');
+/* @import url('user/tutorial.css'); */
+@import url('user/tutorial2.css'); /* merged */
 @import url('user/github-markdown.css');
 @import url('user/gridsheet-optional.css');
 @import url('user/todomvc.css');

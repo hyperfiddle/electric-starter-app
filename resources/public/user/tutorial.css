@@ -1,0 +1,171 @@
+
+
+
+
+.user-examples-target.SystemProperties input{
+    margin: 0.25em 0 1rem 0;
+    padding: 0.25em;
+}
+
+
+.user-examples-target.SystemProperties table{
+    max-width: 100%;
+    width: 100%;
+}
+
+.user-examples-target.SystemProperties td{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+@media (min-width: 981px) and (max-width: 1200px) {}
+@media (min-width: 1201px) {}
+
+
+.user-examples-target.Webview-HFQL{
+    padding:0;
+}
+
+.user-examples-target.Webview-HFQL .wip\.teeshirt-orders\/orders.needle,
+.user-examples-target.Webview-HFQL .wip\.orders-datascript\/orders.needle{
+    width: 9rem;
+    padding: 0 0.5em;
+}
+
+.user-examples-target.Webview-HFQL label:has(+ .wip\.orders-datascript\/orders.needle) {
+    position:relative;
+}
+.user-examples-target.Webview-HFQL label:has(+ .wip\.orders-datascript\/orders.needle):after {
+    content: "🔎";
+    position: absolute;
+    right: calc(-100% + 0.25em);
+    pointer-events: none;
+    filter: grayscale(100%) opacity(75%);
+}
+
+.user-examples-target.Webview-HFQL .hyperfiddle-gridsheet-wrapper{
+    min-width: 100%;
+    width: fit-content;
+    height: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    border: 0;
+}
+
+.user-examples-target.Webview-HFQL .hyperfiddle-gridsheet{
+    grid-template-columns: 9rem min-content repeat(3, max-content);
+    white-space: nowrap;
+    word-break : keep-all;
+    line-height: initial;
+    min-width: 100%;
+}
+
+
+.user-examples-target.DirectoryExplorer{
+    font-size: initial;
+    line-height: initial;
+    max-height: 90vh;
+}
+
+.user-examples-target.Chat input,
+.user-examples-target.ChatExtended input,
+.user-examples-target.Webview input,
+.user-examples-target.TodoList input
+{
+    font-size: 1em;
+    padding: 0.25em 0.5em;
+}
+
+.user-examples-target.Webview input{
+    margin-bottom: 1em;
+}
+
+.user-examples-target.Lifecycle{
+    height: 9rem;
+}
+
+
+.user-examples-target.TodoList .todo-items{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.user-examples-target.TodoList .todo-items > li {
+    margin: 0.25em 0;
+}
+.user-examples-target.TodoList .todo-items > li > input[type=checkbox]{
+    margin-right: 0.5em;
+}
+
+
+@media (max-width: 980px){
+    .user-examples-target.TodoList .todo-items {
+        padding-top: 0.5em;
+    }
+    .user-examples-target.TodoList .todo-items > li {
+        display: flex;
+        align-items: center;
+        margin: 0.5em 0;
+    }
+    .user-examples-target.TodoList .todo-items > li > input[type=checkbox]{
+        width: 1.5em;
+        height: 1.5em;
+    }
+}
+
+.user-examples-target.ReagentInterop{
+    max-height: initial;
+    height: min-content;
+    padding: 0;
+    margin: 0;
+}
+
+.user-examples-target.CustomTypes{
+    white-space: nowrap;
+}
+
+
+.user-examples-target.TodoMVC{
+    padding: 0.5em;
+}
+.user-examples-target.TodoMVC .todomvc,
+.user-examples-target.TodoMVC-composed .todomvc{
+    max-width: 40em;
+}
+
+.user-examples-target.TodoMVC-composed .todomvc > div{
+    min-width: 40em;
+}
+
+@media (max-width: 980px){
+    .user-examples-target.TodoMVC .todomvc,
+    .user-examples-target.TodoMVC-composed .todomvc{
+        margin: auto;
+    }
+
+    .user-examples-target.TodoMVC-composed .todomvc > div{
+        min-width: minmax(40em,100vw);
+    }
+
+}
+
+.user-examples-target.TodoMVC-composed {
+    min-height: 70vh;
+    height: 100vh;
+}
+
+.user-examples-target.CrudForm .wip-demo-stage-ui4-staged{
+    width: 100%;
+}
+
+
+.user-examples-target.QRCode {
+    max-height: 250px;
+    height: 250px;
+}
+
+.user-examples-target.QRCode input{
+    margin-bottom: 1rem;
+}
