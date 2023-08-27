@@ -11,40 +11,24 @@
 
 (def tutorials
   [["Electric" 
-    [{::id `electric-tutorial.demo-two-clocks/TwoClocks 
-      ::title "Two Clocks – Hello World"
-      ::lead ""}
-     {::id `electric-tutorial.demo-toggle/Toggle
-      ::lead "This demo toggles between client and server with a button."}
-     {::id `electric-tutorial.demo-system-properties/SystemProperties
-      ::lead "A larger example of a HTML table backed by a server-side query. Type into the input and see the query update live."} 
-     {::id `electric-tutorial.demo-chat/Chat ::lead "A multiplayer chat app in 30 LOC, all one file. Try two tabs."}
-     {::id `electric-tutorial.tutorial-backpressure/Backpressure ::lead "This is just the Two Clocks demo with slight modifications, there is more to learn here."}
-     {::id `electric-tutorial.tutorial-lifecycle/Lifecycle ::title "Component Lifecycle" ::lead "mount/unmount component lifecycle"}
+    [{::id `electric-tutorial.demo-two-clocks/TwoClocks}
+     {::id `electric-tutorial.demo-toggle/Toggle}
+     {::id `electric-tutorial.demo-system-properties/SystemProperties} 
+     {::id `electric-tutorial.demo-chat/Chat}
+     {::id `electric-tutorial.tutorial-backpressure/Backpressure}
+     {::id `electric-tutorial.tutorial-lifecycle/Lifecycle}
      #_{::id 'user ::title "Electric Entrypoint" ::suppress-demo true
         ::lead "This is the Electric entrypoint (in electric-tutorial.cljs). `hyperfiddle.electric/boot` is the Electric compiler entrypoint."}
-     {::id `electric-tutorial.demo-chat-extended/ChatExtended 
-      ::lead "Extended chat demo with auth and presence. When multiple sessions are connected, you can see who else is present."}
-     {::id `electric-tutorial.demo-webview/Webview 
-      ::lead "A database backed webview with reactive updates."}
-     {::id `electric-tutorial.demo-todos-simple/TodoList 
-      ::lead "minimal todo list. it's multiplayer, try two tabs"} 
-     {::id `electric-tutorial.demo-reagent-interop/ReagentInterop
-      ::lead "Reagent (React.js) embedded inside Electric. The reactive mouse coordinates cross from Electric to Reagent via props."}
-     {::id `electric-tutorial.demo-svg/SVG
-      ::lead "SVG support. Note the animation is reactive and driven by javascript cosine."}
-
-                                        ; 7 GUIs
-     {::id `electric-tutorial.tutorial-7guis-1-counter/Counter ::title "7GUIs Counter" 
-      ::lead "See <https://eugenkiss.github.io/7guis/tasks#counter>"}
-     {::id `electric-tutorial.tutorial-7guis-2-temperature/TemperatureConverter ::title "7GUIs Temperature Converter"
-      ::lead "See <https://eugenkiss.github.io/7guis/tasks#temp>"}
-     {::id `electric-tutorial.tutorial-7guis-4-timer/Timer ::title "7GUIs Timer"
-      ::lead "See <https://eugenkiss.github.io/7guis/tasks#timer>"}
-     {::id `electric-tutorial.tutorial-7guis-5-crud/CRUD ::title "7GUIs CRUD"
-      ::lead "See <https://eugenkiss.github.io/7guis/tasks#crud>"}
+     {::id `electric-tutorial.demo-chat-extended/ChatExtended}
+     {::id `electric-tutorial.demo-webview/Webview}
+     {::id `electric-tutorial.demo-todos-simple/TodoList}
+     {::id `electric-tutorial.demo-reagent-interop/ReagentInterop}
+     {::id `electric-tutorial.demo-svg/SVG}
+     {::id `electric-tutorial.tutorial-7guis-1-counter/Counter}
+     {::id `electric-tutorial.tutorial-7guis-2-temperature/TemperatureConverter}
+     {::id `electric-tutorial.tutorial-7guis-4-timer/Timer}
+     {::id `electric-tutorial.tutorial-7guis-5-crud/CRUD}
      
-                                        ; Demos
     #_{::id `electric-tutorial.demo-todomvc/TodoMVC ::suppress-code true  ::lead "TodoMVC as a function"}
     #_{::id `electric-tutorial.demo-todomvc-composed/TodoMVC-composed ::suppress-code true ::lead "Demo of app composition by putting a whole fullstack app inside a for loop."}
     #_{::id `electric-tutorial.demo-explorer/DirectoryExplorer ::suppress-code true ::lead "Server-streamed virtual pagination over node_modules. Check the DOM!"} 
@@ -98,7 +82,22 @@
           (dom/text (str (title next) " >")))))))
 
 (def tutorials2
-  {`electric-tutorial.demo-two-clocks/TwoClocks "src/electric_tutorial/demo_two_clocks.md"})
+  {`electric-tutorial.demo-two-clocks/TwoClocks "src/electric_tutorial/demo_two_clocks.md"
+   `electric-tutorial.demo-toggle/Toggle "src/electric_tutorial/demo_toggle.md"
+   `electric-tutorial.demo-system-properties/SystemProperties "src/electric_tutorial/demo_system_properties.md"
+   `electric-tutorial.demo-chat/Chat "src/electric_tutorial/demo_chat.md"
+   `electric-tutorial.tutorial-backpressure/Backpressure "src/electric_tutorial/tutorial_backpressure.md"
+   `electric-tutorial.tutorial-lifecycle/Lifecycle "src/electric_tutorial/tutorial_lifecycle.md"
+   `electric-tutorial.demo-chat-extended/ChatExtended "src/electric_tutorial/demo_chat_extended.md"
+   `electric-tutorial.demo-webview/Webview "src/electric_tutorial/demo_webview.md"
+   `electric-tutorial.demo-todos-simple/TodoList "src/electric_tutorial/demo_todos_simple.md"
+   `electric-tutorial.demo-svg/SVG "src/electric_tutorial/demo_svg.md"
+   `electric-tutorial.tutorial-7guis-1-counter/Counter "src/electric_tutorial/tutorial_7guis_1_counter.md"
+   `electric-tutorial.tutorial-7guis-2-temperature/TemperatureConverter "src/electric_tutorial/tutorial_7guis_2_temperature.md"
+   `electric-tutorial.tutorial-7guis-4-timer/Timer "src/electric_tutorial/tutorial_7guis_4_timer.md"
+   `electric-tutorial.tutorial-7guis-5-crud/CRUD "src/electric_tutorial/tutorial_7guis_5_crud.md"
+   ;`electric-tutorial.demo-reagent-interop/ReagentInterop ""
+   })
 
 (e/def extensions
   {'fiddle Fiddle-fn
@@ -109,9 +108,7 @@
     (do #_(dom/pre (dom/text (pr-str history/route)))
       #_ (e/client (dom/div #_(dom/props {:class ""}))) ; fix css grid next
       (Nav. ?tutorial false)
-      (let [essay-filename (get tutorials2 ?tutorial)]
-        (cond
-          (nil? ?tutorial) (binding [App/pages tutorials] (Index.))
-          (nil? essay-filename) (dom/h1 (dom/text "Tutorial not found: " history/route))
-          () (Custom-markdown. extensions essay-filename)))
+      (if-some [essay-filename (get tutorials2 ?tutorial)]
+        (Custom-markdown. extensions essay-filename)
+        (dom/h1 (dom/text "Tutorial not found: " history/route)))
       (Nav. ?tutorial true))))
