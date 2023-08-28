@@ -5,6 +5,7 @@
             [hyperfiddle.rcf :as rcf]))
 
 (def shadow-start! (delay @(requiring-resolve 'shadow.cljs.devtools.server/start!)))
+(def shadow-stop! (delay @(requiring-resolve 'shadow.cljs.devtools.server/stop!)))
 (def shadow-watch (delay @(requiring-resolve 'shadow.cljs.devtools.api/watch)))
 
 (declare server)
@@ -12,6 +13,7 @@
 (defn main [& args]
   (log/info "Starting Electric compiler and server...") ; run after REPL redirects stdout
   (do (@shadow-start!) (@shadow-watch :dev))
+  (comment (@shadow-stop!))
   (def server (start-server! config/electric-server-config))
   (comment (.stop server)))
 
