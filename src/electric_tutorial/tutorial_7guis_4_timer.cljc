@@ -3,7 +3,7 @@
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.electric-ui4 :as ui4]))
 
-(def initial-goal 10)
+(def initial-goal 10) ; seconds
 (defn seconds [milliseconds] (/ (Math/floor (/ milliseconds 100)) 10))
 (defn second-precision [milliseconds] 
   (-> milliseconds (/ 1000) (Math/floor) (* 1000))) ; drop milliseconds

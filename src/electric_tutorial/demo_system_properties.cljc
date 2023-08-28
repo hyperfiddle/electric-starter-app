@@ -1,5 +1,5 @@
 (ns electric-tutorial.demo-system-properties
-  (:require [clojure.string :as str] 
+  (:require [clojure.string :as str]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.electric-ui4 :as ui]))
@@ -17,7 +17,7 @@
     (let [!search (atom "")
           search (e/watch !search)]
       (e/server
-        (let [system-props (jvm-system-properties search)
+        (let [system-props (e/offload #(jvm-system-properties search))
               matched-count (count system-props)]
           (e/client
             (dom/div (dom/text matched-count " matches"))

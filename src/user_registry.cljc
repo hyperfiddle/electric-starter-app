@@ -18,20 +18,20 @@
 
             [electric-tutorial.tutorial :refer [Tutorial]]
             [electric-tutorial.demo-two-clocks :refer [TwoClocks]]
-            [electric-tutorial.demo-toggle :refer [Toggle]] #_electric-demo.demo-toggle
-            electric-tutorial.demo-system-properties #_electric-demo.demo-system-properties
-            electric-tutorial.demo-chat #_electric-demo.demo-chat
+            [electric-tutorial.demo-toggle :refer [Toggle]]
+            electric-tutorial.demo-system-properties
+            electric-tutorial.demo-chat
             electric-tutorial.tutorial-backpressure
             electric-tutorial.tutorial-lifecycle
-            electric-tutorial.demo-chat-extended #_electric-demo.demo-chat-extended
+            electric-tutorial.demo-chat-extended
             electric-tutorial.demo-webview
-            electric-tutorial.demo-todos-simple #_electric-demo.demo-todos-simple
-            #_electric-tutorial.demo-reagent-interop #_electric-demo.demo-reagent-interop ; yarn
-            electric-tutorial.demo-svg #_electric-demo.demo-svg
-            electric-tutorial.tutorial-7guis-1-counter #_electric-demo.tutorial-7guis-1-counter
-            electric-tutorial.tutorial-7guis-2-temperature #_electric-demo.tutorial-7guis-2-temperature
-            electric-tutorial.tutorial-7guis-4-timer #_electric-demo.tutorial-7guis-4-timer
-            electric-tutorial.tutorial-7guis-5-crud #_electric-demo.tutorial-7guis-5-crud
+            electric-tutorial.demo-todos-simple
+            #_electric-tutorial.demo-reagent-interop ; npm install
+            electric-tutorial.demo-svg
+            electric-tutorial.tutorial-7guis-1-counter
+            electric-tutorial.tutorial-7guis-2-temperature
+            electric-tutorial.tutorial-7guis-4-timer
+            electric-tutorial.tutorial-7guis-5-crud
 
             electric-demo.demo-todomvc #_electric-tutorial.demo-todomvc
             electric-demo.demo-todomvc-branched
@@ -80,7 +80,6 @@
    `electric-tutorial.tutorial-7guis-2-temperature/TemperatureConverter electric-tutorial.tutorial-7guis-2-temperature/TemperatureConverter
    `electric-tutorial.tutorial-7guis-4-timer/Timer electric-tutorial.tutorial-7guis-4-timer/Timer
    `electric-tutorial.tutorial-7guis-5-crud/CRUD electric-tutorial.tutorial-7guis-5-crud/CRUD
-   
    ;`electric-tutorial.demo-reagent-interop/ReagentInterop electric-tutorial.demo-reagent-interop/ReagentInterop
    
   ;;  `electric-demo.demo-explorer/DirectoryExplorer electric-demo.demo-explorer/DirectoryExplorer 
@@ -96,7 +95,6 @@
    
    ;`electric-demo.demo-10k-dom/Dom-10k-Elements electric-demo.demo-10k-dom/Dom-10k-Elements ; todo too slow to unmount, crashes
    ;`electric-demo.wip.js-interop/QRCode electric-demo.wip.js-interop/QRCode -- Unable to resolve symbol: js/QRCode
-   ;`electric-demo.demo-reagent-interop/ReagentInterop (when react-available electric-demo.demo-reagent-interop/ReagentInterop)
    ;`electric-demo.wip.demo-stage-ui4/CrudForm wip.demo-stage-ui4/CrudForm
    ;`electric-demo.wip.datomic-browser/DatomicBrowser wip.datomic-browser/DatomicBrowser
    ;`wip.datomic-browser/DatomicBrowser wip.datomic-browser/DatomicBrowser -- separate repo now, should it come back?

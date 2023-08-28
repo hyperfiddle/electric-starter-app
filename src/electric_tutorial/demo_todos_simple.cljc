@@ -61,9 +61,9 @@
           (TodoCreate.)
           (dom/ul (dom/props {:class "todo-items"})
             (e/server
-              (e/for-by :db/id [{:keys [db/id]} (todo-records db)]
+              (e/for-by :db/id [{:keys [db/id]} (e/offload #(todo-records db))]
                 (TodoItem. id))))
           (dom/p (dom/props {:class "counter"})
             (dom/span (dom/props {:class "count"})
-              (dom/text (e/server (todo-count db))))
+              (dom/text (e/server (e/offload #(todo-count db)))))
             (dom/text " items left")))))))
