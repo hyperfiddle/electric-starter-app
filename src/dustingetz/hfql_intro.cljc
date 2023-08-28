@@ -17,7 +17,7 @@
   (CodeMirror. {:parent dom/node :readonly true} identity contrib.str/pprint-str 
     x))
 
-(e/defn Teeshirt-orders-1 [args]
+(e/defn Teeshirt-orders-1 []
   (Codemirror-edn.
     (e/server
       (hfql [hf/*$* hf/db]
@@ -25,7 +25,7 @@
          [:db/id
           :order/email]}))))
 
-(e/defn Teeshirt-orders-2 [args]
+(e/defn Teeshirt-orders-2 []
   (with-gridsheet-renderer
     (e/server
       (hfql [hf/*$* hf/db]
@@ -33,7 +33,7 @@
          [:db/id
           :order/email]}))))
 
-(e/defn Teeshirt-orders-3 [args]
+(e/defn Teeshirt-orders-3 []
   (with-gridsheet-renderer
     (e/server
       (hfql [hf/*$* hf/db]
@@ -43,7 +43,7 @@
           :order/gender
           :order/shirt-size]}))))
 
-(e/defn Teeshirt-orders-4 [_]
+(e/defn Teeshirt-orders-4 []
   #_
   (e/client
     (dom/table
@@ -66,7 +66,7 @@
                           :options (e/fn [filter]
                                      (e/server (shirt-sizes gender filter)))))))))))))
 
-(e/defn Teeshirt-orders-5 [args]
+(e/defn Teeshirt-orders-5 []
   (with-gridsheet-renderer
     (e/server
       (hfql [hf/*$* hf/db]
@@ -76,7 +76,7 @@
           :order/gender
           :order/shirt-size]}))))
 
-(e/defn HFQL-demo-wrap [[F & args :as route]]
+(e/defn HFQL-demo-wrap [& [F & args]]
   (e/server
     (binding [hf/db model/*$* ; hfql compiler
               hf/*nav!* model/nav! ; hfql compiler
@@ -84,7 +84,7 @@
               ]
       (e/client
         (if-not F (Index.)
-          (F. args))))))
+          (e/apply F args))))))
 
 (e/defn Scratch [_]
   (e/client
