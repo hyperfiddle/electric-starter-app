@@ -42,7 +42,7 @@
           #_(binding [history/build-route (fn [top-route paths']
                                             (vec (concat top-route #_(butlast top-route) paths')))]) ; page local fiddle links
           (binding [history/build-route (fn [[page :as page-route] [x & xs :as local-route]]
-                                          (println 'page-route page-route 'local-route local-route)
+                                          #_(println 'page-route page-route 'local-route local-route)
                                           ; todo - root relative path? need another directive '/
                                           ; allow sideways nav inside same "dir" (app)
                                           (cond 

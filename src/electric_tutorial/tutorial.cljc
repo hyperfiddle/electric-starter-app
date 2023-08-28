@@ -76,7 +76,8 @@
                     (dom/props {:value (str id) :selected (= page id)})
                     (dom/text (str (inc (::order m)) ". " (title m))))))))
           (dom/on "change" (e/fn [^js e]
-                             (history/navigate! history/!history [(clojure.edn/read-string (.. e -target -value))])))))
+                             (history/navigate! history/!history 
+                               `[~@(butlast history/history) ~(clojure.edn/read-string (.. e -target -value))])))))
       (when next
         (history/link ['.. (::id next)] 
           (dom/props {:class "user-examples-nav-next"})
