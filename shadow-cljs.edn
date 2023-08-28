@@ -8,13 +8,22 @@
               :ignore-warnings true} ; warnings don't prevent hot-reload
    :output-dir "resources/public/js"
    :asset-path "/js"
-   :modules {:main {:entries [user]
-                    :init-fn user/start!}}
+   :modules {:main {:entries [dev] :init-fn dev/start!}}
    :build-hooks [(shadow.cljs.build-report/hook {:output-to "target/build_report.html"})
                  (user/rcf-shadow-hook)]}
+  
   :prod
   {:target :browser
    :output-dir "resources/public/js"
    :asset-path "/js"
    :module-hash-names true
-   :modules {:main {:entries [user] :init-fn user/start!}}}}}
+   :modules {:main {:entries [prod] :init-fn prod/start!}}}
+  
+  :hfql-demo
+  {:target :browser
+   :devtools {:watch-dir "resources/public" ; live reload CSS
+              :hud #{:errors :progress}}
+   :output-dir "resources/public/hfql-demo/js"
+   :asset-path "/hfql-demo/js"
+   :module-hash-names true
+   :modules {:main {:entries [prod] :init-fn prod/start!}}}}}
