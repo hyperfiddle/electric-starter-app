@@ -1,7 +1,8 @@
 ;; An example databsae of tee-shirt orders
 ;; server side only - for demos
-(ns electric-demo.example-datascript-db
+(ns models.teeshirt-orders-datascript
   (:require [datascript.core :as d]
+            [datascript.impl.entity :as de]  ; for `entity?` predicate
             [hyperfiddle.api :as hf]
             [hyperfiddle.rcf :refer [tests % tap]]))
 
@@ -44,6 +45,16 @@
 
 
 (def db hf/*$*) ; for @(requiring-resolve 'user.example-datascript-db/db)
+
+(defn get-schema [db a] (get (:schema db) a))
+
+(defn nav!
+  ([_ e] e)
+  ([db e a] (let [v (a (if (de/entity? e) e (d/entity db e)))]
+              (if (de/entity? v)
+                (or (:db/ident v) (:db/id v))
+                v)))
+  ([db e a & as] (reduce (partial nav! db) (nav! db e a) as)))
 
 (def male    1 #_:order/male   #_17592186045418)
 (def female  2 #_:order/female #_17592186045419)
