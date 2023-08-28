@@ -21,7 +21,7 @@
      `electric-tutorial.demo-chat-extended/ChatExtended
      `electric-tutorial.demo-webview/Webview
      `electric-tutorial.demo-todos-simple/TodoList
-     `electric-tutorial.demo-reagent-interop/ReagentInterop
+     #_`electric-tutorial.demo-reagent-interop/ReagentInterop
      `electric-tutorial.demo-svg/SVG
 
      #_`electric-tutorial.demo-todomvc/TodoMVC
