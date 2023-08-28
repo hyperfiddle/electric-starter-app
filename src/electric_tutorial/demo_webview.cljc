@@ -29,7 +29,7 @@
           (dom/props {:placeholder "Filter..."}))
         (dom/table (dom/props {:class "hyperfiddle"})
           (e/server
-            (e/for [id (teeshirt-orders db search)]
+            (e/for [id (e/offload #(teeshirt-orders db search))]
               (let [!e (d/entity db id)]
                 (e/client
                   (dom/tr
@@ -38,8 +38,9 @@
                     (dom/td (dom/text (e/server (:order/gender !e))))))))))))))
 
 (e/defn Webview []
-  (let [db (e/watch conn)] ; reactive "database value"
-    (Teeshirt-orders-view. db)))
+  (e/server
+    (let [db (e/watch conn)] ; reactive "database value"
+      (Teeshirt-orders-view. db))))
 
 (comment
   #?(:clj (d/transact conn [{:db/id 2 :order/email "bob2@example.com"}]))

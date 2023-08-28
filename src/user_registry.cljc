@@ -24,7 +24,7 @@
             electric-tutorial.tutorial-backpressure
             electric-tutorial.tutorial-lifecycle
             electric-tutorial.demo-chat-extended #_electric-demo.demo-chat-extended
-            electric-tutorial.demo-webview #_electric-demo.demo-webview
+            electric-tutorial.demo-webview
             electric-tutorial.demo-todos-simple #_electric-demo.demo-todos-simple
             #_electric-tutorial.demo-reagent-interop #_electric-demo.demo-reagent-interop ; yarn
             electric-tutorial.demo-svg #_electric-demo.demo-svg

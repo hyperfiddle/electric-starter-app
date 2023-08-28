@@ -10,7 +10,9 @@ What's happening
 
 Novel forms
 * `e/watch` on datascript connection
+* `e/offload` run a blocking function (i.e. query) on threadpool, JVM only
 
 Key ideas
 * Datascript is on the server, it can be any database
 * Direct query/view composition, with a loop
+* Electric is fully asynchronous, don't block the event loop!
