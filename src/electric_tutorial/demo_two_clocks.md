@@ -63,5 +63,3 @@ Network is reactive at the granularity of individual scope values
 * Everything is already async, so adding a 10ms websocket delay does not add impedance, complexity or code weight!
 
 For a 10min video explainer, see [UIs are streaming DAGs](https://hyperfiddle.notion.site/UIs-are-streaming-DAGs-e181461681a8452bb9c7a9f10f507991).
-
-!tutorial-nav[](true)
