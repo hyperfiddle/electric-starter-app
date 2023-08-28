@@ -11,38 +11,39 @@
 
 (def tutorials
   [["Electric" 
-    [{::id `electric-tutorial.demo-two-clocks/TwoClocks}
-     {::id `electric-tutorial.demo-toggle/Toggle}
-     {::id `electric-tutorial.demo-system-properties/SystemProperties} 
-     {::id `electric-tutorial.demo-chat/Chat}
-     {::id `electric-tutorial.tutorial-backpressure/Backpressure}
-     {::id `electric-tutorial.tutorial-lifecycle/Lifecycle}
-     #_{::id 'user ::title "Electric Entrypoint" ::suppress-demo true
-        ::lead "This is the Electric entrypoint (in electric-tutorial.cljs). `hyperfiddle.electric/boot` is the Electric compiler entrypoint."}
-     {::id `electric-tutorial.demo-chat-extended/ChatExtended}
-     {::id `electric-tutorial.demo-webview/Webview}
-     {::id `electric-tutorial.demo-todos-simple/TodoList}
-     {::id `electric-tutorial.demo-reagent-interop/ReagentInterop}
-     {::id `electric-tutorial.demo-svg/SVG}
-     {::id `electric-tutorial.tutorial-7guis-1-counter/Counter}
-     {::id `electric-tutorial.tutorial-7guis-2-temperature/TemperatureConverter}
-     {::id `electric-tutorial.tutorial-7guis-4-timer/Timer}
-     {::id `electric-tutorial.tutorial-7guis-5-crud/CRUD}
+    [`electric-tutorial.demo-two-clocks/TwoClocks
+     `electric-tutorial.demo-toggle/Toggle
+     `electric-tutorial.demo-system-properties/SystemProperties
+     `electric-tutorial.demo-chat/Chat
+     `electric-tutorial.tutorial-backpressure/Backpressure
+     `electric-tutorial.tutorial-lifecycle/Lifecycle
+     ; tutorial-entrypoint
+     `electric-tutorial.demo-chat-extended/ChatExtended
+     `electric-tutorial.demo-webview/Webview
+     `electric-tutorial.demo-todos-simple/TodoList
+     `electric-tutorial.demo-reagent-interop/ReagentInterop
+     `electric-tutorial.demo-svg/SVG
+
+     #_`electric-tutorial.demo-todomvc/TodoMVC
+     #_`electric-tutorial.demo-todomvc-composed/TodoMVC-composed
+     #_`electric-tutorial.demo-explorer/DirectoryExplorer
      
-    #_{::id `electric-tutorial.demo-todomvc/TodoMVC ::suppress-code true  ::lead "TodoMVC as a function"}
-    #_{::id `electric-tutorial.demo-todomvc-composed/TodoMVC-composed ::suppress-code true ::lead "Demo of app composition by putting a whole fullstack app inside a for loop."}
-    #_{::id `electric-tutorial.demo-explorer/DirectoryExplorer ::suppress-code true ::lead "Server-streamed virtual pagination over node_modules. Check the DOM!"} 
-    ;;  #_{::id `wip.demo-stage-ui4/CrudForm ::lead "Database-backed CRUD form using Datomic"}
-    ;;  {::id `wip.demo-custom-types/CustomTypes ::lead "Custom transit serializers example"}
-    #_{::id `wip.js-interop/QRCode ::lead "Generate QRCodes with a lazily loaded JS library"}
+     #_`electric-demo.demo-virtual-scroll/VirtualScroll ; virtual scroll Server-streamed virtual pagination over node_modules. Check the DOM!
+     #_`electric-demo.wip.demo-stage-ui4/CrudForm
+     #_`wip.demo-custom-types/CustomTypes ; Custom transit serializers example
+     #_`wip.js-interop/QRCode ; Generate QRCodes with a lazily loaded JS library
      ]]
-   #_["HFQL"
-    [{::id `wip.teeshirt-orders/Webview-HFQL
-      ::lead "HFQL hello world. HFQL is a data notation for CRUD apps."}]]])
+   ["7 GUIs"
+    [`electric-tutorial.tutorial-7guis-1-counter/Counter
+     `electric-tutorial.tutorial-7guis-2-temperature/TemperatureConverter
+     `electric-tutorial.tutorial-7guis-4-timer/Timer
+     `electric-tutorial.tutorial-7guis-5-crud/CRUD
+     #_`wip.teeshirt-orders/Webview-HFQL ;HFQL hello world. HFQL is a data notation for CRUD apps.
+     ]]])
 
 (def tutorials-index (->> tutorials
                        (mapcat (fn [[_group entries]] entries))
-                       (map-indexed (fn [idx entry] (assoc entry ::order idx)))
+                       (map-indexed (fn [idx entry] {::order idx ::id entry}))
                        (contrib.data/index-by ::id)))
 (def tutorials-seq (vec (sort-by ::order (vals tutorials-index))))
 
@@ -51,7 +52,7 @@
     [(get tutorials-seq (dec order))
      (get tutorials-seq (inc order))]))
 
-(defn title [{:keys [::id ::title]}] (or title (some-> id name))) ; busted some->
+(defn title [m] (name (::id m)))
 
 (e/defn Nav [page footer?] #_[& [directive alt-text target-s ?wrap :as route]]
   (let [[prev next] (get-prev-next page)]
@@ -60,7 +61,7 @@
                                     (when-not prev "user-examples-nav-start")
                                     (when-not next "user-examples-nav-end")]})
       (when prev
-        (history/link [(::id prev)] 
+        (history/link ['.. (::id prev)] 
           (dom/props {:class "user-examples-nav-prev"})
           (dom/text (str "< " (title prev)))))
       (dom/div (dom/props {:class "user-examples-select"})
@@ -69,15 +70,15 @@
         (dom/select
           (e/for [[group-label entries] tutorials]
             (dom/optgroup (dom/props {:label group-label})
-              (e/for [{:keys [::id]} entries]
-                (let [entry (tutorials-index id)]
+              (e/for [id entries]
+                (let [m (tutorials-index id)]
                   (dom/option
                     (dom/props {:value (str id) :selected (= page id)})
-                    (dom/text (str (inc (::order entry)) ". " (title entry))))))))
+                    (dom/text (str (inc (::order m)) ". " (title m))))))))
           (dom/on "change" (e/fn [^js e]
                              (history/navigate! history/!history [(clojure.edn/read-string (.. e -target -value))])))))
       (when next
-        (history/link [(::id next)] 
+        (history/link ['.. (::id next)] 
           (dom/props {:class "user-examples-nav-next"})
           (dom/text (str (title next) " >")))))))
 
