@@ -1,4 +1,5 @@
 (ns electric-demo.demo-virtual-scroll
+  "Server-streamed virtual pagination over node_modules. Check the DOM!"
   (:require [contrib.data :refer [unqualify]]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
