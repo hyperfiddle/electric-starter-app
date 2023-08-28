@@ -76,7 +76,7 @@
           :order/gender
           :order/shirt-size]}))))
 
-(e/defn HFQL-demo-wrap [& [F & args]]
+(e/defn HFQL-demo-wrap [& [F & args]] ; not designed for direct linking, i.e. this wont work http://localhost:8080/dustingetz.hfql-intro!HFQL-demo-wrap/dustingetz.hfql-intro!Teeshirt-orders-1
   (e/server
     (binding [hf/db model/*$* ; hfql compiler
               hf/*nav!* model/nav! ; hfql compiler
