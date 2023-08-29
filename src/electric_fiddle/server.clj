@@ -69,7 +69,7 @@ information."
       ;; index.html file not found on classpath
       (next-handler ring-req))))
 
-(def ^:const VERSION (not-empty (System/getProperty "HYPERFIDDLE_ELECTRIC_SERVER_VERSION"))) ; see Dockerfile
+(def ^:const ELECTRIC_APP_VERSION (not-empty (System/getProperty "HYPERFIDDLE_ELECTRIC_SERVER_VERSION"))) ; see Dockerfile
 
 (defn wrap-reject-stale-client
   "Intercept websocket UPGRADE request and check if client and server versions 
@@ -81,8 +81,8 @@ Otherwise, the client connection is rejected gracefully."
     (if (ring/ws-upgrade-request? ring-req)
       (let [client-version (get-in ring-req [:query-params "HYPERFIDDLE_ELECTRIC_CLIENT_VERSION"])]
         (cond
-          (nil? VERSION)             (next-handler ring-req)
-          (= client-version VERSION) (next-handler ring-req)
+          (nil? ELECTRIC_APP_VERSION)             (next-handler ring-req)
+          (= client-version ELECTRIC_APP_VERSION) (next-handler ring-req)
           :else (adapter/reject-websocket-handler 1008 "stale client") ; https://www.rfc-editor.org/rfc/rfc6455#section-7.4.1
           ))
       (next-handler ring-req))))
@@ -126,11 +126,11 @@ Otherwise, the client connection is rejected gracefully."
       (.setHandler (.getHandler server)))))
 
 (defn start-server! [{:keys [port resources-path manifest-path]
-                                   :or   {port            8080
-                                          resources-path "public"
-                                          manifest-path  "public/js/manifest.edn"}
-                                   :as   config}]
-  (log/info "Electric application version: " VERSION)
+                      :or   {port            8080
+                             resources-path "public"
+                             manifest-path  "public/js/manifest.edn"}
+                      :as   config}]
+  (log/info "Serving Electric application, app version: " ELECTRIC_APP_VERSION)
   (try
     (let [server (ring/run-jetty (http-middleware resources-path manifest-path)
                    (merge {:port port
@@ -144,6 +144,6 @@ Otherwise, the client connection is rejected gracefully."
     (catch IOException err
       (if (instance? BindException (ex-cause err))  ; port is already taken, retry with another one
         (do (log/warn "Port" port "was not available, retrying with" (inc port))
-            (start-server! (update config :port inc)))
+          (start-server! (update config :port inc)))
         (throw err)))))
 
