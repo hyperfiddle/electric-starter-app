@@ -4,12 +4,11 @@
             contrib.data
             contrib.ednish
             contrib.uri ; data_readers 
-            [electric-fiddle.api :as App]
+            [electric-fiddle.config :as config]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.history :as history]
-            [electric-fiddle.index :refer [Index]]
-            user-registry))
+            [electric-fiddle.index :refer [Index]]))
 
 (defn route->path [route] (clojure.string/join "/" (map contrib.ednish/encode-uri route)))
 (defn path->route [s]
@@ -35,8 +34,7 @@
             history/decode #(or (path->route %) [`Index])]
     (history/router (history/HTML5-History.)
       (set! (.-title js/document) (str (some-> (identity history/route) first name (str " – ")) "Electric Clojure"))
-      (binding [dom/node js/document.body
-                App/pages user-registry/pages]
+      (binding [dom/node js/document.body]
         (let [[page & args] history/route]
           (dom/pre (dom/text (pr-str history/route)))
           #_(binding [history/build-route (fn [top-route paths']
@@ -52,4 +50,4 @@
             (history/router 1 ; weird, paired with Index ~@
               (case page
                 `Index (Index.)
-                (e/apply (get App/pages page NotFoundPage) args)))))))))
+                (e/apply (get config/pages page NotFoundPage) args)))))))))

@@ -6,7 +6,7 @@
             [hyperfiddle.history :as history]
             #?(:clj [markdown.core :refer [md-to-html-string]])
             [hyperfiddle.rcf :refer [tests]]
-            [electric-fiddle.api :as App]
+            [electric-fiddle.config :as config]
             electric-fiddle.index))
 
 #?(:clj (defn parse-sections [md-str]

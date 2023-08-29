@@ -4,7 +4,15 @@
             electric-fiddle.main
             #?(:clj [electric-fiddle.server :refer [start-server!]])
             [hyperfiddle.electric :as e]
-            [hyperfiddle.rcf :as rcf]))
+            [hyperfiddle.rcf :as rcf]
+            
+            electric-tutorial.tutorial-registry
+            dustingetz.dustingetz-registry))
+
+(e/def fiddle-registry
+  (merge
+    electric-tutorial.tutorial-registry/pages
+    dustingetz.dustingetz-registry/pages)) ; datomic
 
 #?(:clj
    (do
@@ -15,22 +23,26 @@
 
      (declare server)
 
-     (defn main [& args]
+     (defn -main [& args]
+       (log/info `-main "args: " (pr-str args))
        (log/info "Starting Electric compiler and server...") ; run after REPL redirects stdout
        (do (@shadow-start!) (@shadow-watch :dev))
        (comment (@shadow-stop!))
        (def server (start-server! config/electric-server-config))
-       (comment (.stop server)))
+       (comment (.stop server))
+       (alter-var-root #'*out* (fn [_] *out*)))
 
      (comment
        (do (@shadow-start!) (@shadow-watch :dev))
        ; wait for shadow to finish
-       (main)
+       (-main)
        (rcf/enable!))))
 
 #?(:cljs
    (do
-     (def electric-entrypoint (e/boot (electric-fiddle.main/Main.)))
+     (def electric-entrypoint (e/boot
+                                (binding [config/pages fiddle-registry]
+                                  (electric-fiddle.main/Main.))))
      (defonce reactor nil)
 
      (defn ^:dev/after-load ^:export start! []

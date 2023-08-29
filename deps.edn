@@ -1,8 +1,5 @@
-{:paths ["src" "resources"
-         #_"vendor/hfql/resources" ; don't need, symlink instead
-         ]
- :deps {com.datomic/peer {:mvn/version "1.0.6735"}
-        com.hyperfiddle/electric {:local/root "vendor/electric"}
+{:paths ["src" "resources"]
+ :deps {com.hyperfiddle/electric {:local/root "vendor/electric"}
         com.hyperfiddle/hfql {:local/root "vendor/hfql"}
         com.hyperfiddle/rcf {:local/root "vendor/rcf"}
         info.sunng/ring-jetty9-adapter
@@ -14,6 +11,8 @@
         org.clojure/tools.logging {:mvn/version "1.2.4"}
         ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
         ring-basic-authentication/ring-basic-authentication {:mvn/version "1.1.1"}
+
+        ; should fiddle deps be opt-in too?
         markdown-clj/markdown-clj {:mvn/version "1.11.4"}
         nextjournal/clojure-mode {:git/url "https://github.com/nextjournal/clojure-mode"
                                   :sha "ac038ebf6e5da09dd2b8a31609e9ff4a65e36852"}}
@@ -41,4 +40,13 @@
                                        org.slf4j/slf4j-nop ; conflict with app classpath in clj -X:build build-client, so we add a build logger config
                                        ]}
                          thheller/shadow-cljs {:mvn/version "2.25.2"}}
-            :jvm-opts ["-Xss2m"]}}}
+            :jvm-opts ["-Xss2m"]}
+
+           :electric-tutorial
+           {:extra-deps
+            {datascript/datascript {:mvn/version "1.5.2"}
+             reagent/reagent {:mvn/version "1.1.1"}}}
+
+           :hfql-demo
+           {:extra-deps
+            {com.datomic/peer {:mvn/version "1.0.6735" #_#_:exclusions [org.slf4j/slf4j-api]}}}}}
