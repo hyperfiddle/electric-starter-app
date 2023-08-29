@@ -9,6 +9,7 @@
                                            Teeshirt-orders-3
                                            Teeshirt-orders-4
                                            Teeshirt-orders-5]]
+            dustingetz.scratch
             [dustingetz.y-fib :refer [Y-fib]]
             [dustingetz.y-dir :refer [Y-dir]]
             [electric-fiddle.essay :refer [Essay]]))
@@ -24,4 +25,5 @@
    `Teeshirt-orders-4 Teeshirt-orders-4
    `Teeshirt-orders-5 Teeshirt-orders-5
    `DirectoryExplorer-HFQL DirectoryExplorer-HFQL
-   `Bug-unmount Bug-unmount})
+   `Bug-unmount Bug-unmount
+   `dustingetz.scratch/Scratch dustingetz.scratch/Scratch})
