@@ -15,7 +15,10 @@
 
 #?(:cljs
    (do
-     (def electric-entrypoint (e/boot (electric-fiddle.main/Main.)))
+     (def electric-entrypoint
+       (e/boot
+         (binding [config/pages (config/install-fiddles)]
+           (electric-fiddle.main/Main.))))
      
      (defonce reactor nil)
 

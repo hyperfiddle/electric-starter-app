@@ -14,4 +14,5 @@
   (when *hyperfiddle-user-ns* ; nil in dev
     (symbol (name *hyperfiddle-user-ns*) "fiddles")))
 
-(e/def pages (install-fiddles)) ; client
+; binding fiddles in entrypoint fixes comptime stackoverflow
+(e/def pages #_(install-fiddles)) ; client
