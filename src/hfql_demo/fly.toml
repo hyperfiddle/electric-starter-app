@@ -1,20 +1,21 @@
-# fly.toml app configuration file generated for electric-fiddle on 2023-07-20T19:27:13-04:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
-
-app = "electric-fiddle"
-primary_region = "ewr"
+app = "hfql"
+primary_region = "cdg"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
 
 [experimental]
   auto_rollback = true
 
+[env]
+  PRIMARY_REGION = "cdg"
+
 [[services]]
+  processes = ["app"]
   protocol = "tcp"
   internal_port = 8080
-  processes = ["app"]
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
 
   [[services.ports]]
     port = 80
@@ -26,8 +27,8 @@ kill_timeout = "5s"
     handlers = ["tls", "http"]
   [services.concurrency]
     type = "connections"
-    hard_limit = 200
-    soft_limit = 150
+    hard_limit = 25
+    soft_limit = 20
 
   [[services.tcp_checks]]
     interval = "15s"
