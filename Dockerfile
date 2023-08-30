@@ -6,7 +6,7 @@ RUN npm install
 FROM clojure:openjdk-11-tools-deps AS build
 WORKDIR /app
 COPY --from=node-deps /app/node_modules /app/node_modules
-COPY .m2 /root/.m2
+#COPY .m2 /root/.m2
 COPY shadow-cljs.edn shadow-cljs.edn
 COPY deps.edn deps.edn
 COPY src src
@@ -16,7 +16,8 @@ COPY vendor vendor
 COPY resources resources
 ARG REBUILD=unknown
 ARG VERSION
-RUN clojure -T:build build-client :verbose true :version '"'$VERSION'"'
+ARG HYPERFIDDLE_DOMAIN
+RUN clojure -X:build:prod:$HYPERFIDDLE_DOMAIN build-client :build $HYPERFIDDLE_DOMAIN :version '"'$VERSION'"' :debug true
 
 ENV VERSION=$VERSION
-CMD clj -J-DHYPERFIDDLE_ELECTRIC_SERVER_VERSION=$VERSION -M -m prod
+CMD clojure -J-DHYPERFIDDLE_ELECTRIC_SERVER_VERSION='"'$VERSION'"' -M:prod:hello-fiddle -m prod domain hello-fiddle
