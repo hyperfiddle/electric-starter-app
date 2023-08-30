@@ -1,14 +1,10 @@
 (ns prod
-  #?(:cljs (:require-macros [prod :refer [install-fiddle]]))
   (:require #?(:clj [clojure.tools.logging :as log])
             [electric-fiddle.config :as config]
             electric-fiddle.main
             #?(:clj [electric-fiddle.server :refer [start-server!]])
             [hyperfiddle.electric :as e]
-            #?(:cljs #=(clojure.core/identity build/*hyperfiddle-user-ns*)
-               :clj build)))
-
-(defmacro install-fiddles [] (symbol (name build/*hyperfiddle-user-ns*) "fiddles"))
+            #?(:cljs #=(clojure.core/identity electric-fiddle.config/*hyperfiddle-user-ns*))))
 
 #?(:clj
    (defn -main [& {:strs [domain] :as args}] ; https://clojure.org/reference/repl_and_main
@@ -19,11 +15,7 @@
 
 #?(:cljs
    (do
-     (def electric-entrypoint
-       (e/boot
-         (binding [config/pages (install-fiddles)] ; install userland client
-           (js/console.log "fiddles:" config/pages)
-           (electric-fiddle.main/Main.))))
+     (def electric-entrypoint (e/boot (electric-fiddle.main/Main.)))
      
      (defonce reactor nil)
 

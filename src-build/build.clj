@@ -1,9 +1,8 @@
 (ns build
   (:require [clojure.tools.build.api :as b]
+            [electric-fiddle.config :as config]
             [shadow.cljs.devtools.api :as shadow-api]
             [shadow.cljs.devtools.server :as shadow-server]))
-
-(def ^:dynamic *hyperfiddle-user-ns* nil)
 
 ;(def lib 'com.hyperfiddle/electric-fiddle)
 (def version (b/git-process {:git-args "describe --tags --long --always --dirty"}))
@@ -25,7 +24,7 @@ application classpath to be available, i.e. `clj -X:build` not `clj -T:build`"
   ; adding com.google.guava/guava {:mvn/version "31.1-jre"} to deps, 
   ; see https://hf-inc.slack.com/archives/C04TBSDFAM6/p1692636958361199
   (shadow-server/start!)
-  (binding [*hyperfiddle-user-ns* (symbol (str (name build) ".fiddles"))]
+  (binding [config/*hyperfiddle-user-ns* (symbol (str (name build) ".fiddles"))]
     (shadow-api/release build
       {:debug debug,
        :verbose verbose,
