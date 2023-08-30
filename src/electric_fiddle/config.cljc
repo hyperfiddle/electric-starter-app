@@ -10,6 +10,8 @@
            :manifest-path "public/js/manifest.edn"})) ; shadow output
 
 #?(:clj (def ^:dynamic *hyperfiddle-user-ns* nil)) ; cljs comptime, see build.clj
-(defmacro install-fiddles [] (symbol (name *hyperfiddle-user-ns*) "fiddles"))
+(defmacro install-fiddles []
+  (when *hyperfiddle-user-ns* ; nil in dev
+    (symbol (name *hyperfiddle-user-ns*) "fiddles")))
 
 (e/def pages (install-fiddles)) ; client

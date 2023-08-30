@@ -26,9 +26,7 @@
     thheller/shadow-cljs {:mvn/version "2.25.2"}}
    :jvm-opts
    ["-Xss2m" ; https://github.com/hyperfiddle/photon/issues/11
-    "-XX:-OmitStackTraceInFastThrow" #_RCF]
-   :exec-fn user/main
-   :exec-args {}}
+    "-XX:-OmitStackTraceInFastThrow" #_RCF]}
 
   :build
   ; use `clj -X:build build-client`, NOT -T! build/app classpath contamination cannot be prevented
@@ -44,11 +42,17 @@
 
   :prod
   {:extra-paths ["src-prod"]}
+  
+  :hello-fiddle {}
 
   :electric-tutorial
   {:extra-deps
    {datascript/datascript {:mvn/version "1.5.2"}
     reagent/reagent {:mvn/version "1.1.1"}}}
+
+  :dustingetz
+  {:extra-deps
+   {com.datomic/peer {:mvn/version "1.0.6735" #_#_:exclusions [org.slf4j/slf4j-api]}}}
 
   :hfql-demo
   {:extra-deps

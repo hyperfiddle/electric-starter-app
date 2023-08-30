@@ -1,4 +1,4 @@
-(ns dustingetz.dustingetz-registry
+(ns dustingetz.fiddles
   (:require [hyperfiddle.electric :as e]
             
             [dustingetz.demo-explorer-hfql :refer [DirectoryExplorer-HFQL]]
@@ -14,7 +14,7 @@
             [dustingetz.y-dir :refer [Y-dir]]
             [electric-fiddle.essay :refer [Essay]]))
 
-(e/def pages
+(e/def fiddles
   {`Y-fib Y-fib
    `Y-dir Y-dir
    `Essay Essay

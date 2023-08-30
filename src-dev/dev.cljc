@@ -6,13 +6,15 @@
             [hyperfiddle.electric :as e]
             [hyperfiddle.rcf :as rcf]
             
-            electric-tutorial.tutorial-registry
-            dustingetz.dustingetz-registry))
+            dustingetz.fiddles ; datomic
+            electric-tutorial.fiddles
+            hfql-demo.fiddles)) ; datomic
 
 (e/def fiddle-registry
   (merge
-    electric-tutorial.tutorial-registry/pages
-    dustingetz.dustingetz-registry/pages)) ; datomic
+    dustingetz.fiddles/fiddles
+    electric-tutorial.fiddles/fiddles
+    hfql-demo.fiddles/fiddles)) 
 
 #?(:clj
    (do
