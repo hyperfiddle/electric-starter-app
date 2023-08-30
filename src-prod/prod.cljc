@@ -1,35 +1,46 @@
 (ns prod
-  #?(:clj (:gen-class))
-  (:require [electric-fiddle.config :as config]
+  #?(:cljs (:require-macros [prod :refer [install-fiddle]]))
+  (:require #?(:clj [clojure.tools.logging :as log])
+            [electric-fiddle.config :as config]
             electric-fiddle.main
             #?(:clj [electric-fiddle.server :refer [start-server!]])
             [hyperfiddle.electric :as e]
-            
-            electric-tutorial.tutorial-registry
-            dustingetz.dustingetz-registry))
+            #?(:cljs #=(clojure.core/identity build/*hyperfiddle-user-ns*)
+               :clj build)))
 
-(e/def fiddle-registry ; Electric needs to see this at client compile time
-  (merge
-    electric-tutorial.tutorial-registry/pages
-    dustingetz.dustingetz-registry/pages))
+(defmacro install-fiddles [] (symbol (name build/*hyperfiddle-user-ns*) "fiddles"))
 
 #?(:clj
-   (defn -main [& args] ; https://clojure.org/reference/repl_and_main
+   (defn -main [& {:strs [domain] :as args}] ; https://clojure.org/reference/repl_and_main
+     (log/info (pr-str args))
+     (log/info "domain: " (pr-str domain))
+     (require (symbol (str domain ".fiddles"))) ; load userland server
      (start-server! config/electric-server-config)))
 
 #?(:cljs
    (do
-     (def electric-entrypoint (e/boot 
-                                (binding [config/pages fiddle-registry]
-                                  (electric-fiddle.main/Main.))))
+     (def electric-entrypoint
+       (e/boot
+         (binding [config/pages (install-fiddles)] ; install userland client
+           (js/console.log "fiddles:" config/pages)
+           (electric-fiddle.main/Main.))))
+     
      (defonce reactor nil)
 
      (defn ^:dev/after-load ^:export start! []
        (set! reactor (electric-entrypoint
                        #(js/console.log "Reactor success:" %)
-                       #(js/console.error "Reactor failure:" %)))
-       #_(hyperfiddle.rcf/enable!))
+                       #(js/console.error "Reactor failure:" %))))
 
      (defn ^:dev/before-load stop! []
        (when reactor (reactor)) ; teardown
        (set! reactor nil))))
+
+
+; clj -X:build:prod:dustingetz build-client :build :prod-dustingetz
+; clj -X:build:prod:dustingetz build-client :build :prod-dustingetz :debug true :verbose true :optimizations false
+; clj -M:prod:dustingetz -m prod
+; clj -M:prod:dustingetz -m prod :domain dustingetz   
+
+; clj -X:build:prod:hello-fiddle build-client :build :hello-fiddle :debug true :verbose true :optimizations false
+; clj -M:prod:dustingetz -m prod domain hello-fiddle

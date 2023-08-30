@@ -12,6 +12,14 @@
    :build-hooks [(shadow.cljs.build-report/hook {:output-to "target/build_report.html"})
                  (user/rcf-shadow-hook)]}
   
+  :hello-fiddle
+  {:target :browser
+   :output-dir "resources/public/js"
+   :asset-path "/js"
+   :module-hash-names true
+   :modules {:main {:entries [hello-fiddle.fiddles prod]
+                    :init-fn prod/start!}}}
+
   :prod
   {:target :browser
    :output-dir "resources/public/js"
