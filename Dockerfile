@@ -14,10 +14,16 @@ COPY src-build src-build
 COPY src-prod src-prod
 COPY vendor vendor
 COPY resources resources
+
 ARG REBUILD=unknown
 ARG VERSION
 ARG HYPERFIDDLE_DOMAIN
-RUN clojure -X:build:prod:$HYPERFIDDLE_DOMAIN build-client :build $HYPERFIDDLE_DOMAIN :version '"'$VERSION'"' :debug true
 
-ENV VERSION=$VERSION
-CMD clojure -J-DHYPERFIDDLE_ELECTRIC_SERVER_VERSION='"'$VERSION'"' -M:prod:hello-fiddle -m prod domain hello-fiddle
+RUN clojure -A:prod:$HYPERFIDDLE_DOMAIN -M -e ::ok         # preload
+RUN clojure -A:build:prod:$HYPERFIDDLE_DOMAIN -M -e ::ok   # preload
+RUN clojure -X:build:prod:$HYPERFIDDLE_DOMAIN uberjar \
+    :hyperfiddle/domain $HYPERFIDDLE_DOMAIN \
+    :hyperfiddle/user-version $VERSION \
+    :debug true
+
+CMD java -cp target/electricfiddle-$HYPERFIDDLE_DOMAIN-$VERSION.jar clojure.main -m prod

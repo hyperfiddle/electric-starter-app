@@ -1,13 +1,20 @@
 (ns electric-fiddle.config
   #?(:cljs (:require-macros [electric-fiddle.config :refer [install-fiddle]]))
-  (:require [hyperfiddle.electric :as e]))
+  (:require [clojure.edn :as edn]
+            #?(:clj [clojure.java.io :as io])
+            [contrib.template :refer [load-resource]]
+            [hyperfiddle.electric :as e]))
 
-#?(:clj (def app-version (System/getProperty "HYPERFIDDLE_ELECTRIC_SERVER_VERSION")))
+; prod only, baked into client and server. nil during build.cljc
+(def electric-prod-manifest (load-resource "public/electricfiddle-manifest.edn"))
+
 #?(:clj (def datomic-conn))
-#?(:clj (def electric-server-config 
-          {:host "0.0.0.0", :port 8080, 
-           :resources-path "public" 
-           :manifest-path "public/js/manifest.edn"})) ; shadow output
+#?(:clj (def config 
+          (merge
+            {:host "0.0.0.0", :port 8080, 
+             :resources-path "public" 
+             :manifest-path "public/js/manifest.edn"} ; shadow build manifest
+            electric-prod-manifest)))
 
 #?(:clj (def ^:dynamic *hyperfiddle-user-ns* nil)) ; cljs comptime, see build.clj
 (defmacro install-fiddles []

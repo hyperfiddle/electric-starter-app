@@ -12,36 +12,10 @@
    :build-hooks [(shadow.cljs.build-report/hook {:output-to "target/build_report.html"})
                  #_(user/rcf-shadow-hook)]}
   
-  ; hyperfiddle domains:
-  
-  :hello-fiddle
+  :prod
   {:target :browser
    :output-dir "resources/public/js"
    :asset-path "/js"
-   :module-hash-names true
-   :modules {:main {:entries [prod]
-                    :init-fn prod/start!}}}
-
-  :dustingetz
-  {:target :browser
-   :output-dir "resources/public/js"
-   :asset-path "/js"
-   :module-hash-names true
-   :modules {:main {:entries [prod]
-                    :init-fn prod/start!}}}
-
-  :electric-tutorial
-  {:target :browser
-   :output-dir "resources/public/js"
-   :asset-path "/js"
-   :module-hash-names true
-   :modules {:main {:entries [prod]
-                    :init-fn prod/start!}}}
-
-  :hfql-demo
-  {:target :browser
-   :output-dir "resources/public/js" #_"resources/public/hfql-demo/js"
-   :asset-path "/js" #_"/hfql-demo/js"
    :module-hash-names true
    :modules {:main {:entries [prod]
                     :init-fn prod/start!}}}}}

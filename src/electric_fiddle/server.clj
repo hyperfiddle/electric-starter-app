@@ -2,6 +2,8 @@
   (:require [clojure.java.io :as io]
             [hyperfiddle.electric-jetty-adapter :as adapter]
             [clojure.tools.logging :as log]
+            [clojure.spec.alpha :as s]
+            [hyperfiddle :as hf]
             [ring.adapter.jetty9 :as ring]
             [ring.middleware.basic-authentication :as auth]
             [ring.middleware.content-type :refer [wrap-content-type]]
@@ -64,26 +66,23 @@ information."
           (res/content-type "text/html") ; ensure `index.html` is not cached
           (res/header "Cache-Control" "no-store")
           (res/header "Last-Modified" (get-in response [:headers "Last-Modified"])))
-        ;; No manifest found, can't inject js modules
-        (-> (res/not-found "Missing client program manifest")
+        (-> (res/not-found (pr-str ::missing-shadow-build-manifest)) ; can't inject js modules
           (res/content-type "text/plain")))
       ;; index.html file not found on classpath
       (next-handler ring-req))))
-
-(def ^:const ELECTRIC_APP_VERSION (not-empty (System/getProperty "HYPERFIDDLE_ELECTRIC_SERVER_VERSION"))) ; see Dockerfile
 
 (defn wrap-reject-stale-client
   "Intercept websocket UPGRADE request and check if client and server versions 
 matches. An electric client is allowed to connect if its version matches the 
 server's version, or if the server doesn't have a version set (dev mode). 
 Otherwise, the client connection is rejected gracefully."
-  [next-handler]
+  [next-handler {:keys [::hf/user-version] :as config}]
   (fn [ring-req]
     (if (ring/ws-upgrade-request? ring-req)
       (let [client-version (get-in ring-req [:query-params "HYPERFIDDLE_ELECTRIC_CLIENT_VERSION"])]
         (cond
-          (nil? ELECTRIC_APP_VERSION)             (next-handler ring-req)
-          (= client-version ELECTRIC_APP_VERSION) (next-handler ring-req)
+          (nil? user-version)             (next-handler ring-req)
+          (= client-version user-version) (next-handler ring-req)
           :else (adapter/reject-websocket-handler 1008 "stale client") ; https://www.rfc-editor.org/rfc/rfc6455#section-7.4.1
           ))
       (next-handler ring-req))))
@@ -96,10 +95,10 @@ Otherwise, the client connection is rejected gracefully."
         (ring/ws-upgrade-response (adapter/electric-ws-adapter electric-message-handler)))
       (next-handler ring-request))))
 
-(defn electric-websocket-middleware [next-handler]
+(defn electric-websocket-middleware [next-handler config]
   (-> (wrap-electric-websocket next-handler) ; 4. connect electric client
     (cookies/wrap-cookies) ; 3. makes cookies available to Electric app
-    (wrap-reject-stale-client) ; 2. reject stale electric client
+    (wrap-reject-stale-client config) ; 2. reject stale electric client
     (wrap-params) ; 1. parse query params
     ))
 
@@ -107,14 +106,17 @@ Otherwise, the client connection is rejected gracefully."
   (-> (res/not-found "Not found")
     (res/content-type "text/plain")))
 
-(defn http-middleware [resources-path manifest-path]
+(defn http-middleware [{:keys [manifest-path resources-path]
+                        :or {manifest-path "public/js/manifest.edn"
+                             resources-path "public"}
+                        :as config}]
   ;; these compose as functions, so are applied bottom up
   (-> not-found-handler
     (wrap-index-page resources-path manifest-path) ; 5. otherwise fallback to default page file
     (wrap-resource resources-path) ; 4. serve static file from classpath
     (wrap-content-type) ; 3. detect content (e.g. for index.html)
     (wrap-demo-router) ; 2. route
-    (electric-websocket-middleware) ; 1. intercept electric websocket
+    (electric-websocket-middleware config) ; 1. intercept electric websocket
     ))
 
 (defn- add-gzip-handler
@@ -126,20 +128,18 @@ Otherwise, the client connection is rejected gracefully."
       (.setMinGzipSize 1024)
       (.setHandler (.getHandler server)))))
 
-(defn start-server! [{:keys [port resources-path manifest-path]
-                      :or   {port            8080
-                             resources-path "public"
-                             manifest-path  "public/js/manifest.edn"}
-                      :as   config}]
-  (log/info "Serving Electric application, app version: " ELECTRIC_APP_VERSION)
+(defn start-server! [{:keys [port host]
+                      :or {port 8080, host "0.0.0.0"} ; insecure default?
+                      :as config}]
+  (log/info config)
   (try
-    (let [server (ring/run-jetty (http-middleware resources-path manifest-path)
+    (let [server (ring/run-jetty (http-middleware config)
                    (merge {:port port
                            :join? false
                            :configurator add-gzip-handler}
                      config))
           final-port (-> server (.getConnectors) first (.getPort))]
-      (log/info "👉 App server available at" (str "http://" (:host config) ":" final-port))
+      (log/info "👉 App server available at" (str "http://" host ":" final-port))
       server)
 
     (catch IOException err
@@ -147,4 +147,3 @@ Otherwise, the client connection is rejected gracefully."
         (do (log/warn "Port" port "was not available, retrying with" (inc port))
           (start-server! (update config :port inc)))
         (throw err)))))
-
