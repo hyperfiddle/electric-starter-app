@@ -49,7 +49,8 @@
                             (str "/" folder-name "/"))]
       (->> (slurp manifest)
         (edn/read-string)
-        (reduce (fn [r module] (assoc r (keyword "hyperfiddle.client.module" (name (:name module))) (str manifest-folder (:output-name module)))) {})))))
+        (reduce (fn [r module] (assoc r (keyword "hyperfiddle.client.module" (name (:name module))) 
+                                 (str manifest-folder (:output-name module)))) {})))))
 
 (defn wrap-index-page
   "Server the `index.html` file with injected javascript modules from `manifest.edn`. 
