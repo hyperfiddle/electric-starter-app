@@ -30,9 +30,8 @@
        (log/info "Starting Electric compiler and server...") ; run after REPL redirects stdout
        (do (@shadow-start!) (@shadow-watch :dev))
        (comment (@shadow-stop!))
-       (def server (start-server! config/electric-server-config))
-       (comment (.stop server))
-       (alter-var-root #'*out* (fn [_] *out*)))
+       (def server (start-server! config/config))
+       (comment (.stop server)))
 
      (comment
        (do (@shadow-start!) (@shadow-watch :dev))
