@@ -126,7 +126,7 @@ Otherwise, the client connection is rejected gracefully."
 (defn start-server! [{:keys [port host]
                       :or {port 8080, host "0.0.0.0"} ; insecure default?
                       :as config}]
-  (log/info config)
+  (log/info (pr-str config))
   (try
     (let [server (ring/run-jetty (http-middleware config)
                    (merge {:port port
