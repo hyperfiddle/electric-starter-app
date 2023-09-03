@@ -30,13 +30,14 @@ requires application classpath to be available, so use `clj -X:build` not `clj -
     ; see https://hf-inc.slack.com/archives/C04TBSDFAM6/p1692636958361199
     (shadow-server/start!)
     (binding [hf/*hyperfiddle-user-ns* (symbol (str (name (check string? domain)) ".fiddles"))]
-      (shadow-api/release :prod
-        {:debug debug,
-         :verbose verbose,
-         :config-merge
-         [{:compiler-options {:optimizations (if optimize :advanced :simple)}
-    ; todo fail build on error
-           :closure-defines {'hyperfiddle.electric-client/ELECTRIC_USER_VERSION user-version}}]}))
+      (as->
+        (shadow-api/release :prod
+          {:debug debug,
+           :verbose verbose,
+           :config-merge
+           [{:compiler-options {:optimizations (if optimize :advanced :simple)}
+             :closure-defines {'hyperfiddle.electric-client/ELECTRIC_USER_VERSION user-version}}]})
+        shadow-status (assert (= shadow-status :done) "shadow-api/release error"))) ; fail build on error
     (shadow-server/stop!)
     (log/info domain "client built")))
 
