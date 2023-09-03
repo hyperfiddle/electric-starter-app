@@ -6,7 +6,7 @@
             [shadow.cljs.devtools.api :as shadow-api]
             [shadow.cljs.devtools.server :as shadow-server]))
 
-(def user-version (b/git-process {:git-args "describe --tags --long --always --dirty"}))
+(def electric-user-version (b/git-process {:git-args "describe --tags --long --always --dirty"}))
 
 (defn build-client
   "build Electric app client, invoke with -X. Note: Electric shadow compilation 
@@ -18,7 +18,7 @@ requires application classpath to be available, so use `clj -X:build` not `clj -
          :as config}
         (-> argmap 
           (update ::hf/domain str) ; coerce, -X under bash evals as symbol unless shell quoted like '"'foo'"'
-          (assoc :hyperfiddle.electric/user-version user-version))]
+          (assoc :hyperfiddle.electric/user-version electric-user-version))]
     (b/delete {:path "resources/public/js"})
     (b/delete {:path "resources/electric-manifest.edn"})
     
@@ -36,7 +36,7 @@ requires application classpath to be available, so use `clj -X:build` not `clj -
            :verbose verbose,
            :config-merge
            [{:compiler-options {:optimizations (if optimize :advanced :simple)}
-             :closure-defines {'hyperfiddle.electric-client/ELECTRIC_USER_VERSION user-version}}]})
+             :closure-defines {'hyperfiddle.electric-client/ELECTRIC_USER_VERSION electric-user-version}}]})
         shadow-status (assert (= shadow-status :done) "shadow-api/release error"))) ; fail build on error
     (shadow-server/stop!)
     (log/info domain "client built")))
@@ -54,7 +54,7 @@ requires application classpath to be available, so use `clj -X:build` not `clj -
                  :optimize optimize, :debug debug, :verbose verbose})
   
   (b/copy-dir {:target-dir class-dir :src-dirs ["src" "src-prod" "resources"]})
-  (let [jar-name (format "target/electricfiddle-%s-%s.jar" domain user-version)]
+  (let [jar-name (format "target/electricfiddle-%s-%s.jar" domain electric-user-version)]
     (b/uber {:class-dir class-dir
              :uber-file jar-name
              :basis     (b/create-basis {:project "deps.edn" :aliases [:prod]})})
