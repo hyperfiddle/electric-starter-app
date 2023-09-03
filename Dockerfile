@@ -16,14 +16,13 @@ COPY vendor vendor
 COPY resources resources
 
 ARG REBUILD=unknown
-ARG VERSION
 ARG HYPERFIDDLE_DOMAIN
-
+ARG ELECTRIC_USER_VERSION
 RUN clojure -A:prod:$HYPERFIDDLE_DOMAIN -M -e ::ok         # preload
 RUN clojure -A:build:prod:$HYPERFIDDLE_DOMAIN -M -e ::ok   # preload
 RUN clojure -X:build:prod:$HYPERFIDDLE_DOMAIN uberjar \
-    :hyperfiddle/domain $HYPERFIDDLE_DOMAIN \
-    :hyperfiddle/user-version $VERSION \
-    :debug true
+    :hyperfiddle/domain $HYPERFIDDLE_DOMAIN
 
-CMD java -cp target/electricfiddle-$HYPERFIDDLE_DOMAIN-$VERSION.jar clojure.main -m prod
+ENV HYPERFIDDLE_DOMAIN=$HYPERFIDDLE_DOMAIN
+ENV ELECTRIC_USER_VERSION=$ELECTRIC_USER_VERSION
+CMD java -cp target/electricfiddle-$HYPERFIDDLE_DOMAIN-$ELECTRIC_USER_VERSION.jar clojure.main -m prod
