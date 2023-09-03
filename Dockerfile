@@ -21,8 +21,7 @@ ARG ELECTRIC_USER_VERSION
 RUN clojure -A:prod:$HYPERFIDDLE_DOMAIN -M -e ::ok         # preload
 RUN clojure -A:build:prod:$HYPERFIDDLE_DOMAIN -M -e ::ok   # preload
 RUN clojure -X:build:prod:$HYPERFIDDLE_DOMAIN uberjar \
-    :hyperfiddle/domain $HYPERFIDDLE_DOMAIN
+    :hyperfiddle/domain $HYPERFIDDLE_DOMAIN \
+    :build/jar-name user.jar
 
-ENV HYPERFIDDLE_DOMAIN=$HYPERFIDDLE_DOMAIN
-ENV ELECTRIC_USER_VERSION=$ELECTRIC_USER_VERSION
-CMD java -cp target/electricfiddle-$HYPERFIDDLE_DOMAIN-$ELECTRIC_USER_VERSION.jar clojure.main -m prod
+CMD java -cp user.jar clojure.main -m prod

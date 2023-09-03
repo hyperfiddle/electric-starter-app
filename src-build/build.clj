@@ -46,9 +46,10 @@ so do not use `clj -T`"
 (def class-dir "target/classes")
 
 (defn uberjar
-  [{:keys [::hf/domain optimize debug verbose]
+  [{:keys [::hf/domain optimize debug verbose ::jar-name]
     :or {optimize true, debug false, verbose false}
     :as args}]
+  ; careful, shell quote escaping combines poorly with clj -X arg parsing, strings read as symbols
   (log/info `uberjar (pr-str args)) 
   (b/delete {:path "target"})
   
@@ -56,7 +57,8 @@ so do not use `clj -T`"
                  :optimize optimize, :debug debug, :verbose verbose})
   
   (b/copy-dir {:target-dir class-dir :src-dirs ["src" "src-prod" "resources"]})
-  (let [jar-name (format "target/electricfiddle-%s-%s.jar" domain electric-user-version)]
+  (let [jar-name (or (some-> jar-name str) ; override for Dockerfile builds to avoid needing to reconstruct the name
+                   (format "target/electricfiddle-%s-%s.jar" domain electric-user-version))]
     (b/uber {:class-dir class-dir
              :uber-file jar-name
              :basis     (b/create-basis {:project "deps.edn" :aliases [:prod]})})
