@@ -9,8 +9,10 @@
 (def electric-user-version (b/git-process {:git-args "describe --tags --long --always --dirty"}))
 
 (defn build-client
-  "build Electric app client, invoke with -X. Note: Electric shadow compilation 
-requires application classpath to be available, so use `clj -X:build` not `clj -T:build`"
+  "build Electric app client, invoke with -X e.g. 
+`clojure -X:build:prod:hello-fiddle build-client :hyperfiddle/domain hello-fiddle :debug true`
+Note: Electric shadow compilation requires application classpath to be available, 
+so do not use `clj -T`"
   ; No point in sheltering shadow from app classpath, shadow loads it anyway!
   [argmap] ; invoke with -X
   (let [{:keys [::hf/domain optimize debug verbose]
@@ -60,7 +62,7 @@ requires application classpath to be available, so use `clj -X:build` not `clj -
              :basis     (b/create-basis {:project "deps.edn" :aliases [:prod]})})
     (log/info jar-name)))
 
-; clojure -A:prod:hello-fiddle -M -e ::ok 
-; clojure -A:build:prod:hello-fiddle -M -e ::ok 
-; clojure -X:build:prod:hello-fiddle build-client :hyperfiddle/domain hello-fiddle :debug true
+; clj -A:prod:hello-fiddle -M -e ::ok 
+; clj -A:build:prod:hello-fiddle -M -e ::ok 
+; clj -X:build:prod:hello-fiddle uberjar :hyperfiddle/domain hello-fiddle :debug true
 ; java -cp target/electricfiddle-hello-fiddle-77ebb18-dirty.jar clojure.main -m prod
