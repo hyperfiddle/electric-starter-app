@@ -5,16 +5,19 @@
             [hyperfiddle :as hf]
             [hyperfiddle.electric :as e]
             [hyperfiddle.rcf :as rcf]
-            
+
             dustingetz.fiddles ; datomic
             electric-tutorial.fiddles
             hfql-demo.fiddles)) ; datomic
+
+(comment "repl entrypoint:" (-main)
+  )
 
 (e/def fiddle-registry
   (merge
     dustingetz.fiddles/fiddles
     electric-tutorial.fiddles/fiddles
-    hfql-demo.fiddles/fiddles)) 
+    hfql-demo.fiddles/fiddles))
 
 #?(:clj
    (do
@@ -22,7 +25,7 @@
      (def shadow-start! (delay @(requiring-resolve 'shadow.cljs.devtools.server/start!)))
      (def shadow-stop! (delay @(requiring-resolve 'shadow.cljs.devtools.server/stop!)))
      (def shadow-watch (delay @(requiring-resolve 'shadow.cljs.devtools.api/watch)))
-
+     
      (def config
        {:host "0.0.0.0", :port 8080,
         :resources-path "public"
@@ -40,10 +43,7 @@
        (comment (@shadow-stop!))
        (def server (start-server! config))
        (comment (.stop server))
-       (rcf/enable!))
-
-     (comment "repl entrypoint:" (-main)
-       )))
+       (rcf/enable!))))
 
 #?(:cljs
    (do
@@ -61,8 +61,6 @@
      (defn ^:dev/before-load stop! []
        (when reactor (reactor)) ; teardown
        (set! reactor nil))))
-
-
 
 (comment
   "CI tests"
