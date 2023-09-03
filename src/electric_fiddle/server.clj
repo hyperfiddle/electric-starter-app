@@ -79,7 +79,7 @@ Otherwise, the client connection is rejected gracefully."
   (fn [ring-req]
     (if (ring/ws-upgrade-request? ring-req)
       (let [client-version (get-in ring-req [:query-params "ELECTRIC_USER_VERSION"])]
-        (log/info (pr-str client-version) (pr-str user-version))
+        (log/debug 'wrap-reject-stale-client "client:" (pr-str client-version) "server:" (pr-str user-version))
         (cond
           (= client-version user-version) (next-handler ring-req)
           (clojure.string/ends-with? client-version "-dirty") (next-handler ring-req) ; needed?
