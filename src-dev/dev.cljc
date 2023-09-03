@@ -1,9 +1,9 @@
 (ns ^:dev/always dev ; rebuild everything when any file changes. Will fix
   (:require #?(:clj [clojure.tools.logging :as log])
             #?(:clj [clojure.tools.build.api :as b])
-            electric-fiddle.config
             electric-fiddle.main
             #?(:clj [electric-fiddle.server :refer [start-server!]])
+            [hyperfiddle :as hf]
             [hyperfiddle.electric :as e]
             [hyperfiddle.rcf :as rcf]
             
@@ -52,7 +52,7 @@
 #?(:cljs
    (do
      (def electric-entrypoint (e/boot
-                                (binding [electric-fiddle.config/pages fiddle-registry]
+                                (binding [hf/pages fiddle-registry]
                                   (electric-fiddle.main/Main.))))
      (defonce reactor nil)
 

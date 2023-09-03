@@ -1,6 +1,6 @@
 (ns electric-fiddle.index
   (:require clojure.string
-            [electric-fiddle.config :as config]
+            [hyperfiddle :as hf]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.history :as history]))
@@ -9,7 +9,7 @@
   (e/client
     (dom/h1 (dom/text `Index))
     (dom/pre (dom/text (pr-str history/route)))
-    (e/for [[k _] (sort config/pages)]
+    (e/for [[k _] (sort hf/pages)]
       (let [href `[~@history/route ~k]]
         (dom/div (history/link href (dom/text (name k)))
           (dom/text " " (history/build-route history/history href)))))))

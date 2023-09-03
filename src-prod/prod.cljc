@@ -3,12 +3,11 @@
   (:require #?(:clj [clojure.tools.logging :as log])
             [contrib.assert :refer [check]]
             [contrib.template :refer [comptime-resource]]
-            [electric-fiddle.config :as config]
             electric-fiddle.main
             #?(:clj [electric-fiddle.server :refer [start-server!]])
             [hyperfiddle :as hf]
             [hyperfiddle.electric :as e]
-            #?(:cljs #=(clojure.core/identity electric-fiddle.config/*hyperfiddle-user-ns*))))
+            #?(:cljs #=(clojure.core/identity hyperfiddle/*hyperfiddle-user-ns*)))) ; domain DI here
 
 (def config
   (merge
@@ -17,7 +16,7 @@
      :resources-path "public"
      :manifest-path "public/js/manifest.edn"})) ; shadow build manifest
 
-(defmacro install-user-fiddles [] (symbol (name config/*hyperfiddle-user-ns*) "fiddles"))
+(defmacro install-user-fiddles [] (symbol (name hf/*hyperfiddle-user-ns*) "fiddles"))
 
 #?(:clj
    (defn -main [& {:strs [] :as args}] ; clojure.main entrypoint, args are strings
@@ -32,7 +31,7 @@
    (do
      (def electric-entrypoint
        (e/boot
-         (binding [config/pages (install-user-fiddles)]
+         (binding [hf/pages (install-user-fiddles)]
            (electric-fiddle.main/Main.))))
      
      (defonce reactor nil)

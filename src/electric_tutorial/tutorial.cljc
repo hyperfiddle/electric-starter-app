@@ -1,9 +1,9 @@
 (ns electric-tutorial.tutorial
   (:require clojure.string
-            [electric-fiddle.config :as config]
             [electric-fiddle.fiddle :refer [Fiddle-fn Fiddle-ns]]
             [electric-fiddle.fiddle-markdown :refer [Custom-markdown]]
             [electric-fiddle.index :refer [Index]]
+            [hyperfiddle :as hf]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.electric-svg :as svg]
@@ -106,7 +106,7 @@
    'fiddle-ns Fiddle-ns})
 
 (e/defn Tutorial [& [?tutorial :as route]]
-  (if (nil? (seq route)) (binding [config/pages tutorials2] (Index.))
+  (if (nil? (seq route)) (binding [hf/pages tutorials2] (Index.))
     (do #_(dom/pre (dom/text (pr-str history/route)))
       #_ (e/client (dom/div #_(dom/props {:class ""}))) ; fix css grid next
       (Nav. ?tutorial false)

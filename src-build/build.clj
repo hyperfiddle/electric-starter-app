@@ -2,7 +2,6 @@
   (:require [clojure.tools.logging :as log]
             [clojure.tools.build.api :as b]
             [contrib.assert :refer [check]]
-            [electric-fiddle.config :as config]
             [hyperfiddle :as hf]
             [shadow.cljs.devtools.api :as shadow-api]
             [shadow.cljs.devtools.server :as shadow-server]))
@@ -30,8 +29,7 @@ requires application classpath to be available, so use `clj -X:build` not `clj -
     ; adding com.google.guava/guava {:mvn/version "31.1-jre"} to deps, 
     ; see https://hf-inc.slack.com/archives/C04TBSDFAM6/p1692636958361199
     (shadow-server/start!)
-    (binding [config/*electric-user-version* user-version
-              config/*hyperfiddle-user-ns* (symbol (str (name (check string? domain)) ".fiddles"))]
+    (binding [hf/*hyperfiddle-user-ns* (symbol (str (name (check string? domain)) ".fiddles"))]
       (shadow-api/release :prod
         {:debug debug,
          :verbose verbose,

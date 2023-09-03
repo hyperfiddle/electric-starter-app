@@ -1,7 +1,7 @@
 (ns electric-fiddle.fiddle
   (:require clojure.string
             [contrib.electric-codemirror :refer [CodeMirror]]
-            [electric-fiddle.config :as config]
+            [hyperfiddle :as hf]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.history :as history]
@@ -24,8 +24,8 @@
                                         `[~@(case page `Index nil page-route)
                                           ~@local-route])])
       (history/router nil
-        (let [Target (get config/pages target)
-              Wrap (when ?wrap (get config/pages ?wrap ::not-found))]
+        (let [Target (get hf/pages target)
+              Wrap (when ?wrap (get hf/pages ?wrap ::not-found))]
           (cond
             (= ::not-found Wrap) (dom/h1 (dom/text "not found, wrap: " ?wrap))
             (some? Wrap) (Wrap. Target)

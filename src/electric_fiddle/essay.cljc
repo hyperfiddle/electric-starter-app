@@ -1,9 +1,9 @@
 (ns electric-fiddle.essay
   (:require clojure.string
-            [electric-fiddle.config :as config]
             [electric-fiddle.fiddle :refer [Fiddle-fn Fiddle-ns]]
             [electric-fiddle.fiddle-markdown :refer [Custom-markdown]]
             [electric-fiddle.index :refer [Index]]
+            [hyperfiddle :as hf]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.history :as history]))
@@ -21,6 +21,6 @@
   #_(e/client (dom/div #_(dom/props {:class ""}))) ; fix css grid next
   (let [essay-filename (get essays ?essay)]
     (cond
-      (nil? ?essay) (binding [config/pages essays] (Index.))
+      (nil? ?essay) (binding [hf/pages essays] (Index.))
       (nil? essay-filename) (dom/h1 (dom/text "Essay not found: " history/route))
       () (Custom-markdown. extensions essay-filename))))

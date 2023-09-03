@@ -4,7 +4,7 @@
             contrib.data
             contrib.ednish
             contrib.uri ; data_readers 
-            [electric-fiddle.config :as config]
+            [hyperfiddle :as hf]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.history :as history]
@@ -50,4 +50,4 @@
             (history/router 1 ; weird, paired with Index ~@
               (case page
                 `Index (Index.)
-                (e/apply (get config/pages page NotFoundPage) args)))))))))
+                (e/apply (get hf/pages page NotFoundPage) args)))))))))
