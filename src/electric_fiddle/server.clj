@@ -70,7 +70,7 @@ information."
       ;; index.html file not found on classpath
       (next-handler ring-req))))
 
-(defn wrap-reject-stale-client
+(defn wrap-reject-stale-client ; todo move into electric library, has fragile config
   "Intercept websocket UPGRADE request and check if client and server versions 
 matches. An electric client is allowed to connect if its version matches the 
 server's version, or if the server doesn't have a version set (dev mode). 
@@ -82,7 +82,8 @@ Otherwise, the client connection is rejected gracefully."
         (log/debug 'wrap-reject-stale-client "client:" (pr-str client-version) "server:" (pr-str user-version))
         (cond
           (= client-version user-version) (next-handler ring-req)
-          (clojure.string/ends-with? client-version "-dirty") (next-handler ring-req) ; needed?
+          (= client-version "hyperfiddle_electric_client__dirty") (next-handler ring-req)
+          ;(clojure.string/ends-with? client-version "-dirty") (next-handler ring-req) ; todo read version from runtime config?
           :else (adapter/reject-websocket-handler 1008 "stale client") ; https://www.rfc-editor.org/rfc/rfc6455#section-7.4.1
           ))
       (next-handler ring-req))))

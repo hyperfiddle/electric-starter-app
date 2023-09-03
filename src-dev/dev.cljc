@@ -1,6 +1,5 @@
 (ns ^:dev/always dev ; rebuild everything when any file changes. Will fix
   (:require #?(:clj [clojure.tools.logging :as log])
-            #?(:clj [clojure.tools.build.api :as b])
             electric-fiddle.main
             #?(:clj [electric-fiddle.server :refer [start-server!]])
             [hyperfiddle :as hf]
@@ -27,9 +26,8 @@
      (def config
        {:host "0.0.0.0", :port 8080,
         :resources-path "public"
-        :manifest-path "public/js/manifest.edn" ; shadow build manifest
-        ::e/user-version (b/git-process {:git-args "describe --tags --long --always --dirty"})})
-     
+        :manifest-path "public/js/manifest.edn"}) ; shadow build manifest
+
      (declare server)
 
      (defn -main [& args]
@@ -37,9 +35,7 @@
        (alter-var-root #'config #(merge % args))
        (log/info "Starting Electric compiler and server...") ; run after REPL redirects stdout
        (@shadow-start!)
-       (@shadow-watch :dev
-         {:config-merge [{:closure-defines {'hyperfiddle.electric-client/ELECTRIC_USER_VERSION
-                                            (::e/user-version config)}}]})
+       (@shadow-watch :dev)
        ; todo block until finished?
        (comment (@shadow-stop!))
        (def server (start-server! config))
