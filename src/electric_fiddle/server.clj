@@ -136,7 +136,7 @@ Otherwise, the client connection is rejected gracefully."
                            :configurator add-gzip-handler}
                      config))
           final-port (-> server (.getConnectors) first (.getPort))]
-      (log/info "👉 App server available at" (str "http://" host ":" final-port))
+      (log/info "👉" (str "http://" host ":" final-port))
       server)
 
     (catch IOException err
