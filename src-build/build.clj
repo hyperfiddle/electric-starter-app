@@ -19,25 +19,26 @@ requires application classpath to be available, so use `clj -X:build` not `clj -
          :as config}
         (-> argmap 
           (update ::hf/domain str) ; coerce, -X under bash evals as symbol unless shell quoted like '"'foo'"'
-          (assoc ::hf/user-version user-version))]
+          (assoc :hyperfiddle.electric/user-version user-version))]
     (b/delete {:path "resources/public/js"})
+    (b/delete {:path "resources/electric-manifest.edn"})
     
     ; bake domain and user-version into artifact, cljs and clj
-    (b/write-file {:path "resources/public/electricfiddle-manifest.edn"
-                   :content config})
-
+    (b/write-file {:path "resources/electric-manifest.edn" :content config}) ; even used?
+    
     ; "java.lang.NoClassDefFoundError: com/google/common/collect/Streams" is fixed by
     ; adding com.google.guava/guava {:mvn/version "31.1-jre"} to deps, 
     ; see https://hf-inc.slack.com/archives/C04TBSDFAM6/p1692636958361199
     (shadow-server/start!)
-    (binding [config/*hyperfiddle-user-ns* (symbol (str (name (check string? domain)) ".fiddles"))]
+    (binding [config/*electric-user-version* user-version
+              config/*hyperfiddle-user-ns* (symbol (str (name (check string? domain)) ".fiddles"))]
       (shadow-api/release :prod
         {:debug debug,
          :verbose verbose,
          :config-merge
          [{:compiler-options {:optimizations (if optimize :advanced :simple)}
-           :closure-defines {'hyperfiddle.electric-client/VERSION user-version}}]}))
     ; todo fail build on error
+           :closure-defines {'hyperfiddle.electric-client/ELECTRIC_USER_VERSION user-version}}]}))
     (shadow-server/stop!)
     (log/info domain "client built")))
 

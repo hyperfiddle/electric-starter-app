@@ -5,7 +5,7 @@
             clojure.string
             [hyperfiddle.rcf :refer [tests]]))
 
-(defmacro load-resource [filename]
+(defmacro comptime-resource [filename]
   (some-> filename clojure.java.io/resource slurp clojure.edn/read-string))
 
 (defn template 

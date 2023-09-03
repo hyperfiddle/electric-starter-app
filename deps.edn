@@ -23,6 +23,10 @@
   {:extra-paths ["src-dev"]
    :extra-deps
    {binaryage/devtools {:mvn/version "1.0.6"}
+    io.github.clojure/tools.build
+    {:mvn/version "0.9.5"
+     :exclusions [com.google.guava/guava ; https://clojurians.slack.com/archives/C6N245JGG/p1692799642324169
+                  org.slf4j/slf4j-nop #_"clashes with app logger"]}
     thheller/shadow-cljs {:mvn/version "2.25.2"}}
    :jvm-opts
    ["-Xss2m" ; https://github.com/hyperfiddle/photon/issues/11

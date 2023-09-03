@@ -5,6 +5,7 @@
             [hyperfiddle.electric-jetty-adapter :as adapter]
             [clojure.tools.logging :as log]
             [clojure.spec.alpha :as s]
+            clojure.string
             [hyperfiddle :as hf]
             [ring.adapter.jetty9 :as ring]
             [ring.middleware.basic-authentication :as auth]
@@ -74,13 +75,14 @@ information."
 matches. An electric client is allowed to connect if its version matches the 
 server's version, or if the server doesn't have a version set (dev mode). 
 Otherwise, the client connection is rejected gracefully."
-  [next-handler {:keys [::hf/user-version] :as config}]
+  [next-handler {:keys [:hyperfiddle.electric/user-version] :as config}]
   (fn [ring-req]
     (if (ring/ws-upgrade-request? ring-req)
-      (let [client-version (get-in ring-req [:query-params "HYPERFIDDLE_ELECTRIC_CLIENT_VERSION"])]
+      (let [client-version (get-in ring-req [:query-params "ELECTRIC_USER_VERSION"])]
+        (log/info (pr-str client-version) (pr-str user-version))
         (cond
-          (nil? user-version)             (next-handler ring-req)
           (= client-version user-version) (next-handler ring-req)
+          (clojure.string/ends-with? client-version "-dirty") (next-handler ring-req) ; needed?
           :else (adapter/reject-websocket-handler 1008 "stale client") ; https://www.rfc-editor.org/rfc/rfc6455#section-7.4.1
           ))
       (next-handler ring-req))))

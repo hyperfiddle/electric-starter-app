@@ -1,6 +1,7 @@
 (ns ^:dev/always dev ; rebuild everything when any file changes. Will fix
   (:require #?(:clj [clojure.tools.logging :as log])
-            [electric-fiddle.config :as config]
+            #?(:clj [clojure.tools.build.api :as b])
+            electric-fiddle.config
             electric-fiddle.main
             #?(:clj [electric-fiddle.server :refer [start-server!]])
             [hyperfiddle.electric :as e]
@@ -23,26 +24,35 @@
      (def shadow-stop! (delay @(requiring-resolve 'shadow.cljs.devtools.server/stop!)))
      (def shadow-watch (delay @(requiring-resolve 'shadow.cljs.devtools.api/watch)))
 
+     (def config
+       {:host "0.0.0.0", :port 8080,
+        :resources-path "public"
+        :manifest-path "public/js/manifest.edn" ; shadow build manifest
+        ::e/user-version (b/git-process {:git-args "describe --tags --long --always --dirty"})})
+     
      (declare server)
 
      (defn -main [& args]
-       (log/info `-main "args: " (pr-str args))
+       (log/info (pr-str args))
+       (alter-var-root #'config #(merge % args))
        (log/info "Starting Electric compiler and server...") ; run after REPL redirects stdout
-       (do (@shadow-start!) (@shadow-watch :dev))
+       (@shadow-start!)
+       (@shadow-watch :dev
+         {:config-merge [{:closure-defines {'hyperfiddle.electric-client/ELECTRIC_USER_VERSION
+                                            (::e/user-version config)}}]})
+       ; todo block until finished?
        (comment (@shadow-stop!))
-       (def server (start-server! config/config))
-       (comment (.stop server)))
+       (def server (start-server! config))
+       (comment (.stop server))
+       (rcf/enable!))
 
-     (comment
-       (do (@shadow-start!) (@shadow-watch :dev))
-       ; wait for shadow to finish
-       (-main)
-       (rcf/enable!))))
+     (comment "repl entrypoint:" (-main)
+       )))
 
 #?(:cljs
    (do
      (def electric-entrypoint (e/boot
-                                (binding [config/pages fiddle-registry]
+                                (binding [electric-fiddle.config/pages fiddle-registry]
                                   (electric-fiddle.main/Main.))))
      (defonce reactor nil)
 
@@ -55,6 +65,8 @@
      (defn ^:dev/before-load stop! []
        (when reactor (reactor)) ; teardown
        (set! reactor nil))))
+
+
 
 (comment
   "CI tests"

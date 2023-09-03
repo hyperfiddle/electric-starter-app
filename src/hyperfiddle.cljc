@@ -9,7 +9,6 @@
 ; it's a little ugly but with the require alias it works out.
 
 (s/def ::domain some?)
-(s/def ::user-version string?)
 
 ; public api here, one API ns
 ; internal specs anywhere
