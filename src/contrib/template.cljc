@@ -1,5 +1,5 @@
 (ns contrib.template
-  #?(:cljs (:require-macros [contrib.template]))
+  #?(:cljs (:require-macros [contrib.template :refer [comptime-resource]]))
   (:require clojure.edn
             #?(:clj clojure.java.io)
             clojure.string
