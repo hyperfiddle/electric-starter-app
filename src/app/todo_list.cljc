@@ -1,15 +1,18 @@
 (ns app.todo-list
   (:require contrib.str
             #?(:clj [datascript.core :as d]) ; database on server
-            [hyperfiddle.electric :as e]
-            [hyperfiddle.electric-dom2 :as dom]
-            [hyperfiddle.electric-ui4 :as ui]))
+            [hyperfiddle.electric-ic :as e]
+            [hyperfiddle.electric-dom2-ic :as dom]
+            [hyperfiddle.electric-ui4-ic :as ui])
+  (:import [missionary Cancelled]
+           [hyperfiddle.electric Pending]))
 
 #?(:clj (defonce !conn (d/create-conn {}))) ; database on server
 (e/def db) ; injected database ref; Electric defs are always dynamic
 
 (e/defn TodoItem [id]
   (e/server
+    (prn :todo-item id)
     (let [e (d/entity db id)
           status (:task/status e)]
       (e/client
@@ -51,19 +54,24 @@
                       :where [?e :task/status]] db)
             (sort-by :task/description))))
 
-(e/defn Todo-list []
-  (e/server
-    (binding [db (e/watch !conn)]
-      (e/client
-        (dom/link (dom/props {:rel :stylesheet :href "/todo-list.css"}))
-        (dom/h1 (dom/text "minimal todo list"))
-        (dom/p (dom/text "it's multiplayer, try two tabs"))
-        (dom/div (dom/props {:class "todo-list"})
-          (TodoCreate.)
-          (dom/div {:class "todo-items"}
-            (e/server
-              (e/for-by :db/id [{:keys [db/id]} (todo-records db)]
-                (TodoItem. id))))
-          (dom/p (dom/props {:class "counter"})
-            (dom/span (dom/props {:class "count"}) (dom/text (e/server (todo-count db))))
-            (dom/text " items left")))))))
+(e/def Todo-list
+  (try
+    (binding [dom/node js/document.body]
+      (e/server
+        (binding [db (e/watch !conn)]
+          (e/client
+            (dom/link (dom/props {:rel :stylesheet :href "/todo-list.css"}))
+            (dom/h1 (dom/text "minimal todo list"))
+            (dom/p (dom/text "it's multiplayer, try two tabs"))
+            (dom/div (dom/props {:class "todo-list"})
+                     (TodoCreate.)
+                     (dom/div {:class "todo-items"}
+                              (e/server
+                                (e/for-by :db/id [{:keys [db/id]} (todo-records db)]
+                                  (TodoItem. id))))
+                     (dom/p (dom/props {:class "counter"})
+                            (dom/span (dom/props {:class "count"}) (dom/text (e/server (todo-count db))))
+                            (dom/text " items left")))))))
+    (catch Pending _)
+    (catch Cancelled e (throw e))
+    (catch :default e (.error js/console e))))

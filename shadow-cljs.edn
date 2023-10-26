@@ -7,10 +7,12 @@
               :hud #{:errors :progress}
               :ignore-warnings true} ; warnings don't prevent hot-reload
    :output-dir "resources/public/js"
+   :compiler-options {:warnings-as-errors true}
    :asset-path "/js"
    :modules {:main {:entries [user]
                     :init-fn user/start!}}
-   :build-hooks [(shadow.cljs.build-report/hook {:output-to "target/build_report.html"})
+   :build-hooks [(hyperfiddle.electric.shadow-cljs.hooks/reload-clj)
+                 (shadow.cljs.build-report/hook {:output-to "target/build_report.html"})
                  (user/rcf-shadow-hook)]}
   :prod
   {:target :browser

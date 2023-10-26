@@ -1,13 +1,8 @@
-(ns ^:dev/always user ; Electric currently needs to rebuild everything when any file changes. Will fix
-  (:require
-    app.todo-list
-    hyperfiddle.electric
-    hyperfiddle.electric-dom2))
+(ns user
+  (:require app.todo-list
+            [hyperfiddle.electric-ic :as e]))
 
-(def electric-main
-  (hyperfiddle.electric/boot ; Electric macroexpansion - Clojure to signals compiler
-    (binding [hyperfiddle.electric-dom2/node js/document.body]
-      (app.todo-list/Todo-list.))))
+(def electric-main (e/boot-client app.todo-list/Todo-list)) ; Electric macroexpansion - Clojure to signals compiler
 
 (defonce reactor nil)
 
