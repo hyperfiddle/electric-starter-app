@@ -29,12 +29,13 @@
 
 (e/defn InputSubmit [F]
   ; Custom input control using lower dom interface for Enter handling
-  (dom/input (dom/props {:placeholder "Buy milk"})
-    (dom/on "keydown" (e/fn [e]
-                        (when (= "Enter" (.-key e))
-                          (when-some [v (contrib.str/empty->nil (-> e .-target .-value))]
-                            (new F v)
-                            (set! (.-value dom/node) "")))))))
+  (e/client
+    (dom/input (dom/props {:placeholder "Buy milk"})
+      (dom/on "keydown" (e/fn [e]
+                          (when (= "Enter" (.-key e))
+                            (when-some [v (contrib.str/empty->nil (-> e .-target .-value))]
+                              (new F v)
+                              (set! (.-value dom/node) ""))))))))
 
 (e/defn TodoCreate []
   (e/client
@@ -55,23 +56,24 @@
             (sort-by :task/description))))
 
 (e/def Todo-list
-  (try
-    (binding [dom/node js/document.body]
-      (e/server
-        (binding [db (e/watch !conn)]
-          (e/client
-            (dom/link (dom/props {:rel :stylesheet :href "/todo-list.css"}))
-            (dom/h1 (dom/text "minimal todo list"))
-            (dom/p (dom/text "it's multiplayer, try two tabs"))
-            (dom/div (dom/props {:class "todo-list"})
-                     (TodoCreate.)
-                     (dom/div {:class "todo-items"}
-                              (e/server
-                                (e/for-by :db/id [{:keys [db/id]} (todo-records db)]
-                                  (TodoItem. id))))
-                     (dom/p (dom/props {:class "counter"})
-                            (dom/span (dom/props {:class "count"}) (dom/text (e/server (todo-count db))))
-                            (dom/text " items left")))))))
-    (catch Pending _)
-    (catch Cancelled e (throw e))
-    (catch :default e (.error js/console e))))
+  (e/client
+    (try
+      (binding [dom/node js/document.body]
+        (e/server
+          (binding [db (e/watch !conn)]
+            (e/client
+              (dom/link (dom/props {:rel :stylesheet :href "/todo-list.css"}))
+              (dom/h1 (dom/text "minimal todo list"))
+              (dom/p (dom/text "it's multiplayer, try two tabs"))
+              (dom/div (dom/props {:class "todo-list"})
+                (TodoCreate.)
+                (dom/div {:class "todo-items"}
+                  (e/server
+                    (e/for-by :db/id [{:keys [db/id]} (todo-records db)]
+                      (TodoItem. id))))
+                (dom/p (dom/props {:class "counter"})
+                  (dom/span (dom/props {:class "count"}) (dom/text (e/server (todo-count db))))
+                  (dom/text " items left")))))))
+      (catch Pending _)
+      (catch Cancelled e (throw e))
+      (catch :default e (.error js/console e)))))
