@@ -1,9 +1,9 @@
 (ns app.todo-list
   (:require contrib.str
             #?(:clj [datascript.core :as d]) ; database on server
-            [hyperfiddle.electric-ic :as e]
-            [hyperfiddle.electric-dom2-ic :as dom]
-            [hyperfiddle.electric-ui4-ic :as ui])
+            [hyperfiddle.electric :as e]
+            [hyperfiddle.electric-dom2 :as dom]
+            [hyperfiddle.electric-ui4 :as ui])
   (:import [missionary Cancelled]
            [hyperfiddle.electric Pending]))
 

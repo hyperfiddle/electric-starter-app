@@ -1,6 +1,6 @@
 (ns user
   (:require app.todo-list
-            [hyperfiddle.electric-ic :as e]))
+            [hyperfiddle.electric :as e]))
 
 (def electric-main (e/boot-client app.todo-list/Todo-list)) ; Electric macroexpansion - Clojure to signals compiler
 
