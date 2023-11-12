@@ -14,7 +14,6 @@ primary_region = "ewr"
 
 
 # NO_COLOR=1 fly deploy --config src/hello_fiddle/fly.toml --remote-only --build-only
-# --build-arg ELECTRIC_USER_VERSION=$(git describe --tags --long --always --dirty)
 
 # fly scale vm shared-cpu-8x --config src/hello_fiddle/fly.toml
 # fly scale show  --config src/hello_fiddle/fly.toml

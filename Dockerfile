@@ -6,6 +6,8 @@ RUN npm install
 FROM clojure:openjdk-11-tools-deps AS build
 WORKDIR /app
 COPY --from=node-deps /app/node_modules /app/node_modules
+# electric-user-version is computed from git sha during clj build
+COPY .git .git
 #COPY .m2 /root/.m2
 COPY shadow-cljs.edn shadow-cljs.edn
 COPY deps.edn deps.edn
