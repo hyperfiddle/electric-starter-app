@@ -10,8 +10,7 @@
             electric-tutorial.fiddles
             hfql-demo.fiddles)) ; datomic
 
-(comment "repl entrypoint:" (-main)
-  )
+(comment (-main)) ; repl entrypoint
 
 (e/def fiddle-registry
   (merge
@@ -25,7 +24,7 @@
      (def shadow-start! (delay @(requiring-resolve 'shadow.cljs.devtools.server/start!)))
      (def shadow-stop! (delay @(requiring-resolve 'shadow.cljs.devtools.server/stop!)))
      (def shadow-watch (delay @(requiring-resolve 'shadow.cljs.devtools.api/watch)))
-     
+
      (def config
        {:host "0.0.0.0", :port 8080,
         :resources-path "public"
