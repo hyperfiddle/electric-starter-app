@@ -20,8 +20,9 @@
   (e/client
     (with-gridsheet-renderer
       (e/server
+        (model/init-datomic)
         (binding [hf/db model/*$* ; hfql compiler
                   hf/*nav!*   model/nav! ; hfql compiler
-                  hf/*schema* model/schema ; hfql gridsheet renderer
+                  hf/*schema* model/-schema ; hfql gridsheet renderer
                   ]
           (Teeshirt-orders.))))))

@@ -80,7 +80,7 @@
   (e/server
     (binding [hf/db model/*$* ; hfql compiler
               hf/*nav!* model/nav! ; hfql compiler
-              hf/*schema* model/schema ; hfql gridsheet renderer
+              hf/*schema* model/-schema ; hfql gridsheet renderer
               ]
       (e/client
         (if-not F (Index.)

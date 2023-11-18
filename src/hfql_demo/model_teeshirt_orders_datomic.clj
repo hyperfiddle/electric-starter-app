@@ -7,7 +7,7 @@
             [hyperfiddle.api :as hf]
             [hyperfiddle.rcf :refer [tests]]))
 
-(def ^:private schema ; query it
+(def ^:private -schema ; query it
   [{:db/ident :order/email :db/valueType :db.type/string :db/cardinality :db.cardinality/one :db/unique :db.unique/identity}
    {:db/ident :order/gender :db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
    {:db/ident :order/shirt-size :db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
@@ -37,9 +37,9 @@
   (d/create-database "datomic:mem://hyperfiddle-teeshirt-orders")
   (def ^:dynamic *$* 
     (-> (d/connect "datomic:mem://hyperfiddle-teeshirt-orders")
-      d/db (d/with schema) :db-after fixtures)))
+      d/db (d/with -schema) :db-after fixtures)))
 
-(init-datomic) ; todo m/signal ?
+(tests (init-datomic))
 
 (s/fdef genders :args (s/cat) :ret (s/coll-of number?))
 (defn genders []
