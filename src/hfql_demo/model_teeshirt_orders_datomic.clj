@@ -7,7 +7,7 @@
             [hyperfiddle.api :as hf]
             [hyperfiddle.rcf :refer [tests]]))
 
-(def ^:private -schema ; query it
+(def -schema ; better to query it
   [{:db/ident :order/email :db/valueType :db.type/string :db/cardinality :db.cardinality/one :db/unique :db.unique/identity}
    {:db/ident :order/gender :db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
    {:db/ident :order/shirt-size :db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
