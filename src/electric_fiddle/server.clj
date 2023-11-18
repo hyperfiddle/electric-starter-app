@@ -79,13 +79,12 @@ Otherwise, the client connection is rejected gracefully."
   (fn [ring-req]
     (if (ring/ws-upgrade-request? ring-req)
       (let [client-version (get-in ring-req [:query-params "ELECTRIC_USER_VERSION"])]
-        (log/debug 'wrap-reject-stale-client "client:" (pr-str client-version) "server:" (pr-str user-version))
         (cond
           (= client-version user-version) (next-handler ring-req)
           (= client-version "hyperfiddle_electric_client__dirty") (next-handler ring-req)
           ;(clojure.string/ends-with? client-version "-dirty") (next-handler ring-req) ; todo read version from runtime config?
-          :else (adapter/reject-websocket-handler 1008 "stale client") ; https://www.rfc-editor.org/rfc/rfc6455#section-7.4.1
-          ))
+          :else (do (log/info 'wrap-reject-stale-client "client:" (pr-str client-version) "server:" (pr-str user-version))
+                  (adapter/reject-websocket-handler 1008 "stale client")))) ; https://www.rfc-editor.org/rfc/rfc6455#section-7.4.1
       (next-handler ring-req))))
 
 (defn wrap-electric-websocket [next-handler]
