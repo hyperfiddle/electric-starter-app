@@ -20,8 +20,8 @@
 
 #?(:clj
    (defn -main [& {:strs [] :as args}] ; clojure.main entrypoint, args are strings
-     (log/info (pr-str args))
      (alter-var-root #'config #(merge % args))
+     (log/info (pr-str config))
      (check string? (::e/user-version config))
      (check string? (::hf/domain config))
      (require (symbol (str (::hf/domain config) ".fiddles"))) ; load userland server
@@ -33,7 +33,7 @@
        (e/boot
          (binding [hf/pages (install-user-fiddles)]
            (electric-fiddle.main/Main.))))
-     
+
      (defonce reactor nil)
 
      (defn ^:dev/after-load ^:export start! []
