@@ -1,6 +1,6 @@
 (ns hello-fiddle.fiddles
   (:require [hyperfiddle.electric :as e]
-            hello-fiddle.hello))
+            [hello-fiddle.hello-fiddle :refer [Hello]]))
 
-(e/def fiddles
-  {`hello-fiddle.hello/Hello hello-fiddle.hello/Hello})
+(e/def fiddles ; prod.clj auto-resolves this global via electric-manifest.edn
+  {`Hello Hello})

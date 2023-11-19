@@ -1,4 +1,4 @@
-(ns hello-fiddle.hello
+(ns hello-fiddle.hello-fiddle
   (:require [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]))
 
