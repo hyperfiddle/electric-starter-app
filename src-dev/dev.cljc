@@ -8,6 +8,7 @@
 
             dustingetz.fiddles ; datomic
             electric-tutorial.fiddles
+            electric-starter-app.fiddles
             hfql-demo.fiddles)) ; datomic
 
 (comment (-main)) ; repl entrypoint
@@ -15,6 +16,7 @@
 (e/def fiddle-registry
   (merge
     dustingetz.fiddles/fiddles
+    electric-starter-app.fiddles/fiddles
     electric-tutorial.fiddles/fiddles
     hfql-demo.fiddles/fiddles))
 
