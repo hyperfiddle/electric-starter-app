@@ -29,6 +29,8 @@ clojure -X:build:prod:dustingetz build-client :hyperfiddle/domain dustingetz :de
 # http://localhost:8080/electric-fiddle.essay!Essay/electric-y-combinator
 
 clj -M:prod -m prod
+clj -M:prod:datomic-browser -m prod
+
 fly deploy --remote-only --config src/hello_fiddle/fly.toml
 
 clojure -X:build build-client :verbose true

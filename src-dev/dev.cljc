@@ -1,24 +1,63 @@
 (ns ^:dev/always dev ; rebuild everything when any file changes. Will fix
-  (:require #?(:clj [clojure.tools.logging :as log])
+  (:require [contrib.assert :refer [check]]
+            [contrib.clojurex :refer [bindx]]
+            #?(:clj [contrib.datomic-contrib :as dx])
+            #?(:clj [clojure.tools.logging :as log])
             electric-fiddle.main
             #?(:clj [electric-fiddle.server :refer [start-server!]])
             [hyperfiddle :as hf]
             [hyperfiddle.electric :as e]
             [hyperfiddle.rcf :as rcf]
 
+            #?(:clj [models.teeshirt-orders-datomic :as model])
+
             dustingetz.fiddles ; datomic
+            datomic-browser.domain
+            datomic-browser.fiddles ; datomic
             electric-tutorial.fiddles
             electric-starter-app.fiddles
             hfql-demo.fiddles)) ; datomic
 
 (comment (-main)) ; repl entrypoint
 
-(e/def fiddle-registry
-  (merge
-    dustingetz.fiddles/fiddles
-    electric-starter-app.fiddles/fiddles
-    electric-tutorial.fiddles/fiddles
-    hfql-demo.fiddles/fiddles))
+#_(e/def domain-registry ['datomic-browser.fiddles])
+
+; What if we hardcode this dev entrypoint for the fiddles we're working on today?
+; thus can share models, for example
+
+(e/defn MergedFiddleMain []
+  (e/server
+    (let [[conn db] (model/init-datomic)]
+      (bindx [datomic-browser.domain/conn (check conn)
+              datomic-browser.domain/db (check db)
+              datomic-browser.domain/schema (check (new (dx/schema> datomic-browser.domain/db)))]
+        (e/client
+          (binding [hf/pages (merge
+                               dustingetz.fiddles/fiddles
+                               datomic-browser.fiddles/fiddles
+                               electric-starter-app.fiddles/fiddles
+                               electric-tutorial.fiddles/fiddles
+                               hfql-demo.fiddles/fiddles)]
+            (electric-fiddle.main/Main.)))))))
+
+#_
+(e/defn Inject-general [Main]
+  ; parallel strategy - note domains deploy independently in prod,
+  ; cross-domain dependency is forbidden
+  (e/server
+    (bindx [~@server-bindings]
+      (e/client
+        (bindx [~@client-bindings
+                hf/pages fiddle-registry]
+          (Main.)))))
+
+  ; sequential strategy
+  #_(binding [hf/pages fiddle-registry]
+      (datomic-browser.fiddles/Inject. ; set bindings and also allocate resources
+        (e/fn [Main]
+          (datomic-browser.fiddles/Inject.
+            (e/fn [Main]
+              (Main.)))))))
 
 #?(:clj
    (do
@@ -48,9 +87,12 @@
 
 #?(:cljs
    (do
-     (def electric-entrypoint (e/boot
-                                (binding [hf/pages fiddle-registry]
-                                  (electric-fiddle.main/Main.))))
+     (def electric-entrypoint
+       (e/boot
+         ; in dev, we setup a merged fiddle config,
+         ; fiddles must all opt in to the shared routing strategy
+         (MergedFiddleMain.)))
+
      (defonce reactor nil)
 
      (defn ^:dev/after-load ^:export start! []

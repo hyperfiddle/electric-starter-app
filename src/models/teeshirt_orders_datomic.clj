@@ -43,7 +43,8 @@
   (alter-var-root #'*$*
     (constantly
       (-> *conn*
-        d/db (d/with -schema) :db-after fixtures))))
+        d/db (d/with -schema) :db-after fixtures)))
+  [*conn* *$*])
 
 (tests (init-datomic))
 

@@ -1,7 +1,6 @@
 {:paths ["src" "resources"]
  :deps 
  {com.hyperfiddle/electric {:local/root "vendor/electric"}
-  com.hyperfiddle/hfql {:local/root "vendor/hfql"}
   com.hyperfiddle/rcf {:local/root "vendor/rcf"}
   info.sunng/ring-jetty9-adapter
   {:mvn/version "0.17.7" ; (Jetty 10) is NOT Java 8 compatible
@@ -54,10 +53,16 @@
    {datascript/datascript {:mvn/version "1.5.2"}
     reagent/reagent {:mvn/version "1.1.1"}}}
 
-  :dustingetz
+  :datomic-browser
   {:extra-deps
    {com.datomic/peer {:mvn/version "1.0.6735" #_#_:exclusions [org.slf4j/slf4j-api]}}}
 
+  :dustingetz
+  {:extra-deps
+   {com.datomic/peer {:mvn/version "1.0.6735" #_#_:exclusions [org.slf4j/slf4j-api]}
+    com.hyperfiddle/hfql {:local/root "vendor/hfql"}}}
+
   :hfql-demo
   {:extra-deps
-   {com.datomic/peer {:mvn/version "1.0.6735" #_#_:exclusions [org.slf4j/slf4j-api]}}}}}
+   {com.datomic/peer {:mvn/version "1.0.6735" #_#_:exclusions [org.slf4j/slf4j-api]}
+    com.hyperfiddle/hfql {:local/root "vendor/hfql"}}}}}

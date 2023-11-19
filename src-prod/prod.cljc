@@ -25,14 +25,15 @@
      (require (symbol (str (::hf/domain config) ".fiddles"))) ; load userland server
      (start-server! config)))
 
-(defmacro install-user-fiddles [] (symbol (name hf/*hyperfiddle-user-ns*) "fiddles"))
+(defmacro install-user-inject [] (symbol (name hf/*hyperfiddle-user-ns*) "FiddleMain"))
 
 #?(:cljs
    (do
      (def electric-entrypoint
        (e/boot
-         (binding [hf/pages (install-user-fiddles)]
-           (electric-fiddle.main/Main.))))
+         ; in prod, fiddle owns the app and there's only one of them
+         (let [FiddleMain (install-user-inject)]
+           (FiddleMain.))))
 
      (defonce reactor nil)
 
