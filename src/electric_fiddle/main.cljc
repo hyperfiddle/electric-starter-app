@@ -33,7 +33,7 @@
   (binding [history/encode route->path
             history/decode #(or (path->route %) [`Index])]
     (history/router (history/HTML5-History.)
-      (set! (.-title js/document) (str (some-> (identity history/route) first name (str " – ")) "Electric Clojure"))
+      (set! (.-title js/document) (str (some-> (identity history/route) first name (str " – ")) "Electric Fiddle"))
       (binding [dom/node js/document.body]
         (let [[page & args] history/route]
           (dom/pre (dom/text (pr-str history/route)))
