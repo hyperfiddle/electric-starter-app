@@ -10,7 +10,7 @@
             [hyperfiddle.hfql :refer [hfql]]
             [hyperfiddle.hfql-tree-grid :refer [with-gridsheet-renderer]]
             [hyperfiddle.rcf :as rcf :refer [tests tap % with]]
-            #?(:clj [hfql-demo.model-teeshirt-orders-datomic :as model
+            #?(:clj [models.teeshirt-orders-datomic :as model
                      :refer [orders genders shirt-sizes]])))
 
 (e/defn Codemirror-edn [x]

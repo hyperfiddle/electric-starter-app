@@ -1,4 +1,4 @@
-(ns hfql-demo.model-teeshirt-orders-datomic
+(ns models.teeshirt-orders-datomic
   "query functions used in tee-shirt orders demo"
   (:require [clojure.tools.logging :as log]
             [clojure.spec.alpha :as s]
@@ -33,18 +33,24 @@
              {:order/email "charlie@example.com" :order/gender :order/male :order/shirt-size :order/mens-medium}])
     :db-after))
 
+(def ^:dynamic *conn*) ; todo electrify?
+(def ^:dynamic *$*) ; for electric compiler
+
 (defn init-datomic []
-  (d/create-database "datomic:mem://hyperfiddle-teeshirt-orders")
-  (def ^:dynamic *$* 
-    (-> (d/connect "datomic:mem://hyperfiddle-teeshirt-orders")
-      d/db (d/with -schema) :db-after fixtures)))
+  (def uri "datomic:mem://hyperfiddle-teeshirt-orders")
+  (d/create-database uri)
+  (alter-var-root #'*conn* (constantly (d/connect uri)))
+  (alter-var-root #'*$*
+    (constantly
+      (-> *conn*
+        d/db (d/with -schema) :db-after fixtures))))
 
 (tests (init-datomic))
 
 (s/fdef genders :args (s/cat) :ret (s/coll-of number?))
 (defn genders []
-  (->> (d/q '[:find [?ident ...] 
-              :where 
+  (->> (d/q '[:find [?ident ...]
+              :where
               [_ :order/gender ?e]
               [?e :db/ident ?ident]]
          hf/*$*)

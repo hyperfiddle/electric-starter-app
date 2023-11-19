@@ -4,7 +4,7 @@
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.hfql :refer [hfql]]
             [hyperfiddle.hfql-tree-grid :refer [with-gridsheet-renderer]]
-            #?(:clj [hfql-demo.model-teeshirt-orders-datomic :as model])))
+            #?(:clj [models.teeshirt-orders-datomic :as model])))
 
 (e/defn Teeshirt-orders []
   (hfql [hf/*$* hf/db]
@@ -13,7 +13,7 @@
       :order/email
       (props :order/gender {::hf/options (model/genders)
                             ::hf/option-label (e/fn [x] (name x))})
-      (props :order/shirt-size {::hf/options (model/shirt-sizes order/gender .) 
+      (props :order/shirt-size {::hf/options (model/shirt-sizes order/gender .)
                                 ::hf/option-label (e/fn [x] (name x))})]}))
 
 (e/defn HFQL-teeshirt-orders []
