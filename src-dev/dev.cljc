@@ -35,8 +35,8 @@
      (declare server)
 
      (defn -main [& args]
-       (log/info (pr-str args))
        (alter-var-root #'config #(merge % args))
+       (log/info (pr-str config))
        (log/info "Starting Electric compiler and server...") ; run after REPL redirects stdout
        (@shadow-start!)
        (@shadow-watch :dev)

@@ -16,8 +16,6 @@
      :resources-path "public"
      :manifest-path "public/js/manifest.edn"})) ; shadow build manifest
 
-(defmacro install-user-fiddles [] (symbol (name hf/*hyperfiddle-user-ns*) "fiddles"))
-
 #?(:clj
    (defn -main [& {:strs [] :as args}] ; clojure.main entrypoint, args are strings
      (alter-var-root #'config #(merge % args))
@@ -26,6 +24,8 @@
      (check string? (::hf/domain config))
      (require (symbol (str (::hf/domain config) ".fiddles"))) ; load userland server
      (start-server! config)))
+
+(defmacro install-user-fiddles [] (symbol (name hf/*hyperfiddle-user-ns*) "fiddles"))
 
 #?(:cljs
    (do
