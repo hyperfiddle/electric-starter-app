@@ -1,5 +1,5 @@
 {:paths ["src" "resources"]
- :deps {com.hyperfiddle/electric {:mvn/version "v2-alpha-422-g96e5c0a5"}
+ :deps {com.hyperfiddle/electric {:mvn/version "v2-alpha-469-gb6d9865c"}
         com.hyperfiddle/rcf {:mvn/version "20220926-202227"}
         info.sunng/ring-jetty9-adapter
         {:mvn/version "0.14.3" ; (Jetty 9) is Java 8 compatible;
