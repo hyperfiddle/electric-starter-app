@@ -2,7 +2,7 @@
   (:require app.todo-list
             [hyperfiddle.electric :as e]))
 
-(def electric-main (e/boot-client (app.todo-list/Todo-list.)))
+(def electric-main (e/boot-client app.todo-list/Todo-list))
 
 (defonce reactor nil)
 
