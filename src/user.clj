@@ -3,7 +3,7 @@
             [app.todo-list]))
 
 ; lazy load dev stuff - for faster REPL startup and cleaner dev classpath
-(def start-electric-server! (delay (partial @(requiring-resolve 'app.electric-server-java8-jetty9/start-server!)
+(def start-electric-server! (delay (partial @(requiring-resolve 'app.electric-server-http-kit/start-server!)
                                      (fn [_ring-req]
                                        (e/boot-server app.todo-list/Todo-list)))))
 (def shadow-start! (delay @(requiring-resolve 'shadow.cljs.devtools.server/start!)))
