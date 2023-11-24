@@ -1,5 +1,5 @@
 {:paths   ["src" "resources"]
- :deps    {com.hyperfiddle/electric                            {:git/sha "bcdbdb9130b3a1d24f18f5159ab471cee48a8e4e"
+ :deps    {com.hyperfiddle/electric                            {:git/sha "3b40bdb704a0305bae078da1ff07de449e7608d5"
                                                                 :git/url "https://github.com/hyperfiddle/electric.git"
                                                                 #_#_:local/root "../photon"
                                                                 #_#_:mvn/version "v2-alpha-422-g96e5c0a5"}
