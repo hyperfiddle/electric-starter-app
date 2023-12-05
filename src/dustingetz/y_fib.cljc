@@ -9,7 +9,7 @@
               (new (F. F) x))))))
 
 (e/defn Trace [x]
-  (dom/div (dom/text x))
+  (e/client (dom/div (dom/text x)))
   x)
 
 (e/defn Fib [Recur]

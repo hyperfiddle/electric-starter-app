@@ -38,7 +38,7 @@
   := ['foo "example" "b" "c"])
 
 (e/defn ExtensionNotFound [s & directive]
-  (dom/div (dom/text "Unsupported markdown directive: " (pr-str directive))))
+  (e/client (dom/div (dom/text "Unsupported markdown directive: " (pr-str directive)))))
 
 (e/defn Custom-markdown [extensions essay-filename]
   (e/server

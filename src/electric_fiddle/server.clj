@@ -87,16 +87,16 @@ Otherwise, the client connection is rejected gracefully."
                   (adapter/reject-websocket-handler 1008 "stale client")))) ; https://www.rfc-editor.org/rfc/rfc6455#section-7.4.1
       (next-handler ring-req))))
 
-(defn wrap-electric-websocket [next-handler]
+(defn wrap-electric-websocket [next-handler entrypoint]
   (fn [ring-request]
     (if (ring/ws-upgrade-request? ring-request)
       (let [authenticated-request    (auth/basic-authentication-request ring-request authenticate) ; optional
-            electric-message-handler (partial adapter/electric-ws-message-handler authenticated-request)] ; takes the ring request as first arg - makes it available to electric program
+            electric-message-handler (partial adapter/electric-ws-message-handler authenticated-request entrypoint)] ; takes the ring request as first arg - makes it available to electric program
         (ring/ws-upgrade-response (adapter/electric-ws-adapter electric-message-handler)))
       (next-handler ring-request))))
 
-(defn electric-websocket-middleware [next-handler config]
-  (-> (wrap-electric-websocket next-handler) ; 4. connect electric client
+(defn electric-websocket-middleware [next-handler config entrypoint]
+  (-> (wrap-electric-websocket next-handler entrypoint) ; 4. connect electric client
     (cookies/wrap-cookies) ; 3. makes cookies available to Electric app
     (wrap-reject-stale-client config) ; 2. reject stale electric client
     (wrap-params) ; 1. parse query params
@@ -106,14 +106,14 @@ Otherwise, the client connection is rejected gracefully."
   (-> (res/not-found "Not found")
     (res/content-type "text/plain")))
 
-(defn http-middleware [config]
+(defn http-middleware [config entrypoint]
   ;; these compose as functions, so are applied bottom up
   (-> not-found-handler
     (wrap-index-page config) ; 5. otherwise fallback to default page file
     (wrap-resource (:resources-path config)) ; 4. serve static file from classpath
     (wrap-content-type) ; 3. detect content (e.g. for index.html)
     (wrap-demo-router) ; 2. route
-    (electric-websocket-middleware config) ; 1. intercept electric websocket
+    (electric-websocket-middleware config entrypoint) ; 1. intercept electric websocket
     ))
 
 (defn- add-gzip-handler
@@ -125,12 +125,13 @@ Otherwise, the client connection is rejected gracefully."
       (.setMinGzipSize 1024)
       (.setHandler (.getHandler server)))))
 
-(defn start-server! [{:keys [port host]
+(defn start-server! [entrypoint
+                     {:keys [port host]
                       :or {port 8080, host "0.0.0.0"} ; insecure default?
                       :as config}]
   (log/info (pr-str config))
   (try
-    (let [server (ring/run-jetty (http-middleware config)
+    (let [server (ring/run-jetty (http-middleware config entrypoint)
                    (merge {:port port
                            :join? false
                            :configurator add-gzip-handler}
@@ -142,5 +143,5 @@ Otherwise, the client connection is rejected gracefully."
     (catch IOException err
       (if (instance? BindException (ex-cause err))  ; port is already taken, retry with another one
         (do (log/warn "Port" port "was not available, retrying with" (inc port))
-          (start-server! (update config :port inc)))
+          (start-server! entrypoint (update config :port inc)))
         (throw err)))))

@@ -7,14 +7,15 @@
             #?(:clj [models.teeshirt-orders-datomic :as model])))
 
 (e/defn Teeshirt-orders []
-  (hfql [hf/*$* hf/db]
-    {(model/orders .)
-     [:db/id
-      :order/email
-      (props :order/gender {::hf/options (model/genders)
-                            ::hf/option-label (e/fn [x] (name x))})
-      (props :order/shirt-size {::hf/options (model/shirt-sizes order/gender .)
-                                ::hf/option-label (e/fn [x] (name x))})]}))
+  (e/server
+    (hfql [hf/*$* hf/db]
+      {(model/orders .)
+       [:db/id
+        :order/email
+        (props :order/gender {::hf/options (model/genders)
+                              ::hf/option-label (e/fn [x] (name x))})
+        (props :order/shirt-size {::hf/options (model/shirt-sizes order/gender .)
+                                  ::hf/option-label (e/fn [x] (name x))})]})))
 
 (e/defn HFQL-teeshirt-orders []
   (e/client

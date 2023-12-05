@@ -25,10 +25,11 @@
 ; What if we hardcode this dev entrypoint for the fiddles we're working on today?
 ; thus can share models, for example
 
-(e/defn MergedFiddleMain []
+(e/defn MergedFiddleMain [ring-req]
   (e/server
     (let [[conn db] (model/init-datomic)]
-      (bindx [datomic-browser.domain/conn (check conn)
+      (bindx [e/http-request ring-req
+              datomic-browser.domain/conn (check conn)
               datomic-browser.domain/db (check db)
               datomic-browser.domain/schema (check (new (dx/schema> datomic-browser.domain/db)))]
         (e/client
@@ -81,17 +82,16 @@
        (@shadow-watch :dev)
        ; todo block until finished?
        (comment (@shadow-stop!))
-       (def server (start-server! config))
+       (def server (start-server! (fn [ring-req] (e/boot-server {} MergedFiddleMain ring-req)) config))
        (comment (.stop server))
        (rcf/enable!))))
 
 #?(:cljs
    (do
      (def electric-entrypoint
-       (e/boot
-         ; in dev, we setup a merged fiddle config,
-         ; fiddles must all opt in to the shared routing strategy
-         (MergedFiddleMain.)))
+       ; in dev, we setup a merged fiddle config,
+       ; fiddles must all opt in to the shared routing strategy
+       (e/boot-client {} MergedFiddleMain nil))
 
      (defonce reactor nil)
 

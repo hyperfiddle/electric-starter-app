@@ -4,4 +4,4 @@
 
 
 (e/defn Scratch []
-  (dom/pre (dom/text "yo")))
+  (e/client (dom/pre (dom/text "yo"))))

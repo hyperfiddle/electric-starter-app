@@ -19,8 +19,9 @@
 
 (e/defn Essay [& [?essay]]
   #_(e/client (dom/div #_(dom/props {:class ""}))) ; fix css grid next
-  (let [essay-filename (get essays ?essay)]
-    (cond
-      (nil? ?essay) (binding [hf/pages essays] (Index.))
-      (nil? essay-filename) (dom/h1 (dom/text "Essay not found: " history/route))
-      () (Custom-markdown. extensions essay-filename))))
+  (e/client
+    (let [essay-filename (get essays ?essay)]
+      (cond
+        (nil? ?essay) (binding [hf/pages essays] (Index.))
+        (nil? essay-filename) (dom/h1 (dom/text "Essay not found: " history/route))
+        () (Custom-markdown. extensions essay-filename)))))

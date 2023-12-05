@@ -3,9 +3,10 @@
             [hyperfiddle.electric-dom2 :as dom]))
 
 (e/defn BlinkerComponent []
-  (dom/h1 (dom/text "blink!"))
-  (println 'component-did-mount)
-  (e/on-unmount #(println 'component-will-unmount)))
+  (e/client
+    (dom/h1 (dom/text "blink!"))
+    (println 'component-did-mount)
+    (e/on-unmount #(println 'component-will-unmount))))
 
 (e/defn Lifecycle []
   (e/client

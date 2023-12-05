@@ -20,26 +20,28 @@
               (new (F. F) x))))))
 
 (e/defn Dir-tree [Recur]
-  (e/fn [[h s]]
-    (cond
-      (file-is-dir h) 
-      (e/client
-        (dom/li (dom/text (e/server (file-get-name h)))
-          (dom/ul
-            (e/server
-              (e/for [x (file-list-files h)]
-                (Recur. [x s]))))))              ; recur
+  (e/server
+    (e/fn [[h s]]
+      (cond
+        (file-is-dir h)
+        (e/client
+          (dom/li (dom/text (e/server (file-get-name h)))
+            (dom/ul
+              (e/server
+                (e/for [x (file-list-files h)]
+                  (Recur. [x s]))))))   ; recur
       
-      (file-is-file h)
-      (when (includes-str? (file-get-name h) s)
-        (let [name_ (e/server (file-get-name h))]
-          (e/client (dom/li (dom/text name_))))))))
+        (file-is-file h)
+        (when (includes-str? (file-get-name h) s)
+          (let [name_ (e/server (file-get-name h))]
+            (e/client (dom/li (dom/text name_)))))))))
 
 (e/defn Y-dir []
-  (dom/div
-    (let [!s (atom "") s (e/watch !s)]
-      (ui/input s (e/fn [v] (reset! !s v))) 
-      (dom/ul
-        (e/server
-          (let [h (clojure.java.io/file (file-absolute-path "./src"))]
-            (new (Y. Dir-tree) [h s])))))))
+  (e/client
+    (dom/div
+      (let [!s (atom "") s (e/watch !s)]
+        (ui/input s (e/fn [v] (reset! !s v)))
+        (dom/ul
+          (e/server
+            (let [h (clojure.java.io/file (file-absolute-path "./src"))]
+              (new (Y. Dir-tree) [h s]))))))))
