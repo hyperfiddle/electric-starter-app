@@ -1,4 +1,4 @@
-(ns ^:dev/always dev ; rebuild everything when any file changes. Will fix
+(ns dev
   (:require [contrib.assert :refer [check]]
             [contrib.clojurex :refer [bindx]]
             #?(:clj [contrib.datomic-contrib :as dx])
