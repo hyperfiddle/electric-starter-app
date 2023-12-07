@@ -10,7 +10,8 @@
    :asset-path "/js"
    :modules {:main {:entries [user]
                     :init-fn user/start!}}
-   :build-hooks [(shadow.cljs.build-report/hook {:output-to "target/build_report.html"})
+   :build-hooks [(hyperfiddle.electric.shadow-cljs.hooks/reload-clj)
+                 (shadow.cljs.build-report/hook {:output-to "target/build_report.html"})
                  (user/rcf-shadow-hook)]}
   :prod
   {:target :browser

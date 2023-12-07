@@ -1,7 +1,10 @@
-(ns user) ; Must be ".clj" file, Clojure doesn't auto-load user.cljc
+(ns user              ; Must be ".clj" file, Clojure doesn't auto-load user.cljc
+  #_(:require boot)   ; boot is lazy-loaded below. This way REPL starts quickly
+  )
 
 ; lazy load dev stuff - for faster REPL startup and cleaner dev classpath
-(def start-electric-server! (delay @(requiring-resolve 'app.electric-server-java8-jetty9/start-server!)))
+(def start-electric-server! (delay (partial @(requiring-resolve 'app.electric-server-java8-jetty9/start-server!)
+                                     @(requiring-resolve 'boot/with-ring-request))))
 (def shadow-start! (delay @(requiring-resolve 'shadow.cljs.devtools.server/start!)))
 (def shadow-watch (delay @(requiring-resolve 'shadow.cljs.devtools.api/watch)))
 
