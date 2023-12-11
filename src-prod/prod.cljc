@@ -1,5 +1,5 @@
 (ns prod
-  #?(:cljs (:require-macros [prod :refer [install-user-fiddles]]))
+  #?(:cljs (:require-macros [prod :refer [install-user-inject]]))
   (:require #?(:clj [clojure.tools.logging :as log])
             [contrib.assert :refer [check]]
             [contrib.template :refer [comptime-resource]]
@@ -22,15 +22,17 @@
      (log/info (pr-str config))
      (check string? (::e/user-version config))
      (check string? (::hf/domain config))
-     (require (symbol (str (::hf/domain config) ".fiddles"))) ; load userland server
-     (start-server! config)))
+     (let [entrypoint (symbol (str (::hf/domain config) ".fiddles") "FiddleMain")]
+       (requiring-resolve entrypoint) ; load userland server
+       (start-server! (eval `(fn [ring-req#] (e/boot-server {} ~entrypoint ring-req#)))
+         config))))
 
 (defmacro install-user-inject [] (symbol (name hf/*hyperfiddle-user-ns*) "FiddleMain"))
 
 #?(:cljs
    (do
      (def electric-entrypoint
-       (e/boot
+       (e/boot-client {}
          ; in prod, fiddle owns the app and there's only one of them
          (let [FiddleMain (install-user-inject)]
            (FiddleMain.))))

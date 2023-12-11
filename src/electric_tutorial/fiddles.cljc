@@ -1,6 +1,8 @@
 (ns electric-tutorial.fiddles
-  (:require [hyperfiddle.electric :as e] 
-  
+  (:require [hyperfiddle.electric :as e]
+            [electric-fiddle.main]
+            [hyperfiddle :as hf]
+
             [electric-tutorial.tutorial :refer [Tutorial]]
             [electric-tutorial.demo-two-clocks :refer [TwoClocks]]
             [electric-tutorial.demo-toggle :refer [Toggle]]
@@ -37,3 +39,10 @@
    `electric-tutorial.tutorial-7guis-5-crud/CRUD electric-tutorial.tutorial-7guis-5-crud/CRUD
    ;`electric-tutorial.demo-reagent-interop/ReagentInterop electric-tutorial.demo-reagent-interop/ReagentInterop
    })
+
+(e/defn FiddleMain [ring-req]
+  (e/server
+    (binding [e/http-request ring-req]
+      (e/client
+        (binding [hf/pages fiddles]
+          (electric-fiddle.main/Main.))))))

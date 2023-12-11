@@ -21,7 +21,7 @@ shadow-cljs - nREPL server started on port 9001
 
 ```
 clojure -X:build:prod:hello-fiddle build-client :hyperfiddle/domain hello-fiddle :debug true
-clojure -X:build:prod:electric_tutorial build-client :hyperfiddle/domain electric-tutorial :debug true
+clojure -X:build:prod:electric-tutorial build-client :hyperfiddle/domain electric-tutorial :debug true
 # http://localhost:8080/electric-tutorial.tutorial!%54utorial/electric-tutorial.demo-two-clocks!%54wo%43locks
 clojure -X:build:prod:hfql_demo build-client :hyperfiddle/domain hfql-demo :debug true
 clojure -X:build:prod:electric_demo build-client :hyperfiddle/domain electric-demo :debug true
