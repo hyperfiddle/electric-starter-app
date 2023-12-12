@@ -81,7 +81,7 @@
         (cond
           (nil? VERSION)             (next-handler ring-req)
           (= client-version VERSION) (next-handler ring-req)
-          :else (adapter/reject-websocket-handler 1008 "stale client") ; https://www.rfc-editor.org/rfc/rfc6455#section-7.4.1
+          :else (ring/ws-upgrade-response (adapter/reject-websocket-handler 1008 "stale client")) ; https://www.rfc-editor.org/rfc/rfc6455#section-7.4.1
           ))
       (next-handler ring-req))))
 
