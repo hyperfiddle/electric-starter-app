@@ -1,4 +1,4 @@
-{:paths ["src" "resources"]
+{:paths ["src" "resources" "fiddles"]
  :deps 
  {com.hyperfiddle/electric {:local/root "vendor/electric"}
   com.hyperfiddle/rcf {:local/root "vendor/rcf"}
