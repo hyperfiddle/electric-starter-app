@@ -1,46 +1,148 @@
 # Electric Fiddle
 
-Live app: <https://dustingetz.electricfiddle.net/>
+The fastest way to get started with Electric Clojure.
 
-```
+<!-- Live app: <https://dustingetz.electricfiddle.net/> -->
+
+## Quick Start
+
+```shell
 $ git submodule update --init --recursive
 $ yarn
-$ clj -X:dev user/main
-
-Starting Electric compiler and server...
-shadow-cljs - server version: 2.20.1 running at http://localhost:9630
-shadow-cljs - nREPL server started on port 9001
-[:app] Configuring build.
-[:app] Compiling ...
-[:app] Build completed. (224 files, 0 compiled, 0 warnings, 1.93s)
-
-👉 App server available at http://0.0.0.0:8080
 ```
 
-# Deployment
+Begin with an example "Hello World" fiddle:
 
+```shell
+$ clj -A:dev
 ```
-clojure -X:build:prod:hello-fiddle build-client :hyperfiddle/domain hello-fiddle :debug true
-clojure -X:build:prod:electric-tutorial build-client :hyperfiddle/domain electric-tutorial :debug true
+```clojure
+(dev/-main)
+;; => INFO  dev: {:host "0.0.0.0", :port 8080, :resources-path "public", :manifest-path "public/js/manifest.edn"}
+;; => INFO  dev: Starting Electric compiler and server...
+;; => shadow-cljs - nREPL server started on port 9001
+;; => [:dev] Configuring build.
+;; => [:dev] Compiling ...
+;; => [:dev] Build completed. (231 files, 2 compiled, 0 warnings, 2.46s)
+;; => INFO  electric-fiddle.server: 👉 http://0.0.0.0:8080
+;; => Loading fiddle: hello-fiddle
+;; => Loaded: hello-fiddle.fiddles
+```
+
+1. Navigate to [http://localhost:8080](http://localhost:8080)
+2. Corresponding source code is in `src-fiddles/hello_world`
+
+## Load more fiddles
+
+Let’s load the Electric Tutorial fiddle. It requires some extra dependencies.
+```shell
+$ clj -A:dev:electric-tutorial
+```
+At the REPL:
+```clojure
+(dev/-main)
+;; => ...
+;; => INFO  electric-fiddle.server: 👉 http://0.0.0.0:8080
+
+(dev/load-fiddle! 'electric-tutorial)
+;; => Loading fiddle: electric-tutorial
+;; => Loaded: electric-tutorial.fiddle
+```
+In your browser, a new entry entry for `electric-fiddle` popped up.
+
+Optional:
+```clojure
+(dev/unload-fiddle! 'hello-world)
+```
+
+## Roll your own
+
+1. `mkdir src-fiddles/my_fiddle`
+3. Add the following to `src-fiddles/my_fiddle/fiddles.cljc`:
+```clojure
+(ns my-fiddles.fiddles
+  (:require [hyperfiddle.electric :as e]
+            [hyperfiddle.electric-dom2 :as dom]))
+
+(e/defn MyFiddle []
+  (e/client
+    (dom/h1 (dom/text "Hello from my fiddle."))))
+
+(e/def fiddles ; Entries for the dev index
+  {`MyFiddle MyFiddle})
+
+(e/defn FiddleMain [ring-req] ; prod entrypoint
+  (e/server
+    (binding [e/http-request ring-req])
+      (e/client
+        (binding [dom/node js/document.body]
+          (MyFiddle.)))))
+```
+
+At the REPL:
+```clojure
+(dev/load-fiddle! 'my-fiddle)
+```
+
+If your fiddle requires extra dependencies:
+
+- add them as an alias in `deps.edn`:
+
+```clojure
+{:aliases {:my-fiddle {:extra-deps {my.extra/dependency {:mvn/version "123"}}}}}
+```
+
+- Restart your REPL with the new alias: `$ clj -A:dev:my-fiddle`
+
+# Prod build
+
+Deploys one fiddle at a time.
+
+## "Hello World" prod build
+
+```shell
+$ clojure -X:build:prod build-client :hyperfiddle/domain hello-fiddle # :debug false :verbose false :optimize true
+$ clj -M:prod -m prod
+```
+
+## With extra dependencies
+```shell
+$ clojure -X:build:prod:electric-tutorial build-client :hyperfiddle/domain electric-tutorial
+$ clj -M:prod:electric-tutorial -m prod
 # http://localhost:8080/electric-tutorial.tutorial!%54utorial/electric-tutorial.demo-two-clocks!%54wo%43locks
-clojure -X:build:prod:hfql_demo build-client :hyperfiddle/domain hfql-demo :debug true
-clojure -X:build:prod:dustingetz build-client :hyperfiddle/domain dustingetz :debug true
+```
+
+# Uberjar
+
+```shell
+$ clojure -X:build:prod build-client :hyperfiddle/domain hello-fiddle
+$ clojure -X:build uberjar :build/jar-name "app.jar"
+```
+
+# Fly.io deployment
+
+```shell
+$ fly deploy --remote-only --config src/hello_fiddle/fly.toml
+```
+
+<!-- Triage / for reference
+
+```shell
+$ clojure -X:build:prod:electric-tutorial build-client :hyperfiddle/domain electric-tutorial :debug true
+$ clojure -X:build:prod:hfql_demo build-client :hyperfiddle/domain hfql-demo :debug true
+$ clojure -X:build:prod:dustingetz build-client :hyperfiddle/domain dustingetz :debug true
 # http://localhost:8080/electric-fiddle.essay!Essay/electric-y-combinator
 
-clj -M:prod -m prod
-clj -M:prod:datomic-browser -m prod
 
-fly deploy --remote-only --config src/hello_fiddle/fly.toml
+$ fly deploy --remote-only --config src/hello_fiddle/fly.toml
 
-clojure -X:build build-client :verbose true
-clojure -X:build uberjar :jar-name "app.jar" :verbose true
+$ clojure -X:build build-client :verbose true
+$ clojure -X:build uberjar :build/jar-name "app.jar" :verbose true
 ```
 
 * note, build uses -X not -T, build/app classpath contamination cannot reasonably be prevented. see https://www.notion.so/hyperfiddle/logger-epic-303a8024a8fd4b09a40a67871d3161cf?pvs=4
 
-# For reference
-
-```
+```shell
 docker login
 docker ps
 docker build -t hyperfiddle/photon-demo .
@@ -95,3 +197,4 @@ npx jamsocket service create photon-demo
 npx jamsocket push photon-demo hyperfiddle/photon-demo:latest
 npx jamsocket spawn photon-demo
 ```
+-->
