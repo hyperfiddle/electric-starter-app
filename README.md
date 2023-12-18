@@ -39,6 +39,8 @@ clojure -X:build uberjar :jar-name "app.jar" :verbose true
 
 * note, build uses -X not -T, build/app classpath contamination cannot reasonably be prevented. see https://www.notion.so/hyperfiddle/logger-epic-303a8024a8fd4b09a40a67871d3161cf?pvs=4
 
+# For reference
+
 ```
 docker login
 docker ps

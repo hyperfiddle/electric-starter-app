@@ -16,6 +16,7 @@ COPY src-build src-build
 COPY src-prod src-prod
 COPY vendor vendor
 COPY resources resources
+COPY fiddles fiddles
 
 ARG REBUILD=unknown
 ARG HYPERFIDDLE_DOMAIN

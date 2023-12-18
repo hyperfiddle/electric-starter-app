@@ -4,7 +4,8 @@
             [contrib.assert :refer [check]]
             [hyperfiddle :as hf]
             [shadow.cljs.devtools.api :as shadow-api]
-            [shadow.cljs.devtools.server :as shadow-server]))
+            [shadow.cljs.devtools.server :as shadow-server]
+            [clojure.string :as str]))
 
 (def electric-user-version (b/git-process {:git-args "describe --tags --long --always --dirty"}))
 
@@ -45,18 +46,22 @@ so do not use `clj -T`"
 
 (def class-dir "target/classes")
 
+(defn domain->dir [domain]
+  (str/replace (str domain) #"-" "_"))
+
 (defn uberjar
   [{:keys [::hf/domain optimize debug verbose ::jar-name]
     :or {optimize true, debug false, verbose false}
     :as args}]
   ; careful, shell quote escaping combines poorly with clj -X arg parsing, strings read as symbols
-  (log/info `uberjar (pr-str args)) 
+  (log/info `uberjar (pr-str args))
   (b/delete {:path "target"})
   
   (build-client {::hf/domain (check some? domain)
                  :optimize optimize, :debug debug, :verbose verbose})
   
   (b/copy-dir {:target-dir class-dir :src-dirs ["src" "src-prod" "resources"]})
+  (b/copy-dir {:target-dir (str class-dir "/" (domain->dir domain)) :src-dirs [(str "src-fiddles/" (domain->dir domain))]})
   (let [jar-name (or (some-> jar-name str) ; override for Dockerfile builds to avoid needing to reconstruct the name
                    (format "target/electricfiddle-%s-%s.jar" domain electric-user-version))]
     (b/uber {:class-dir class-dir
