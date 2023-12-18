@@ -41,8 +41,7 @@
    })
 
 (e/defn FiddleMain [ring-req]
-  (e/server
-    (binding [e/http-request ring-req]
-      (e/client
-        (binding [hf/pages fiddles]
-          (electric-fiddle.main/Main.))))))
+  (e/client
+    (binding [hf/pages fiddles]
+      (e/server
+        (electric-fiddle.main/Main. ring-req)))))

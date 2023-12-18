@@ -28,7 +28,7 @@
      (def unload-fiddle! #'fiddle-manager/unload-fiddle!)
 
      (defn -main [& args]
-       (alter-var-root #'config #(merge % args))
+       (alter-var-root #'config #(merge % (first args)))
        (log/info (pr-str config))
        (log/info "Starting Electric compiler and server...") ; run after REPL redirects stdout
        (fiddle-manager/start! {:loader-path "./src-dev/fiddles.cljc"})
