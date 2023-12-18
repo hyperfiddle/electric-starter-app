@@ -31,12 +31,7 @@
            (unload-fiddle! fiddle)
            nil))))
 
-(local/defn CLJFiddleLoader [fiddles]
-  (e/server
-    (e/for-by identity [fiddle fiddles]
-      (when-let [_ns (e/offload #(require-fiddle fiddle))]
-        (e/on-unmount #(do (println "Unloading fiddle:" fiddle)
-                           (remove-ns (fiddle-entrypoint-ns fiddle))))))))
+
 
 (def default-cljs-loader-ns '(ns cljs-fiddles-loader))
 
@@ -89,16 +84,26 @@
   (write-loader-file "./src-dev/fiddles.cljc" '(hello-fiddle))
   )
 
-(local/defn CLJSFiddleLoader [path fiddles]
-  (write-loader-file path fiddles)
-  (e/on-unmount #(write-loader-file path ())))
+(local/defn FiddleLoader [path fiddles]
+  (e/server
+    (let [loaded-fiddles (e/for-by identity [fiddle fiddles]
+                           (try
+                             (e/offload #(require-fiddle fiddle))
+                             (e/on-unmount #(do (println "Unloading fiddle:" fiddle)
+                                                (remove-ns (fiddle-entrypoint-ns fiddle))))
+                             fiddle
+                             (catch hyperfiddle.electric.Pending _
+                               false)))]
+      (when (not-any? false? loaded-fiddles)
+        (write-loader-file path fiddles)))
+    (e/on-unmount #(write-loader-file path ()))))
+
 
 (local/defn FiddleManager [{:keys [loader-path] :as _config}]
   (try
     (e/server
       (let [fiddles (e/watch !FIDDLES)]
-        (CLJFiddleLoader. fiddles)
-        (CLJSFiddleLoader. loader-path fiddles)))
+        (FiddleLoader. loader-path fiddles)))
     (catch Pending _)
     (catch Cancelled _)
     (catch Throwable t
