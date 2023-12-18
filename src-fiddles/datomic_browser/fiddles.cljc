@@ -10,15 +10,14 @@
             #_models.mbrainz
             #?(:clj [models.teeshirt-orders-datomic :as model])))
 
-(e/def fiddles
-  {`DatomicBrowser DatomicBrowser})
-
-(e/defn FiddleMain []
+(e/defn FiddleMain [& [page x]]
   (e/server
     (bindx [conn (check (model/init-datomic))
             db (check model/*$*)
             schema (check (new (dx/schema> db)))]
       ; index-route (or (seq args) [::summary])
       (e/client
-        (binding [hf/pages fiddles]
-          (electric-fiddle.main/Main.))))))
+        (DatomicBrowser. page x)))))
+
+(e/def fiddles
+  {`DatomicBrowser FiddleMain})
