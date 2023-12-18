@@ -3,7 +3,8 @@
    [clojure.pprint :as pprint]
    [hyperfiddle.electric :as e]
    [hyperfiddle.electric-local-def :as local]
-   [clojure.string :as str])
+   [clojure.string :as str]
+   [hyperfiddle.rcf :as rcf])
   (:import
    (hyperfiddle.electric Pending)
    (missionary Cancelled)))
@@ -23,13 +24,17 @@
 (defn require-fiddle [fiddle]
   (let [ns-sym (fiddle-entrypoint-ns fiddle)]
     (println "Loading fiddle:" fiddle)
-    (try (require ns-sym :reload)
-         (println "Loaded:" ns-sym)
-         (find-ns ns-sym)
-         (catch Throwable t
-           (println "Fiddle manager failed to load fiddle" fiddle (ex-message t))
-           (unload-fiddle! fiddle)
-           nil))))
+    (let [rcf-state rcf/*enabled*]
+      (try (rcf/enable! false)
+           (require ns-sym :reload)
+           (println "Loaded:" ns-sym)
+           (find-ns ns-sym)
+           (catch Throwable t
+             (println "Fiddle manager failed to load fiddle" fiddle (ex-message t))
+             (unload-fiddle! fiddle)
+             nil)
+           (finally
+             (rcf/enable! rcf-state))))))
 
 
 
