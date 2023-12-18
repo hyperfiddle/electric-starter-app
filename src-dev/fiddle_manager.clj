@@ -4,6 +4,9 @@
    [hyperfiddle.electric :as e]
    [hyperfiddle.electric-local-def :as local]
    [clojure.string :as str]
+   [clojure.tools.deps :as deps]
+   [clojure.repl.deps]
+   [clojure.java.io :as io]
    [hyperfiddle.rcf :as rcf])
   (:import
    (hyperfiddle.electric Pending)
@@ -20,6 +23,15 @@
   (swap! !FIDDLES into ns-syms))
 
 (defn unload-fiddle! [ns-sym] (swap! !FIDDLES disj ns-sym))
+
+;; (defn fiddle-extra-deps [fiddle-ns-sym]
+;;   (when-let [deps (deps/slurp-deps (io/file "deps.edn"))]
+;;     (some-> deps :aliases (get (keyword fiddle-ns-sym)) :extra-deps)))
+
+;; (defn add-libs-for-fiddle [fiddle-ns-sym]
+;;   (when-let [extra-deps (fiddle-extra-deps fiddle-ns-sym)]
+;;     (when-let [added-libs (binding [*repl* true] (clojure.repl.deps/add-libs extra-deps))]
+;;       (println "Those libraries were loaded on demand:" (keys extra-deps)))))
 
 (defn require-fiddle [fiddle]
   (let [ns-sym (fiddle-entrypoint-ns fiddle)]
