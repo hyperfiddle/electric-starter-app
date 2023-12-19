@@ -4,6 +4,7 @@
             #?(:clj clojure.java.io)
             [clojure.spec.alpha :as s]
             [contrib.datafy-fs #?(:clj :as :cljs :as-alias) fs]
+            #?(:clj datomic.api)
             [hyperfiddle.api :as hf]
             [hyperfiddle.hfql :refer [hfql]]
             [hyperfiddle.electric :as e]

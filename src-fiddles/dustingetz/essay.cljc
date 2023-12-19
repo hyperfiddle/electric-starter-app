@@ -1,4 +1,4 @@
-(ns electric-fiddle.essay
+(ns dustingetz.essay
   (:require clojure.string
             [electric-fiddle.fiddle :refer [Fiddle-fn Fiddle-ns]]
             [electric-fiddle.fiddle-markdown :refer [Custom-markdown]]
@@ -9,9 +9,9 @@
             [hyperfiddle.history :as history]))
 
 (def essays
-  {'electric-y-combinator "src/dustingetz/electric_y_combinator.md"
-   'hfql-intro "src/dustingetz/hfql_intro.md"
-   'hfql-teeshirt-orders "src/dustingetz/hfql_teeshirt_orders.md"})
+  {'electric-y-combinator "src-fiddles/dustingetz/electric_y_combinator.md"
+   'hfql-intro "src-fiddles/dustingetz/hfql_intro.md"
+   'hfql-teeshirt-orders "src-fiddles/dustingetz/hfql_teeshirt_orders.md"})
 
 (e/def extensions 
   {'fiddle Fiddle-fn
