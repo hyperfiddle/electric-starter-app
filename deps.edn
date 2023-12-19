@@ -1,7 +1,9 @@
 {:paths ["src" "resources" "src-fiddles"]
  :deps 
- {com.hyperfiddle/electric {:local/root "vendor/electric"}
-  com.hyperfiddle/rcf {:local/root "vendor/rcf"}
+ {com.hyperfiddle/electric {:git/url "https://github.com/hyperfiddle/electric/"
+                            :git/sha "31394d447d12e2d809c97a4a42c97ce16d54a6db"}
+  com.hyperfiddle/rcf {:git/url "https://github.com/hyperfiddle/electric"
+                       :git/sha "7105b43231140de6f2f39ce38611c9f6c9dfc976"}
   info.sunng/ring-jetty9-adapter
   {:mvn/version "0.17.7" ; (Jetty 10) is NOT Java 8 compatible
    :exclusions [org.slf4j/slf4j-api info.sunng/ring-jetty9-adapter-http3]}
@@ -18,6 +20,9 @@
  :aliases 
  {:dev
   {:extra-paths ["src-dev"]
+   :override-deps
+   {com.hyperfiddle/electric {:local/root "vendor/electric"}
+    com.hyperfiddle/rcf {:local/root "vendor/rcf"}}
    :extra-deps
    {binaryage/devtools {:mvn/version "1.0.6"}
     io.github.clojure/tools.build
