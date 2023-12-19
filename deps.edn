@@ -1,7 +1,7 @@
 {:paths ["src" "resources" "src-fiddles"]
  :deps 
  {com.hyperfiddle/electric {:git/url "https://github.com/hyperfiddle/electric/"
-                            :git/sha "31394d447d12e2d809c97a4a42c97ce16d54a6db"}
+                            :git/sha "0a6966891c1b009fb808add868b72c8d37268296"}
   com.hyperfiddle/rcf {:git/url "https://github.com/hyperfiddle/electric"
                        :git/sha "7105b43231140de6f2f39ce38611c9f6c9dfc976"}
   info.sunng/ring-jetty9-adapter
@@ -31,8 +31,8 @@
                   org.slf4j/slf4j-nop #_"clashes with app logger"]}
     thheller/shadow-cljs {:mvn/version "2.25.2"}}
    :jvm-opts
-   ["-Xss2m" ; https://github.com/hyperfiddle/photon/issues/11
-    "-XX:-OmitStackTraceInFastThrow" #_RCF]}
+   ["-XX:-OmitStackTraceInFastThrow" #_RCF
+    ]}
 
   :build
   ; use `clj -X:build build-client`, NOT -T! build/app classpath contamination cannot be prevented
@@ -44,7 +44,7 @@
                  :exclusions [com.google.guava/guava ; https://clojurians.slack.com/archives/C6N245JGG/p1692799642324169
                               org.slf4j/slf4j-nop #_"clashes with app logger"]}
                 thheller/shadow-cljs {:mvn/version "2.25.2"}}
-   :jvm-opts ["-Xss2m"]}
+   }
 
   :prod
   {:extra-paths ["src-prod"]}
