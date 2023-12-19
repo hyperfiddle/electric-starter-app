@@ -1,6 +1,7 @@
 (ns electric-fiddle.read-src
   (:import (clojure.lang RT) (java.io InputStreamReader LineNumberReader PushbackReader))
-  (:require [hyperfiddle.rcf :refer [tests]]))
+  (:require [hyperfiddle.rcf :refer [tests]]
+            [clojure.java.io :as io]))
 
 (defn read-src
   "Returns a string of the source code for the given symbol, if it can find it. 
@@ -41,9 +42,7 @@ Example: (source-fn 'filter)"
     (resolve sym) (find-ns sym)))
 
 (defn read-ns-src [sym]
-  (try (-> (resolve-var-or-ns sym) meta :file
-         (->> (str "src/")) slurp)
-    (catch java.io.FileNotFoundException _)))
+  (some-> (resolve-var-or-ns sym) meta :file io/resource slurp))
 
 (comment
   (resolve-var-or-ns 'electric-fiddle.read-src/read-src)

@@ -115,8 +115,7 @@ $ clj -M:prod:electric-tutorial -m prod
 # Uberjar
 
 ```shell
-$ clojure -X:build:prod build-client :hyperfiddle/domain hello-fiddle
-$ clojure -X:build uberjar :build/jar-name "app.jar"
+$ clojure -X:build:prod uberjar :hyperfiddle/domain hello-fiddle :build/jar-name "app.jar"
 ```
 
 # Fly.io deployment

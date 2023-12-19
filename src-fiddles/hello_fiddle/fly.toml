@@ -13,8 +13,8 @@ primary_region = "ewr"
   HYPERFIDDLE_DOMAIN="hello-fiddle"
 
 
-# NO_COLOR=1 fly deploy --config src/hello_fiddle/fly.toml --remote-only --build-only
+# NO_COLOR=1 fly deploy --config src-fiddles/hello_fiddle/fly.toml --remote-only --build-only
 
-# fly scale vm shared-cpu-8x --config src/hello_fiddle/fly.toml
-# fly scale show  --config src/hello_fiddle/fly.toml
-# fly status --config src/hello_fiddle/fly.toml
+# fly scale vm shared-cpu-8x --config src-fiddles/hello_fiddle/fly.toml
+# fly scale show  --config src-fiddles/hello_fiddle/fly.toml
+# fly status --config src-fiddles/hello_fiddle/fly.toml

@@ -21,11 +21,11 @@
       (set! (.-innerHTML dom/node) html))))
 
 (def essays
-  {'electric-y-combinator "src/dustingetz/electric_y_combinator.md"
-   'hfql-intro "src/dustingetz/hfql_intro.md"
-   'hfql-teeshirt-orders "src/dustingetz/hfql_teeshirt_orders.md"
+  {'electric-y-combinator "src-fiddles/dustingetz/electric_y_combinator.md"
+   'hfql-intro "src-fiddles/dustingetz/hfql_intro.md"
+   'hfql-teeshirt-orders "src-fiddles/dustingetz/hfql_teeshirt_orders.md"
 
-   'demo_two_clocks "src/electric_tutorial/demo_two_clocks.md"})
+   'demo_two_clocks "src-fiddles/electric_tutorial/demo_two_clocks.md"})
 
 (defn parse-md-directive [s]
   (let [[_ extension alt-text arg arg2] (re-find #"!(.*?)\[(.*?)\]\((.*?)\)(?:\((.*?)\))?" s)]

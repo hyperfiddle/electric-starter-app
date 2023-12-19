@@ -50,23 +50,26 @@ so do not use `clj -T`"
   (str/replace (str domain) #"-" "_"))
 
 (defn uberjar
-  [{:keys [::hf/domain optimize debug verbose ::jar-name]
-    :or {optimize true, debug false, verbose false}
+  [{:keys [::hf/domain optimize debug verbose ::jar-name, ::skip-client]
+    :or {optimize true, debug false, verbose false, skip-client false}
     :as args}]
   ; careful, shell quote escaping combines poorly with clj -X arg parsing, strings read as symbols
   (log/info `uberjar (pr-str args))
   (b/delete {:path "target"})
-  
-  (build-client {::hf/domain (check some? domain)
-                 :optimize optimize, :debug debug, :verbose verbose})
+
+  (when-not skip-client
+    (build-client {::hf/domain (check some? domain)
+                   :optimize optimize, :debug debug, :verbose verbose}))
   
   (b/copy-dir {:target-dir class-dir :src-dirs ["src" "src-prod" "resources"]})
   (b/copy-dir {:target-dir (str class-dir "/" (domain->dir domain)) :src-dirs [(str "src-fiddles/" (domain->dir domain))]})
   (let [jar-name (or (some-> jar-name str) ; override for Dockerfile builds to avoid needing to reconstruct the name
-                   (format "target/electricfiddle-%s-%s.jar" domain electric-user-version))]
+                   (format "target/electricfiddle-%s-%s.jar" domain electric-user-version))
+        aliases [:prod (keyword domain)]]
+    (log/info `uberjar "included aliases:" aliases)
     (b/uber {:class-dir class-dir
              :uber-file jar-name
-             :basis     (b/create-basis {:project "deps.edn" :aliases [:prod]})})
+             :basis     (b/create-basis {:project "deps.edn" :aliases aliases})})
     (log/info jar-name)))
 
 ; clj -A:prod:hello-fiddle -M -e ::ok 

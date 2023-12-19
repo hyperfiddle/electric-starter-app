@@ -5,14 +5,12 @@
   info.sunng/ring-jetty9-adapter
   {:mvn/version "0.17.7" ; (Jetty 10) is NOT Java 8 compatible
    :exclusions [org.slf4j/slf4j-api info.sunng/ring-jetty9-adapter-http3]}
-  missionary/missionary {:mvn/version "b.31"}
   org.clojure/clojure {:mvn/version "1.12.0-alpha4"}
   org.clojure/clojurescript {:mvn/version "1.11.60"} ; technically :dev
   org.clojure/tools.logging {:mvn/version "1.2.4"}
   ch.qos.logback/logback-classic {:mvn/version "1.2.11"}
   ring-basic-authentication/ring-basic-authentication {:mvn/version "1.1.1"}
 
-  ; should fiddle deps be opt-in too?
   markdown-clj/markdown-clj {:mvn/version "1.11.4"}
   nextjournal/clojure-mode {:git/url "https://github.com/nextjournal/clojure-mode"
                             :sha "ac038ebf6e5da09dd2b8a31609e9ff4a65e36852"}}
@@ -45,7 +43,12 @@
 
   :prod
   {:extra-paths ["src-prod"]}
-  
+
+
+  ;;;;;;;;;;;;;;;;;;;;
+  ;; Fiddle Aliases ;;
+  ;;;;;;;;;;;;;;;;;;;;
+
   :hello-fiddle {}
 
   :electric-tutorial
