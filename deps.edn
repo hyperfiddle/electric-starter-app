@@ -19,7 +19,7 @@
  
  :aliases 
  {:dev
-  {:extra-paths ["src-dev"]
+  {:extra-paths ["src-dev" "src-triage"]
    :override-deps
    {com.hyperfiddle/electric {:local/root "vendor/electric"}
     com.hyperfiddle/rcf {:local/root "vendor/rcf"}}
@@ -71,6 +71,7 @@
     com.hyperfiddle/hfql {:local/root "vendor/hfql"}}}
 
   :hfql-demo
-  {:extra-deps
+  {:extra-paths ["src-triage"]
+   :extra-deps
    {com.datomic/peer {:mvn/version "1.0.7075"}
     com.hyperfiddle/hfql {:local/root "vendor/hfql"}}}}}
