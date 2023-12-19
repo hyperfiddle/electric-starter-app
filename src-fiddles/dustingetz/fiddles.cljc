@@ -2,7 +2,6 @@
   (:require [hyperfiddle.electric :as e]
             [hyperfiddle :as hf]
             [dustingetz.demo-explorer-hfql :refer [DirectoryExplorer-HFQL]]
-            [dustingetz.y2023.bug-unmount :refer [Bug-unmount]]
             [dustingetz.hfql-intro :refer [With-HFQL-Bindings
                                            Teeshirt-orders-1
                                            Teeshirt-orders-2
@@ -27,7 +26,6 @@
    `Teeshirt-orders-4 (With-HFQL-Bindings. Teeshirt-orders-4)
    `Teeshirt-orders-5 (With-HFQL-Bindings. Teeshirt-orders-5)
    `DirectoryExplorer-HFQL (With-HFQL-Bindings. DirectoryExplorer-HFQL)
-   `Bug-unmount Bug-unmount
    `dustingetz.scratch/Scratch dustingetz.scratch/Scratch})
 
 #?(:clj
