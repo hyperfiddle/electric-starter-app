@@ -1,12 +1,5 @@
 /* TODO migrate to Tailwind */
 
-/* Dustin: Ring intermittently failing to follow symlinks, so I copied the 
-contents. Note the hfql-tree-grid.css symlink is working. */
-@import url('hyperfiddle/hyperfiddle-forms-copy.css');
-@import url('hyperfiddle/hyperfiddle-electric-ui-copy.css');
-@import url('hyperfiddle/hyperfiddle-popover-copy.css');
-@import url('hyperfiddle/hfql-tree-grid.css');
-
 @import url('user/examples.css');
 @import url('user/tutorial.css');
 @import url('user/github-markdown.css');
