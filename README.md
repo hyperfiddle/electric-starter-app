@@ -1,6 +1,20 @@
 # Electric Fiddle
 
-The fastest way to get started with Electric Clojure.
+The easiest way to get started with Electric Clojure.
+
+This is how we fiddle around with stuff at work. All our demos are here.
+This is how we recommend you start, because it’s all self contained.
+
+One day when your app will have grown and you’ll be ready to eject it, you’ll delete what you don’t need (there’s not much anyway) and you’ll be good to go.
+
+You can fork this repo or clone it and have your own branch.
+We’ll continue to update the main branch. You’ll be able to track changes and merge them as needed.
+
+<!-- Here is electric fiddle this is how we fiddle around with stuff at work.
+All our demos are here. This is how we recommend you start It’s self contained
+You’ll fork this repo or clone it and have your own branch. We’ll continue to
+update the main branch and you’ll be able to track changes and merge them into
+your app if you need it. -->
 
 <!-- Live app: <https://dustingetz.electricfiddle.net/> -->
 
@@ -16,6 +30,7 @@ Begin with an example "Hello World" fiddle:
 ```shell
 $ clj -A:dev
 ```
+At the REPL:
 ```clojure
 (dev/-main)
 ;; => INFO  dev: {:host "0.0.0.0", :port 8080, :resources-path "public", :manifest-path "public/js/manifest.edn"}
