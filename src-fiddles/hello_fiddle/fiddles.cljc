@@ -1,13 +1,20 @@
 (ns hello-fiddle.fiddles
-  (:require [hello-fiddle.hello-fiddle :refer [Hello]]
-            [hyperfiddle.electric :as e]
-            [hyperfiddle.electric-dom2 :as dom]))
+  (:require
+   [hyperfiddle.electric :as e]
+   [hyperfiddle.electric-dom2 :as dom]))
 
-(e/def fiddles ; prod.clj auto-resolves this global via electric-manifest.edn
-  {`Hello Hello})
-
-
-(e/defn FiddleMain [ring-req]
+(e/defn Hello []
   (e/client
-    (binding [dom/node js/document.body]
-      (Hello.))))
+    (dom/h1 (dom/text "Hello world"))))
+
+;; Dev entrypoint
+;; Entries will be listed on the dev index page (http://localhost:8080)
+(e/def fiddles {`Hello Hello})
+
+;; Prod entrypoint, called by `prod.clj`
+(e/defn FiddleMain [ring-request]
+  (e/server
+    (binding [e/http-request ring-request] ; make ring request available through the app
+      (e/client
+        (binding [dom/node js/document.body] ; where to mount dom elements
+          (Hello.))))))
