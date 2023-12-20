@@ -5,9 +5,10 @@
    [hyperfiddle.electric-local-def :as local]
    [clojure.string :as str]
    [clojure.tools.deps :as deps]
-   [clojure.repl.deps]
+   ;; [clojure.repl.deps]
    [clojure.java.io :as io]
-   [hyperfiddle.rcf :as rcf])
+   [hyperfiddle.rcf :as rcf]
+   [clojure.tools.logging :as log])
   (:import
    (hyperfiddle.electric Pending)
    (missionary Cancelled)))
@@ -24,14 +25,43 @@
 
 (defn unload-fiddle! [ns-sym] (swap! !FIDDLES disj ns-sym))
 
-;; (defn fiddle-extra-deps [fiddle-ns-sym]
-;;   (when-let [deps (deps/slurp-deps (io/file "deps.edn"))]
-;;     (some-> deps :aliases (get (keyword fiddle-ns-sym)) :extra-deps)))
+(defn fiddle-extra-deps [fiddle-ns-sym]
+  (when-let [deps (deps/slurp-deps (io/file "deps.edn"))]
+    (some-> deps :aliases (get (keyword fiddle-ns-sym)) :extra-deps)))
 
 ;; (defn add-libs-for-fiddle [fiddle-ns-sym]
 ;;   (when-let [extra-deps (fiddle-extra-deps fiddle-ns-sym)]
 ;;     (when-let [added-libs (binding [*repl* true] (clojure.repl.deps/add-libs extra-deps))]
 ;;       (println "Those libraries were loaded on demand:" (keys extra-deps)))))
+
+(defn explain-error [fiddle error]
+  (cond
+    (instance? java.io.FileNotFoundException error)
+    (str
+      "\nPossible causes:"
+      "\n - this fiddle doesn’t exist"
+      "\n   - is `" fiddle "` the right name?"
+      "\n   - is there a corresponding file named `src-fiddles/" (munge fiddle) "/fiddles.cljc`?"
+      )
+    (instance? java.io.FileNotFoundException (ex-cause error))
+    (str
+      "\nWe could find a fiddle named `" fiddle "` but failed to load it."
+      "\nPossible causes:"
+      "\n - there’s a typo in the `ns` form"
+      "\n - a dependency is missing:"
+      (if-let [deps (seq (fiddle-extra-deps fiddle))]
+        (let [cnt (count deps)]
+          (str
+            "\n   - there " (if (> cnt 1) "are" "is") " " cnt " extra dependencies for `"fiddle"` in `deps.edn`: " (mapv first deps)
+            "\n     - is the missing dependency listed? If no you should add it to `deps.edn` under `:aliases` -> `" (keyword fiddle)"` -> `:extra-deps`."
+            "\n     - did you start your REPL with the `" (keyword fiddle) "` alias?"
+            ))
+        (str "\n   - are you using an external library?"
+             "\n     If so, you need to:"
+             "\n      1. add an alias for " (keyword fiddle) " in `deps.edn`"
+             "\n      2. list your dependency under `:extra-deps`"
+             "\n      3. restart your REPL, adding the `"(keyword fiddle)"` alias.")))
+    :else error))
 
 (defn require-fiddle [fiddle]
   (let [ns-sym (fiddle-entrypoint-ns fiddle)]
@@ -42,7 +72,12 @@
            (println "Loaded:" ns-sym)
            (find-ns ns-sym)
            (catch Throwable t
-             (println "Fiddle manager failed to load fiddle" fiddle (ex-message t))
+             (println)
+             (log/error "failed to load fiddle" (str "`" fiddle "`")
+               (str "\n" (ex-message t))
+               (when-let [cause (ex-cause t)]
+                 (str "\n" (ex-message cause)))
+               (explain-error fiddle t))
              (unload-fiddle! fiddle)
              nil)
            (finally
