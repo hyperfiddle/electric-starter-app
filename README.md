@@ -2,13 +2,15 @@
 
 The easiest way to get started with Electric Clojure.
 
-This is how we fiddle around with stuff at work. All our demos are here.
+This is how we fiddle around with stuff at work. All our demos are here.<br>
 This is how we recommend you start, because it’s all self contained.
 
-One day when your app will have grown and you’ll be ready to eject it, you’ll delete what you don’t need (there’s not much anyway) and you’ll be good to go.
+One day your app will have grown and you’ll be ready to eject it. <br>
+You’ll delete what you don’t need (there’s not much anyway) and you’ll be good to go.
 
 You can fork this repo or clone it and have your own branch.
-We’ll continue to update the main branch. You’ll be able to track changes and merge them as needed.
+We’ll continue to update the main branch.<br>
+You’ll be able to track changes and merge them as needed.
 
 ## Quick Start
 
