@@ -4,8 +4,7 @@
          org.clojure/clojurescript      {:mvn/version "1.11.121"}
          org.clojure/tools.logging      {:mvn/version "1.2.4"}
          ch.qos.logback/logback-classic {:mvn/version "1.4.14"}
-         info.sunng/ring-jetty9-adapter {:mvn/version "0.17.7" ; (Jetty 10) is NOT Java 8 compatible
-                                         :exclusions  [org.slf4j/slf4j-api info.sunng/ring-jetty9-adapter-http3]}
+         ring/ring-core                 {:mvn/version "1.11.0"} ; no hard-coded HTTP server, specified in :dev, :prod, :jetty, :httpkit aliases
          ring-basic-authentication/ring-basic-authentication {:mvn/version "1.2.0"}
          }
 
@@ -16,7 +15,8 @@
   {:extra-paths   ["src-dev"]
    :override-deps {com.hyperfiddle/electric {:local/root "vendor/electric"}
                    com.hyperfiddle/rcf      {:local/root "vendor/rcf"}}
-   :extra-deps    {binaryage/devtools   {:mvn/version "1.0.7"}
+   :extra-deps    {ring/ring-jetty-adapter {:mvn/version "1.11.0"} ; same as `:jetty` alias
+                   binaryage/devtools   {:mvn/version "1.0.7"}
                    thheller/shadow-cljs {:mvn/version "2.26.2"}
                    io.github.clojure/tools.build
                    {:mvn/version "0.9.6"
@@ -38,7 +38,15 @@
                                                  ]}}}
 
   :prod
-  {:extra-paths ["src-prod"]}
+  {:extra-paths ["src-prod"]
+   :extra-deps {ring/ring-jetty-adapter {:mvn/version "1.11.0"}}
+   :override-deps {com.hyperfiddle/electric {:local/root "vendor/electric"}}}
+
+  :jetty ; jetty http server, default in :dev and :prod
+  {:extra-deps {ring/ring-jetty-adapter {:mvn/version "1.11.0"}}}
+
+  :httpkit
+  {:extra-deps {http-kit/http-kit {:mvn/version "2.5.1"}}}
 
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
