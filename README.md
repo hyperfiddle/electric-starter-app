@@ -69,7 +69,7 @@ Optional:
 1. `mkdir src-fiddles/my_fiddle`
 3. Add the following to `src-fiddles/my_fiddle/fiddles.cljc`:
 ```clojure
-(ns my-fiddles.fiddles
+(ns my-fiddle.fiddles
   (:require [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]))
 
