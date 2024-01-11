@@ -12,7 +12,15 @@
    (org.eclipse.jetty.server.handler.gzip GzipHandler)
    (org.eclipse.jetty.websocket.server.config JettyWebSocketServletContainerInitializer JettyWebSocketServletContainerInitializer$Configurator)))
 
-(defn electric-websocket-middleware [next-handler config entrypoint]
+(defn electric-websocket-middleware
+  "Open a websocket and boot an Electric server program defined by `entrypoint`.
+  Takes:
+  - a ring handler `next-handler` to call if the request is not a websocket upgrade (e.g. the next middleware in the chain),
+  - a `config` map eventually containing {:hyperfiddle.electric/user-version <version>} to ensure client and server share the same version,
+    - see `hyperfiddle.electric-ring-adapter/wrap-reject-stale-client`
+  - an Electric `entrypoint`: a function (fn [ring-request] (e/boot-server {} my-ns/My-e-defn ring-request))
+  "
+  [next-handler config entrypoint]
   ;; Applied bottom-up
   (-> (electric-ring/wrap-electric-websocket next-handler entrypoint) ; 5. connect electric client
     (middleware/wrap-authenticated-request) ; 4. Optional - authenticate before opening a websocket
