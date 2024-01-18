@@ -7,7 +7,8 @@
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.electric-svg :as svg]
-            [hyperfiddle.history :as history]))
+            [hyperfiddle.router :as r]
+            [hyperfiddle.history2 :as h]))
 
 (def tutorials
   [["Electric" 
@@ -62,7 +63,7 @@
                                       (when-not prev "user-examples-nav-start")
                                       (when-not next "user-examples-nav-end")]})
         (when prev
-          (history/link ['.. (::id prev)]
+          (r/link [(list (::id prev))]
             (dom/props {:class "user-examples-nav-prev"})
             (dom/text (str "< " (title prev)))))
         (dom/div (dom/props {:class "user-examples-select"})
@@ -77,10 +78,9 @@
                       (dom/props {:value (str id) :selected (= page id)})
                       (dom/text (str (inc (::order m)) ". " (title m))))))))
             (dom/on "change" (e/fn [^js e]
-                               (history/navigate! history/!history
-                                 `[~@(butlast history/history) ~(clojure.edn/read-string (.. e -target -value))])))))
+                               (r/Navigate!. [(list (clojure.edn/read-string (.. e -target -value)))])))))
         (when next
-          (history/link ['.. (::id next)]
+          (r/link [(list (::id next))]
             (dom/props {:class "user-examples-nav-next"})
             (dom/text (str (title next) " >"))))))))
 
@@ -106,13 +106,16 @@
   {'fiddle Fiddle-fn
    'fiddle-ns Fiddle-ns})
 
-(e/defn Tutorial [& [?tutorial :as route]]
+(e/defn Tutorial []
   (e/client
-    (if (nil? (seq route)) (binding [hf/pages tutorials2] (Index.))
-        (do #_(dom/pre (dom/text (pr-str history/route)))
-            #_ (e/client (dom/div #_(dom/props {:class ""}))) ; fix css grid next
-            (Nav. ?tutorial false)
-            (if-some [essay-filename (get tutorials2 ?tutorial)]
-              (Custom-markdown. extensions essay-filename)
-              (dom/h1 (dom/text "Tutorial not found: " history/route)))
-            (Nav. ?tutorial true)))))
+    (r/focus [`(Tutorial)]
+      (let [[?tutorial] r/route]
+        (if (nil? ?tutorial) (binding [hf/pages tutorials2] (Index.))
+            (do #_(dom/pre (dom/text (pr-str history/route)))
+                #_ (e/client (dom/div #_(dom/props {:class ""}))) ; fix css grid next
+                (Nav. ?tutorial false)
+                (if-some [essay-filename (get tutorials2 ?tutorial)]
+                  (Custom-markdown. extensions essay-filename)
+                  (dom/h1 (dom/text "Tutorial not found: " ?tutorial)))
+                (Nav. ?tutorial true)))))))
+

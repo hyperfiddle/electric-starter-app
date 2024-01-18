@@ -3,7 +3,6 @@
             [electric-fiddle.fiddle :refer [Fiddle-fn]]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
-            [hyperfiddle.history :as history]
             #?(:clj [markdown.core :refer [md-to-html-string]])
             [hyperfiddle.rcf :refer [tests]]
             electric-fiddle.index))
