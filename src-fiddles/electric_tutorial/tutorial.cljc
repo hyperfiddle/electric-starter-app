@@ -2,13 +2,28 @@
   (:require clojure.string
             [electric-fiddle.fiddle :refer [Fiddle-fn Fiddle-ns]]
             [electric-fiddle.fiddle-markdown :refer [Custom-markdown]]
-            [electric-fiddle.index :refer [Index]]
             [hyperfiddle :as hf]
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.electric-svg :as svg]
             [hyperfiddle.router :as r]
-            [hyperfiddle.history2 :as h]))
+
+            [electric-tutorial.demo-two-clocks :refer [TwoClocks]]
+            [electric-tutorial.demo-toggle :refer [Toggle]]
+            electric-tutorial.demo-system-properties
+            electric-tutorial.demo-chat
+            electric-tutorial.tutorial-backpressure
+            electric-tutorial.tutorial-lifecycle
+            electric-tutorial.demo-chat-extended
+            electric-tutorial.demo-webview
+            electric-tutorial.demo-todos-simple
+            #_electric-tutorial.demo-reagent-interop ; npm install
+            electric-tutorial.demo-svg
+            electric-tutorial.tutorial-7guis-1-counter
+            electric-tutorial.tutorial-7guis-2-temperature
+            electric-tutorial.tutorial-7guis-4-timer
+            electric-tutorial.tutorial-7guis-5-crud
+            ))
 
 (def tutorials
   [["Electric" 
@@ -102,20 +117,36 @@
    ;`electric-tutorial.demo-reagent-interop/ReagentInterop ""
    })
 
+(e/def fiddles
+  {`TwoClocks TwoClocks
+   `Toggle Toggle
+   `electric-tutorial.demo-system-properties/SystemProperties electric-tutorial.demo-system-properties/SystemProperties
+   `electric-tutorial.demo-chat/Chat electric-tutorial.demo-chat/Chat
+   `electric-tutorial.tutorial-backpressure/Backpressure electric-tutorial.tutorial-backpressure/Backpressure
+   `electric-tutorial.tutorial-lifecycle/Lifecycle electric-tutorial.tutorial-lifecycle/Lifecycle
+   `electric-tutorial.demo-chat-extended/ChatExtended electric-tutorial.demo-chat-extended/ChatExtended
+   `electric-tutorial.demo-webview/Webview electric-tutorial.demo-webview/Webview
+   `electric-tutorial.demo-todos-simple/TodoList electric-tutorial.demo-todos-simple/TodoList  ; css fixes
+   `electric-tutorial.demo-svg/SVG electric-tutorial.demo-svg/SVG
+   `electric-tutorial.tutorial-7guis-1-counter/Counter electric-tutorial.tutorial-7guis-1-counter/Counter
+   `electric-tutorial.tutorial-7guis-2-temperature/TemperatureConverter electric-tutorial.tutorial-7guis-2-temperature/TemperatureConverter
+   `electric-tutorial.tutorial-7guis-4-timer/Timer electric-tutorial.tutorial-7guis-4-timer/Timer
+   `electric-tutorial.tutorial-7guis-5-crud/CRUD electric-tutorial.tutorial-7guis-5-crud/CRUD
+   ;`electric-tutorial.demo-reagent-interop/ReagentInterop electric-tutorial.demo-reagent-interop/ReagentInterop
+   })
+
 (e/def extensions
   {'fiddle Fiddle-fn
    'fiddle-ns Fiddle-ns})
 
 (e/defn Tutorial []
   (e/client
-    (r/focus [`(Tutorial)]
-      (let [[?tutorial] r/route]
-        (if (nil? ?tutorial) (binding [hf/pages tutorials2] (Index.))
-            (do #_(dom/pre (dom/text (pr-str history/route)))
-                #_ (e/client (dom/div #_(dom/props {:class ""}))) ; fix css grid next
-                (Nav. ?tutorial false)
-                (if-some [essay-filename (get tutorials2 ?tutorial)]
-                  (Custom-markdown. extensions essay-filename)
-                  (dom/h1 (dom/text "Tutorial not found: " ?tutorial)))
-                (Nav. ?tutorial true)))))))
+    (let [[?tutorial] (if (map? r/route) (ffirst r/route) r/route)
+          ?tutorial   (or ?tutorial `TwoClocks)]
+      (binding [hf/pages fiddles]
+        (Nav. ?tutorial false)
+        (if-some [essay-filename (get tutorials2 ?tutorial)]
+          (Custom-markdown. extensions essay-filename)
+          (dom/h1 (dom/text "Tutorial not found: " ?tutorial)))
+        (Nav. ?tutorial true)))))
 

@@ -21,5 +21,6 @@
               (set! (.-title js/document) (str (some-> f name (str " – ")) "Electric Fiddle"))
               (case f
                 `Index (Index.)
-                (e/apply (get hf/pages f NotFoundPage) args)))))))))
+                (r/focus [route]
+                  (e/apply (get hf/pages f NotFoundPage) args))))))))))
 
