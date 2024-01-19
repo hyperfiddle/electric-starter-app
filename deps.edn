@@ -63,4 +63,8 @@
     markdown-clj/markdown-clj {:mvn/version "1.11.7"}
     io.github.nextjournal/clojure-mode {:git/sha "5d88847aecd253e047f36565e0455bfec7f4964d"}}}
 
+  :datomic-browser
+  {:extra-deps
+   {com.datomic/peer {:mvn/version "1.0.7075"}}}
+
   }}
