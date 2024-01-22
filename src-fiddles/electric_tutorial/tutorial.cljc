@@ -141,7 +141,7 @@
 
 (e/defn Tutorial []
   (e/client
-    (let [[?tutorial] (if (map? r/route) (ffirst r/route) r/route)
+    (let [[?tutorial] (ffirst r/route)
           ?tutorial   (or ?tutorial `TwoClocks)]
       (binding [hf/pages fiddles]
         (Nav. ?tutorial false)
