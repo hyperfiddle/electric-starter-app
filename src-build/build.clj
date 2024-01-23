@@ -62,7 +62,7 @@ so do not use `clj -T`"
                    :optimize optimize, :debug debug, :verbose verbose}))
   
   (b/copy-dir {:target-dir class-dir :src-dirs ["src" "src-prod" "resources"]})
-  (b/copy-dir {:target-dir (str class-dir "/" (domain->dir domain)) :src-dirs [(str "src-fiddles/" (domain->dir domain))]})
+  (b/copy-dir {:target-dir (str class-dir "/" (domain->dir domain)) :src-dirs [(str "src/" (domain->dir domain))]})
   (let [jar-name (or (some-> jar-name str) ; override for Dockerfile builds to avoid needing to reconstruct the name
                    (format "target/electricfiddle-%s-%s.jar" domain electric-user-version))
         aliases [:prod (keyword domain)]]

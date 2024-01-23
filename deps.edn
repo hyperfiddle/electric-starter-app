@@ -8,7 +8,7 @@
          ring-basic-authentication/ring-basic-authentication {:mvn/version "1.2.0"}
          }
 
- :paths ["src" "resources" "src-fiddles"]
+ :paths ["src" "resources" "src-contrib"]
 
  :aliases
  {:dev

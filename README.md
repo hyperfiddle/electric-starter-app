@@ -34,7 +34,7 @@ At the REPL:
 ```
 
 1. Navigate to [http://localhost:8080](http://localhost:8080)
-2. Corresponding source code is in `src-fiddles/hello_world`
+2. Corresponding source code is in `src/hello_world`
 
 ## Load more fiddles
 
@@ -62,8 +62,8 @@ Optional:
 
 ## Roll your own
 
-1. `mkdir src-fiddles/my_fiddle`
-3. Add the following to `src-fiddles/my_fiddle/fiddles.cljc`:
+1. `mkdir src/my_fiddle`
+3. Add the following to `src/my_fiddle/fiddles.cljc`:
 ```clojure
 (ns my-fiddle.fiddles
   (:require [hyperfiddle.electric :as e]
