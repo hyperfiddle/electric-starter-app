@@ -14,11 +14,6 @@ You’ll be able to track changes and merge them as needed.
 
 ## Quick Start
 
-```shell
-$ git submodule update --init --recursive
-$ yarn
-```
-
 Begin with an example "Hello World" fiddle:
 
 ```shell
@@ -39,12 +34,13 @@ At the REPL:
 ```
 
 1. Navigate to [http://localhost:8080](http://localhost:8080)
-2. Corresponding source code is in `src-fiddles/hello_fiddle`
+2. Corresponding source code is in `src/hello_world`
 
 ## Load more fiddles
 
 Let’s load the Electric Tutorial fiddle. It requires some extra dependencies.
 ```shell
+$ npm install
 $ clj -A:dev:electric-tutorial
 ```
 At the REPL:
@@ -66,8 +62,8 @@ Optional:
 
 ## Roll your own
 
-1. `mkdir src-fiddles/my_fiddle`
-3. Add the following to `src-fiddles/my_fiddle/fiddles.cljc`:
+1. `mkdir src/my_fiddle`
+3. Add the following to `src/my_fiddle/fiddles.cljc`:
 ```clojure
 (ns my-fiddle.fiddles
   (:require [hyperfiddle.electric :as e]
@@ -116,6 +112,7 @@ $ clj -M:prod -m prod
 
 ## With extra dependencies
 ```shell
+$ npm install
 $ clojure -X:build:prod:electric-tutorial build-client :hyperfiddle/domain electric-tutorial
 $ clj -M:prod:electric-tutorial -m prod
 # http://localhost:8080/electric-tutorial.tutorial!%54utorial/electric-tutorial.demo-two-clocks!%54wo%43locks
@@ -125,6 +122,7 @@ $ clj -M:prod:electric-tutorial -m prod
 
 ```shell
 $ clojure -X:build:prod uberjar :hyperfiddle/domain hello-fiddle :build/jar-name "app.jar"
+$ java -cp app.jar clojure.main -m prod
 ```
 
 # Fly.io deployment

@@ -4,7 +4,7 @@
             [contrib.assert :refer [check]]
             [contrib.template :refer [comptime-resource]]
             electric-fiddle.main
-            #?(:clj [electric-fiddle.server :refer [start-server!]])
+            #?(:clj [electric-fiddle.server-jetty :refer [start-server!]])
             [hyperfiddle :as hf]
             [hyperfiddle.electric :as e]
             #?(:cljs #=(clojure.core/identity hyperfiddle/*hyperfiddle-user-ns*)))) ; domain DI here

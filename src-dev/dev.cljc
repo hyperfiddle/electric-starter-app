@@ -15,7 +15,8 @@
      (def shadow-start! (delay @(requiring-resolve 'shadow.cljs.devtools.server/start!)))
      (def shadow-stop! (delay @(requiring-resolve 'shadow.cljs.devtools.server/stop!)))
      (def shadow-watch (delay @(requiring-resolve 'shadow.cljs.devtools.api/watch)))
-     (def start-server! (delay @(requiring-resolve 'electric-fiddle.server/start-server!)))
+     (def start-server! (delay @(requiring-resolve 'electric-fiddle.server-jetty/start-server!)))     ; jetty
+     #_(def start-server! (delay @(requiring-resolve 'electric-fiddle.server-httpkit/start-server!))) ; require `:httpkit` deps alias
 
      (def config
        {:host "0.0.0.0", :port 8080,
@@ -39,7 +40,10 @@
                                         ; todo block until finished?
        (comment (@shadow-stop!))
        (def server (@start-server! (fn [ring-req] (e/boot-server {} fiddles/FiddleMain ring-req)) config))
-       (comment (.stop server))
+       (comment
+         (.stop server) ; jetty
+         (server)       ; httpkit
+         )
 
        (load-fiddle! 'hello-fiddle)
 

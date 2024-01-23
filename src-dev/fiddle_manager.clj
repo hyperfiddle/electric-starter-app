@@ -41,7 +41,7 @@
       "\nPossible causes:"
       "\n - this fiddle doesn’t exist"
       "\n   - is `" fiddle "` the right name?"
-      "\n   - is there a corresponding file named `src-fiddles/" (munge fiddle) "/fiddles.cljc`?"
+      "\n   - is there a corresponding file named `src/" (munge fiddle) "/fiddles.cljc`?"
       )
     (instance? java.io.FileNotFoundException (ex-cause error))
     (str
