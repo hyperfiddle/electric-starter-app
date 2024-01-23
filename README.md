@@ -14,11 +14,6 @@ You’ll be able to track changes and merge them as needed.
 
 ## Quick Start
 
-```shell
-$ git submodule update --init --recursive
-$ yarn
-```
-
 Begin with an example "Hello World" fiddle:
 
 ```shell
@@ -45,6 +40,7 @@ At the REPL:
 
 Let’s load the Electric Tutorial fiddle. It requires some extra dependencies.
 ```shell
+$ npm install
 $ clj -A:dev:electric-tutorial
 ```
 At the REPL:
@@ -116,6 +112,7 @@ $ clj -M:prod -m prod
 
 ## With extra dependencies
 ```shell
+$ npm install
 $ clojure -X:build:prod:electric-tutorial build-client :hyperfiddle/domain electric-tutorial
 $ clj -M:prod:electric-tutorial -m prod
 # http://localhost:8080/electric-tutorial.tutorial!%54utorial/electric-tutorial.demo-two-clocks!%54wo%43locks

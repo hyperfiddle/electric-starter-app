@@ -13,8 +13,6 @@
  :aliases
  {:dev
   {:extra-paths   ["src-dev"]
-   :override-deps {com.hyperfiddle/electric {:local/root "vendor/electric"}
-                   com.hyperfiddle/rcf      {:local/root "vendor/rcf"}}
    :extra-deps    {ring/ring-jetty-adapter {:mvn/version "1.11.0"} ; same as `:jetty` alias
                    binaryage/devtools   {:mvn/version "1.0.7"}
                    thheller/shadow-cljs {:mvn/version "2.26.2"}
@@ -39,8 +37,11 @@
 
   :prod
   {:extra-paths ["src-prod"]
-   :extra-deps {ring/ring-jetty-adapter {:mvn/version "1.11.0"}}
-   :override-deps {com.hyperfiddle/electric {:local/root "vendor/electric"}}}
+   :extra-deps {ring/ring-jetty-adapter {:mvn/version "1.11.0"}}}
+
+  :local-deps ; experts only - requires `git submodule update --init --recursive`
+  {:override-deps {com.hyperfiddle/electric {:local/root "vendor/electric"}
+                   com.hyperfiddle/rcf      {:local/root "vendor/rcf"}}}
 
   :jetty ; jetty http server, default in :dev and :prod
   {:extra-deps {ring/ring-jetty-adapter {:mvn/version "1.11.0"}}}
