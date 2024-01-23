@@ -1,4 +1,4 @@
-# Chat Extended — Electric tutorial
+# Chat Extended
 
 Extended chat demo with auth and presence. When multiple sessions are connected, you can see who else is present.
 

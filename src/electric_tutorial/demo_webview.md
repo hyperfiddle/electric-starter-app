@@ -1,4 +1,4 @@
-# Webview — Electric tutorial
+# Webview
 
 A database backed webview with reactive updates.
 

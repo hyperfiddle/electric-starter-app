@@ -1,4 +1,4 @@
-# Component Lifecycle — Electric tutorial
+# Component Lifecycle
 
 mount/unmount component lifecycle
 

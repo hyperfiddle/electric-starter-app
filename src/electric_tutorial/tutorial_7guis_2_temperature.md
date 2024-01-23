@@ -1,4 +1,4 @@
-# 7 GUIs 2: Temperature Converter — Electric tutorial
+# 7 GUIs 2: Temperature Converter
 
 See <https://eugenkiss.github.io/7guis/tasks#temp>
 

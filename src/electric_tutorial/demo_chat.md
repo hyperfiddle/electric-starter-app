@@ -1,4 +1,4 @@
-# Chat — Electric tutorial
+# Chat
 
 A multiplayer chat app in 30 LOC, all one file. Try two tabs.
 

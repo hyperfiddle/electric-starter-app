@@ -1,4 +1,4 @@
-# Two Clocks — Electric tutorial
+# Two Clocks
 
 Streaming lexical scope. The server clock is streamed to the client.
 

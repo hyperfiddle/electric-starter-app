@@ -1,4 +1,4 @@
-# 7 GUIs 1: Counter — Electric tutorial
+# 7 GUIs 1: Counter
 
 See <https://eugenkiss.github.io/7guis/tasks#counter>
 

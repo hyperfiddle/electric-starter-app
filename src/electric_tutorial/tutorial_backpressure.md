@@ -1,4 +1,4 @@
-# Backpressure — Electric tutorial
+# Backpressure
 
 This is just the Two Clocks demo with slight modifications, there is more to learn here.
 

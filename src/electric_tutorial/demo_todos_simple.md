@@ -1,4 +1,4 @@
-# Todos Simple — Electric tutorial
+# Todos Simple
 
 minimal todo list. it's multiplayer, try two tabs
 

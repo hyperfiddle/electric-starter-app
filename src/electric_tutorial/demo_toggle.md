@@ -1,4 +1,4 @@
-# Toggle — Electric tutorial
+# Toggle
 
 This demo toggles between client and server with a button.
 

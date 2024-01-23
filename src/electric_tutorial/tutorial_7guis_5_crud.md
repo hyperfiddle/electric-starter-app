@@ -1,4 +1,4 @@
-# 7 GUIs 5: CRUD — Electric tutorial
+# 7 GUIs 5: CRUD
 
 See <https://eugenkiss.github.io/7guis/tasks#crud>
 

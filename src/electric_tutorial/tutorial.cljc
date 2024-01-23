@@ -143,6 +143,7 @@
   (e/client
     (let [[?tutorial] (ffirst r/route)
           ?tutorial   (or ?tutorial `TwoClocks)]
+      (dom/h1 (dom/text "Electric Tutorial"))
       (binding [hf/pages fiddles]
         (Nav. ?tutorial false)
         (if-some [essay-filename (get tutorials2 ?tutorial)]
