@@ -21,22 +21,35 @@
 } */
 
 .user-examples-nav{
-    /* grid-area: nav; */
+    grid-area: nav;
+    padding: 1rem 0;
+}
+
+.user-examples-nav .user-examples-nav-prev
+, .user-examples-footer-nav .user-examples-nav-prev
+{
+    justify-self: end;
+    grid-area: prev;
+}
+.user-examples-nav .user-examples-nav-next
+, .user-examples-footer-nav .user-examples-nav-next
+{
+    justify-self: start;
+    grid-area: next;
 }
 
 .user-examples-footer-nav{
-    /* grid-area: footer-nav; */
     padding-bottom: 10vh;
+    padding-top: 1rem;
 }
 
 .user-examples-nav,
 .user-examples-footer-nav{
     display: grid;
-    grid-auto-flow: column;
-    width: auto;
-    place-items: center;
-    align-self:center;
-    justify-self: start;
+    grid-template-areas: "prev select next";
+    grid-template-columns: auto min-content auto;
+    width: fit-content;
+    /* padding: 1rem 0; */
 }
 
 .user-examples-nav *,
@@ -52,6 +65,7 @@
     display:flex;
     align-items: center;
     position: relative;
+    grid-area: select;
 }
 
 .user-examples-select > select{
@@ -128,7 +142,10 @@
 
     .user-examples-nav,
     .user-examples-footer-nav{
-        grid-template-areas: "select select" "prev next";
+        width: 100%;
+        grid-template-areas: "select select"
+                             "prev next";
+        grid-template-columns: 1fr 1fr;
         gap: 1rem;
     }
     .user-examples-nav-start{
