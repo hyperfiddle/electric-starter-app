@@ -6,6 +6,9 @@ kill_timeout = 5
 primary_region = "ewr"
 processes = []
 
+[build.args]
+  HYPERFIDDLE_DOMAIN="electric-tutorial"
+
 [env]
 
 [experimental]
