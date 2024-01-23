@@ -139,9 +139,18 @@
   {'fiddle Fiddle-fn
    'fiddle-ns Fiddle-ns})
 
+(e/defn RedirectLegacyLinks! [link]
+  ;; Keep existing links working.
+  ;; Demos used to be identified by their fully qualified name - e.g. `hello-fiddle.fiddles/Hello
+  ;; They are now represented by an s-expression - e.g. `(electric-tutorial.demo-color/Color h s l)
+  (if (and (map? link) (ident? (ffirst link)))
+    (do (r/Navigate!. [(list (ffirst link))])
+        nil)
+    link))
+
 (e/defn Tutorial []
   (e/client
-    (let [[?tutorial] (ffirst r/route)
+    (let [[?tutorial] (ffirst (RedirectLegacyLinks!. r/route))
           ?tutorial   (or ?tutorial `TwoClocks)]
       (dom/h1 (dom/text "Electric Tutorial"))
       (binding [hf/pages fiddles]
