@@ -57,7 +57,7 @@ In your browser, a new entry entry for `electric-fiddle` popped up.
 
 Optional:
 ```clojure
-(dev/unload-fiddle! 'hello-world)
+(dev/unload-fiddle! 'hello-fiddle)
 ```
 
 ## Roll your own
@@ -130,4 +130,3 @@ $ java -cp app.jar clojure.main -m prod
 ```shell
 $ fly deploy --remote-only --config src/hello_fiddle/fly.toml
 ```
-
