@@ -5,7 +5,11 @@
         "@codemirror/view": "^6.9.3",
         "@lezer/markdown": "^1.0.2",
         "@nextjournal/lezer-clojure": "^1.0.0",
-        "lezer-clojure": "0.1.10"
+        "lezer-clojure": "0.1.10",
+        "recharts": "^2.4.1",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "prop-types": "15.8.1"
     },
     "devDependencies": {
         "karma": "6.4.0",

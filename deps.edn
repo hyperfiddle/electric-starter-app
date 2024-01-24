@@ -68,4 +68,8 @@
   {:extra-deps
    {com.datomic/peer {:mvn/version "1.0.7075"}}}
 
+  :uix-demo
+  {:extra-deps {com.pitch/uix.core {:mvn/version "1.0.1"}
+                com.pitch/uix.dom {:mvn/version "1.0.1"}}}
+
   }}
