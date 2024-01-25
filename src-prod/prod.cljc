@@ -1,49 +1,45 @@
 (ns prod
-  #?(:cljs (:require-macros [prod :refer [install-user-inject]]))
-  (:require #?(:clj [clojure.tools.logging :as log])
-            [contrib.assert :refer [check]]
-            [contrib.template :refer [comptime-resource]]
-            electric-fiddle.main
-            #?(:clj [electric-fiddle.server-jetty :refer [start-server!]])
-            [hyperfiddle :as hf]
-            [hyperfiddle.electric :as e]
-            #?(:cljs #=(clojure.core/identity hyperfiddle/*hyperfiddle-user-ns*)))) ; domain DI here
+  (:require
+   #?(:clj [clojure.edn :as edn])
+   #?(:clj [clojure.java.io :as io])
+   #?(:clj [clojure.tools.logging :as log])
+   [contrib.assert :refer [check]]
+   electric-starter-app.main
+   #?(:clj [electric-starter-app.server-jetty :as jetty])
+   [hyperfiddle.electric :as e])
+  #?(:cljs (:require-macros [prod :refer [compile-time-resource]])))
+
+(defmacro compile-time-resource [filename] (some-> filename io/resource slurp edn/read-string))
 
 (def config
   (merge
-    (comptime-resource "electric-manifest.edn") ; prod only, baked into both client and server, nil during build
+    ;; Client program's version and server program's versions must match in prod (dev is not concerned)
+    ;; `src-build/build.clj` will compute the common version and store it in `resources/electric-manifest.edn`
+    ;; On prod boot, `electric-manifest.edn`'s content is injected here.
+    ;; Server is therefore aware of the program version.
+    ;; The client's version is injected in the compiled .js file.
+    (doto (compile-time-resource "electric-manifest.edn") prn)
     {:host "0.0.0.0", :port 8080,
-     :resources-path "public"
-     :manifest-path "public/js/manifest.edn"})) ; shadow build manifest
+     :resources-path "public/electric_starter_app"
+     ;; shadow build manifest path, to get the fingerprinted main.sha1.js file to ensure cache invalidation
+     :manifest-path "public/electric_starter_app/js/manifest.edn"}))
+
+;;; Prod server entrypoint
 
 #?(:clj
    (defn -main [& {:strs [] :as args}] ; clojure.main entrypoint, args are strings
-     (alter-var-root #'config #(merge % args))
      (log/info (pr-str config))
      (check string? (::e/user-version config))
-     (check string? (::hf/domain config))
-     (let [entrypoint (symbol (str (::hf/domain config) ".fiddles") "FiddleMain")]
-       (requiring-resolve entrypoint) ; load userland server
-       (start-server! (eval `(fn [ring-req#] (e/boot-server {} ~entrypoint ring-req#)))
-         config))))
+     (jetty/start-server!
+       (fn [ring-req] (e/boot-server {} electric-starter-app.main/Main ring-req))
+       config)))
 
-(defmacro install-user-inject [] (symbol (name hf/*hyperfiddle-user-ns*) "FiddleMain"))
+;;; Prod client entrypoint
 
 #?(:cljs
    (do
-     (def electric-entrypoint
-       (e/boot-client {}
-         ; in prod, fiddle owns the app and there's only one of them
-         (let [FiddleMain (install-user-inject)]
-           (FiddleMain.))))
-
-     (defonce reactor nil)
-
-     (defn ^:dev/after-load ^:export start! []
-       (set! reactor (electric-entrypoint
-                       #(js/console.log "Reactor success:" %)
-                       #(js/console.error "Reactor failure:" %))))
-
-     (defn ^:dev/before-load stop! []
-       (when reactor (reactor)) ; teardown
-       (set! reactor nil))))
+     (def electric-entrypoint (e/boot-client {} electric-starter-app.main/Main nil))
+     (defn ^:export start! []
+       (electric-entrypoint
+         #(js/console.log "Reactor success:" %)
+         #(js/console.error "Reactor failure:" %)))))

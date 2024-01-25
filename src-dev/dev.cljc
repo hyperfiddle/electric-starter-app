@@ -1,84 +1,49 @@
 (ns dev
   (:require
-   #?(:clj [clojure.tools.logging :as log])
+   electric-starter-app.main
    [hyperfiddle.electric :as e]
-   [hyperfiddle.rcf :as rcf]
-
-   #?(:clj fiddle-manager)
-   fiddles))
+   #?(:clj [electric-starter-app.server-jetty :as jetty])
+   #?(:clj [shadow.cljs.devtools.api :as shadow])
+   #?(:clj [shadow.cljs.devtools.server :as shadow-server])
+   #?(:clj [clojure.tools.logging :as log])))
 
 (comment (-main)) ; repl entrypoint
 
-#?(:clj
+#?(:clj ;; Server Entrypoint
    (do
-     ; lazy load heavy dependencies for faster REPL startup
-     (def shadow-start! (delay @(requiring-resolve 'shadow.cljs.devtools.server/start!)))
-     (def shadow-stop! (delay @(requiring-resolve 'shadow.cljs.devtools.server/stop!)))
-     (def shadow-watch (delay @(requiring-resolve 'shadow.cljs.devtools.api/watch)))
-     (def start-server! (delay @(requiring-resolve 'electric-fiddle.server-jetty/start-server!)))     ; jetty
-     #_(def start-server! (delay @(requiring-resolve 'electric-fiddle.server-httpkit/start-server!))) ; require `:httpkit` deps alias
-
      (def config
-       {:host "0.0.0.0", :port 8080,
-        :resources-path "public"
-        :manifest-path "public/js/manifest.edn"}) ; shadow build manifest
-
-     (declare server)
-
-     (def load-fiddle! #'fiddle-manager/load-fiddle!)
-     (def unload-fiddle! #'fiddle-manager/unload-fiddle!)
+       {:host "0.0.0.0"
+        :port 8080
+        :resources-path "public/electric_starter_app"
+        :manifest-path ; contains Electric compiled program's version so client and server stays in sync
+        "public//electric_starter_app/js/manifest.edn"})
 
      (defn -main [& args]
-       (alter-var-root #'config #(merge % (first args)))
-       (log/info (pr-str config))
-       (log/info "Starting Electric compiler and server...") ; run after REPL redirects stdout
-       (fiddle-manager/start! {:loader-path "./src-dev/fiddles.cljc"})
-       (comment (fiddle-manager/stop!))
+       (log/info "Starting Electric compiler and server...")
 
-       (@shadow-start!)
-       (@shadow-watch :dev)
-                                        ; todo block until finished?
-       (comment (@shadow-stop!))
-       (def server (@start-server! (fn [ring-req] (e/boot-server {} fiddles/FiddleMain ring-req)) config))
-       (comment
-         (.stop server) ; jetty
-         (server)       ; httpkit
-         )
+       (shadow-server/start!)
+       (shadow/watch :dev)
+       (comment (shadow-server/stop!))
 
-       (load-fiddle! 'hello-fiddle)
+       (def server (jetty/start-server!
+                     (fn [ring-request]
+                       (e/boot-server {} electric-starter-app.main/Main ring-request))
+                     config))
 
-       (rcf/enable!))))
+       (comment (.stop server))
+       )))
 
-#?(:cljs
+#?(:cljs ;; Client Entrypoint
    (do
-     (def electric-entrypoint
-       ; in dev, we setup a merged fiddle config,
-       ; fiddles must all opt in to the shared routing strategy
-       (e/boot-client {} fiddles/FiddleMain nil))
+     (def electric-entrypoint (e/boot-client {} electric-starter-app.main/Main nil))
 
      (defonce reactor nil)
 
      (defn ^:dev/after-load ^:export start! []
        (set! reactor (electric-entrypoint
                        #(js/console.log "Reactor success:" %)
-                       #(js/console.error "Reactor failure:" %)))
-       (hyperfiddle.rcf/enable!))
+                       #(js/console.error "Reactor failure:" %))))
 
      (defn ^:dev/before-load stop! []
-       (when reactor (reactor)) ; teardown
+       (when reactor (reactor)) ; stop the reactor
        (set! reactor nil))))
-
-(comment
-  "CI tests"
-  (alter-var-root #'hyperfiddle.rcf/*generate-tests* (constantly false))
-  (hyperfiddle.rcf/enable!)
-  (require 'clojure.test)
-  (clojure.test/run-all-tests #"(hyperfiddle.api|user.orders)"))
-
-(comment
-  "Performance profiling, use :profile deps alias"
-  (require '[clj-async-profiler.core :as prof])
-  (prof/serve-files 8082)
-            ;; Navigate to http://localhost:8082
-  (prof/start {:framebuf 10000000})
-  (prof/stop))

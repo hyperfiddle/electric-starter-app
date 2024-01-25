@@ -11,7 +11,6 @@
     </root>
 
     <!-- org.eclipse.jetty, datomic -->
-    <logger name="datomic" level="WARN" additivity="false"><appender-ref ref="STDOUT" /></logger>
-    <logger name="electric-fiddle" level="DEBUG" additivity="false"><appender-ref ref="STDOUT" /></logger>
-    <logger name="dustingetz" level="DEBUG" additivity="false"><appender-ref ref="STDOUT" /></logger>
+    <logger name="electric-starter-app" level="DEBUG" additivity="false"><appender-ref ref="STDOUT" /></logger>
+    <logger name="org.eclipse.jetty.server" level="WARN" additivity="false"><appender-ref ref="STDOUT" /></logger>
 </configuration>

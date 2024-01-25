@@ -1,75 +1,25 @@
-{:deps  {com.hyperfiddle/electric       {:git/url "https://github.com/hyperfiddle/electric" :git/sha "b32ac98df7d7ec87f225d47354671be172ffa87e"}
-         com.hyperfiddle/rcf            {:git/url "https://github.com/hyperfiddle/rcf" :git/sha "7105b43231140de6f2f39ce38611c9f6c9dfc976"}
-         org.clojure/clojure            {:mvn/version "1.12.0-alpha5"}
-         org.clojure/clojurescript      {:mvn/version "1.11.121"}
-         org.clojure/tools.logging      {:mvn/version "1.2.4"}
-         ch.qos.logback/logback-classic {:mvn/version "1.4.14"}
-         ring/ring-core                 {:mvn/version "1.11.0"} ; no hard-coded HTTP server, specified in :dev, :prod, :jetty, :httpkit aliases
-         ring-basic-authentication/ring-basic-authentication {:mvn/version "1.2.0"}
-         }
+{:deps    {com.hyperfiddle/electric       {:git/url "https://github.com/hyperfiddle/electric" :git/sha "b32ac98df7d7ec87f225d47354671be172ffa87e"}
+           ring/ring                      {:mvn/version "1.11.0"} ; comes with Jetty
+           org.clojure/clojure            {:mvn/version "1.12.0-alpha5"}
+           org.clojure/clojurescript      {:mvn/version "1.11.121"}
+           org.clojure/tools.logging      {:mvn/version "1.2.4"}
+           ch.qos.logback/logback-classic {:mvn/version "1.4.14"}}
+ :paths   ["src" "resources"]
+ :aliases {:dev
+           {:extra-paths ["src-dev"]
+            :extra-deps  {thheller/shadow-cljs          {:mvn/version "2.26.2"}
+                          io.github.clojure/tools.build {:mvn/version "0.9.6"
+                                                         :exclusions  [com.google.guava/guava  ; Guava version conflict between tools.build and clojurescript.
+                                                                       org.slf4j/slf4j-nop]}}} ; clashes with app logger
+           :prod
+           {:extra-paths ["src-prod"]}
 
- :paths ["src" "resources" "src-contrib"]
-
- :aliases
- {:dev
-  {:extra-paths   ["src-dev"]
-   :extra-deps    {ring/ring-jetty-adapter {:mvn/version "1.11.0"} ; same as `:jetty` alias
-                   binaryage/devtools   {:mvn/version "1.0.7"}
-                   thheller/shadow-cljs {:mvn/version "2.26.2"}
-                   io.github.clojure/tools.build
-                   {:mvn/version "0.9.6"
-                    :exclusions  [com.google.guava/guava ; Guava version conflict between tools.build and clojurescript.
-                                  org.slf4j/slf4j-nop    ; clashes with app logger
-                                  ]}}
-   :jvm-opts      ["-XX:-OmitStackTraceInFastThrow" ; For RCF
-                   ]}
-
-  :build
-  ;; use `clj -X:build build-client`, NOT -T! build/app classpath contamination cannot be prevented
-  {:extra-paths ["src-build"]
-   :ns-default  build
-   :extra-deps
-   {thheller/shadow-cljs          {:mvn/version "2.26.2"}
-    io.github.clojure/tools.build {:mvn/version "0.9.6"
-                                   :exclusions  [com.google.guava/guava ; Guava version conflict between tools.build and clojurescript.
-                                                 org.slf4j/slf4j-nop    ; clashes with app logger
-                                                 ]}}}
-
-  :prod
-  {:extra-paths ["src-prod"]
-   :extra-deps {ring/ring-jetty-adapter {:mvn/version "1.11.0"}}}
-
-  :local-deps ; experts only - requires `git submodule update --init --recursive`
-  {:override-deps {com.hyperfiddle/electric {:local/root "vendor/electric"}
-                   com.hyperfiddle/rcf      {:local/root "vendor/rcf"}}}
-
-  :jetty ; jetty http server, default in :dev and :prod
-  {:extra-deps {ring/ring-jetty-adapter {:mvn/version "1.11.0"}}}
-
-  :httpkit
-  {:extra-deps {http-kit/http-kit {:mvn/version "2.5.1"}}}
-
-
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;;                 Fiddle Aliases                      ;;
-  ;; Add your custom extra deps and configurations below ;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  :hello-fiddle {}
-
-  :electric-tutorial
-  {:extra-deps
-   {datascript/datascript     {:mvn/version "1.6.1"}
-    reagent/reagent           {:mvn/version "1.2.0"}
-    markdown-clj/markdown-clj {:mvn/version "1.11.7"}
-    io.github.nextjournal/clojure-mode {:git/sha "5d88847aecd253e047f36565e0455bfec7f4964d"}}}
-
-  :datomic-browser
-  {:extra-deps
-   {com.datomic/peer {:mvn/version "1.0.7075"}}}
-
-  :uix-demo
-  {:extra-deps {com.pitch/uix.core {:mvn/version "1.0.1"}
-                com.pitch/uix.dom {:mvn/version "1.0.1"}}}
-
-  }}
+           :build ; use `clj -X:build build-client`, NOT -T! build/app classpath contamination cannot be prevented
+           {:extra-paths ["src-build"]
+            :ns-default  build
+            :extra-deps  {thheller/shadow-cljs          {:mvn/version "2.26.2"}
+                          io.github.clojure/tools.build {:mvn/version "0.9.6"
+                                                         :exclusions  [com.google.guava/guava   ; Guava version conflict between tools.build and clojurescript.
+                                                                       org.slf4j/slf4j-nop]}}} ; clashes with app logger
+           }
+ }

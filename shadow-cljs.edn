@@ -1,22 +1,12 @@
-{:nrepl {:port 9001}
- :npm-deps {:install false}
- :builds
- {:dev
-  {:target :browser
-   :devtools {:watch-dir "resources/public" ; live reload CSS
-              :loader-mode :default ; faster reload
-              :hud #{:errors :progress}}
-   :output-dir "resources/public/js"
-   :asset-path "/js"
-   :modules {:main {:entries [dev] :init-fn dev/start!}}
-   :build-hooks [(hyperfiddle.electric.shadow-cljs.hooks/reload-clj)
-                 (shadow.cljs.build-report/hook {:output-to "target/build_report.html"})
-                 #_(user/rcf-shadow-hook)]}
-  
-  :prod
-  {:target :browser
-   :output-dir "resources/public/js"
-   :asset-path "/js"
-   :module-hash-names true
-   :modules {:main {:entries [prod]
-                    :init-fn prod/start!}}}}}
+{:builds
+ {:dev  {:target :browser
+         :devtools {:loader-mode :default}
+         :output-dir "resources/public/electric_starter_app/js"
+         :asset-path "/js"
+         :modules {:main {:entries [dev] :init-fn dev/start!}}
+         :build-hooks [(hyperfiddle.electric.shadow-cljs.hooks/reload-clj)]}
+  :prod {:target :browser
+         :output-dir "resources/public/electric_starter_app/js"
+         :asset-path "/js"
+         :modules {:main {:entries [prod] :init-fn prod/start!}}
+         :module-hash-names true}}}
