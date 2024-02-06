@@ -9,7 +9,7 @@
 .nrepl-port
 .shadow-cljs
 node_modules
-/resources/public/js
+/resources/public/electric_starter_app/js
 /resources/electric-manifest.edn
 /target
 .DS_Store
