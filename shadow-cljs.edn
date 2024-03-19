@@ -4,7 +4,7 @@
          :output-dir "resources/public/electric_starter_app/js"
          :asset-path "/js"
          :modules {:main {:entries [dev] :init-fn dev/start!}}
-         :build-hooks [(hyperfiddle.electric.shadow-cljs.hooks/reload-clj)]}
+         :build-hooks [(hyperfiddle.electric.shadow-cljs.hooks-de/reload-clj)]}
   :prod {:target :browser
          :output-dir "resources/public/electric_starter_app/js"
          :asset-path "/js"

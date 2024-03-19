@@ -1,7 +1,10 @@
 (ns dev
   (:require
    electric-starter-app.main
-   [hyperfiddle.electric :as e]
+   [hyperfiddle.electric-de :as e :refer [$]]
+   [hyperfiddle.electric-local-def-de :as l]
+   [hyperfiddle.electric.impl.lang-de2 :as lang]
+   [missionary.core :as m]
    #?(:clj [electric-starter-app.server-jetty :as jetty])
    #?(:clj [shadow.cljs.devtools.api :as shadow])
    #?(:clj [shadow.cljs.devtools.server :as shadow-server])
@@ -27,7 +30,7 @@
 
        (def server (jetty/start-server!
                      (fn [ring-request]
-                       (e/boot-server {} electric-starter-app.main/Main ring-request))
+                       #_(e/boot-server {} electric-starter-app.main/Main ring-request))
                      config))
 
        (comment (.stop server))
@@ -35,7 +38,9 @@
 
 #?(:cljs ;; Client Entrypoint
    (do
-     (def electric-entrypoint (e/boot-client {} electric-starter-app.main/Main nil))
+     (def electric-entrypoint
+       (l/single {} ($ electric-starter-app.main/Main nil))
+       #_(e/boot-client {} electric-starter-app.main/Main nil))
 
      (defonce reactor nil)
 
