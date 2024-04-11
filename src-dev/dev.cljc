@@ -39,7 +39,7 @@
 #?(:cljs ;; Client Entrypoint
    (do
      (def electric-entrypoint
-       (l/single {} ($ electric-starter-app.main/Main nil))
+       (l/local {} ($ electric-starter-app.main/Main nil))
        #_(e/boot-client {} electric-starter-app.main/Main nil))
 
      (defonce reactor nil)
