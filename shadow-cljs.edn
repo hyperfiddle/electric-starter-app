@@ -1,6 +1,6 @@
 {:builds
  {:dev  {:target :browser
-         :devtools {:loader-mode :default}
+         :devtools {:loader-mode :default, :watch-dir "resources/public/electric_starter_app"}
          :output-dir "resources/public/electric_starter_app/js"
          :asset-path "/js"
          :modules {:main {:entries [dev] :init-fn dev/start!}}
