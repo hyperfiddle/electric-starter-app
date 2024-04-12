@@ -6,7 +6,7 @@
    [clojure.string :as str]
    [clojure.tools.logging :as log]
    [contrib.assert :refer [check]]
-   [hyperfiddle.electric-ring-adapter :as electric-ring]
+   [hyperfiddle.electric-ring-adapter-de :as electric-ring]
    [ring.adapter.jetty :as ring]
    [ring.middleware.content-type :refer [wrap-content-type]]
    [ring.middleware.cookies :as cookies]
