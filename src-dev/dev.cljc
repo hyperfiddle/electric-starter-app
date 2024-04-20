@@ -16,7 +16,7 @@
         :port 8080
         :resources-path "public/electric_starter_app"
         :manifest-path ; contains Electric compiled program's version so client and server stays in sync
-        "public//electric_starter_app/js/manifest.edn"})
+        "public/electric_starter_app/js/manifest.edn"})
 
      (defn -main [& args]
        (log/info "Starting Electric compiler and server...")
