@@ -11,5 +11,5 @@
 
 (e/defn LifeCycle []
   (e/client
-    (when (zero? (mod (e/input e/system-time-secs) 2))
+    (when (zero? (mod ($ e/SystemTimeSecs) 2))
       ($ BlinkerComponent))))
