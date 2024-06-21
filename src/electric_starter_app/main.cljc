@@ -2,9 +2,11 @@
   (:require [hyperfiddle.electric-de :as e :refer [$]]
             [hyperfiddle.electric-dom3 :as dom]
             [electric-starter-app.toggle :as toggle]
+            [electric-starter-app.chat :as chat]
             [electric-starter-app.system-properties :as system-props]))
 
 (e/defn Main [ring-request]
   (binding [dom/node ($ dom/Root js/document.body)]
     #_($ toggle/Toggle)
-    ($ system-props/SystemProperties)))
+    #_($ system-props/SystemProperties)
+    ($ chat/Chat)))

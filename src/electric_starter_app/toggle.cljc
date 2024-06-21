@@ -16,10 +16,10 @@
 
       (dom/button
         (dom/text "toggle client/server")
-        (when-some [off! ($ e/Switch ($ dom/On "click"))]
+        (when-some [off! ($ e/Token ($ dom/On "click"))]
           (off! (e/server (swap! !x not))))))))
 
-#_(e/defn Main [ring-request]
+#_(e/defn Toggle []
   (let [!x (atom true), x (e/watch !x)]
     (binding [dom/node ($ dom/Root js/document.body)]
       (dom/div
@@ -33,5 +33,5 @@
 
       (dom/button
         (dom/text "toggle client/server")
-        (when-some [off! ($ e/Switch ($ dom/On "click"))]
+        (when-some [off! ($ e/Token ($ dom/On "click"))]
           (off! (swap! !x not)))))))
