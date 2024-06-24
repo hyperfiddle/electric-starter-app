@@ -4,7 +4,8 @@
            org.clojure/clojurescript      {:mvn/version "1.11.121"}
            org.clojure/tools.logging      {:mvn/version "1.2.4"}
            ch.qos.logback/logback-classic {:mvn/version "1.4.14"}
-           com.datomic/peer {:mvn/version "1.0.7075"}}
+           com.datomic/peer {:mvn/version "1.0.7075"}
+           datascript/datascript {:mvn/version "1.6.1"}}
  :paths   ["src" "resources"]
  :aliases {:dev
            {:extra-paths ["src-dev"]
