@@ -3,7 +3,9 @@
             [hyperfiddle.electric-dom3 :as dom]
             [electric-starter-app.toggle :as toggle]
             [electric-starter-app.chat :as chat]
+            [electric-starter-app.svg :as svg]
             [electric-starter-app.two-clocks :as two-clocks]
+            [electric-starter-app.todos-simple :as todo]
             [electric-starter-app.webview :as webview]
             [electric-starter-app.seven-guis-1-counter :as counter]
             [electric-starter-app.seven-guis-2-temperature :as temperature]
@@ -14,6 +16,8 @@
 
 (e/defn Main [ring-request]
   (binding [dom/node ($ dom/Root js/document.body)]
+    ($ svg/SVG)
+    #_($ todo/TodoList)
     #_($ crud/CRUD)
     #_($ timer/Timer)
     #_($ temperature/TemperatureConverter)
