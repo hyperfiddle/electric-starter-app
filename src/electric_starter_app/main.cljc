@@ -16,11 +16,11 @@
 
 (e/defn Main [ring-request]
   (binding [dom/node ($ dom/Root js/document.body)]
-    ($ svg/SVG)
+    #_($ svg/SVG)
     #_($ todo/TodoList)
     #_($ crud/CRUD)
     #_($ timer/Timer)
-    #_($ temperature/TemperatureConverter)
+    ($ temperature/TemperatureConverter)
     #_($ counter/Counter)
     #_($ webview/Webview)
     #_($ two-clocks/TwoClocks)
