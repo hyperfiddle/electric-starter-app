@@ -7,15 +7,19 @@
 
 (defn c->f [c] (+ (* c (/ 9 5)) 32))
 (defn f->c [f] (* (- f 32) (/ 5 9)))
-#_(defn random-value [_] (m/sp (m/? (m/sleep 1000)) (rand-int 40)))
-(defn set-random-valueT [!t] (m/sp (loop [] (m/? (m/sleep 1000)) (reset! !t (rand-int 40)) (recur))))
+(defn set-random-valueT [!t]
+  (m/sp (loop []
+          (m/? (m/sleep 1000))
+          (reset! !t (rand-int 40))
+          (recur))))
 
 (e/defn TemperatureConverter []
   (ct/with-defaults
     (let [!t (atom 0), t (e/watch !t)]
       (ct/trace ::random ($ e/Task (set-random-valueT !t)))
-      #_(when-some [spend ($ e/CyclicToken true)]
-        (spend (reset! !t ($ e/Task (random-value spend)))))
+      #_(when-some [spend! ($ e/CyclicToken true)]
+        (spend! (reset! !t (ct/trace ::random ct/->stable-trace-id identity
+                             ($ e/Task (m/sleep 1000 (rand-int 40)))))))
       (dom/dl
         (dom/dt (dom/text "Celsius"))
         (ct/trace ::celsius
