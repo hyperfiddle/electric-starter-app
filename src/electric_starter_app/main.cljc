@@ -15,16 +15,17 @@
             [electric-starter-app.system-properties :as system-props]))
 
 (e/defn Main [ring-request]
-  (binding [dom/node ($ dom/Root js/document.body)]
-    #_($ svg/SVG)
-    #_($ todo/TodoList)
-    #_($ crud/CRUD)
-    #_($ timer/Timer)
-    ($ temperature/TemperatureConverter)
-    #_($ counter/Counter)
-    #_($ webview/Webview)
-    #_($ two-clocks/TwoClocks)
-    #_($ toggle/Toggle)
-    #_($ system-props/SystemProperties)
-    #_($ chat/Chat)
-    #_($ lifecycle/LifeCycle)))
+  (binding [dom/node js/document.body]
+    (dom/div
+      #_($ svg/SVG)
+      #_($ todo/TodoList)
+      #_($ crud/CRUD)
+      #_($ timer/Timer)
+      ($ temperature/TemperatureConverter)
+      #_($ counter/Counter)
+      #_($ webview/Webview)
+      #_($ two-clocks/TwoClocks)
+      #_($ toggle/Toggle)
+      #_($ system-props/SystemProperties)
+      #_($ chat/Chat)
+      #_($ lifecycle/LifeCycle))))
