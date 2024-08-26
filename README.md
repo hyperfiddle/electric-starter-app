@@ -43,7 +43,7 @@ Deployment example:
 Electric Clojure programs compile down to separate client and server target programs, which are compiled from the same Electric application source code.
 
 * For an Electric client/server pair to successfully connect, they must be built from matching source code. The server will reject mismatched clients (based on a version number handshake coordinated by the Electric build) and instruct the client to refresh (to get the latest javascript artifact).
-* [src-build/build.cljc](src-build/build.clj bakes the Electric app version into both client and server artifacts.
+* [src-build/build.cljc](src-build/build.clj) bakes the Electric app version into both client and server artifacts.
   * server Electric app version is baked into `electric-manifest.edn` which is read in [src-prod/prod.cljc](src-prod/prod.cljc).
   * client Electric app version is baked into the .js artifact as `hyperfiddle.electric-client/ELECTRIC_USER_VERSION`
 
