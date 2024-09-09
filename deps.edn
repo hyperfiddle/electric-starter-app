@@ -3,6 +3,7 @@
            org.clojure/clojure            {:mvn/version "1.12.0-alpha5"}
            org.clojure/clojurescript      {:mvn/version "1.11.121"}
            org.clojure/tools.logging      {:mvn/version "1.2.4"}
+           com.taoensso/telemere                                              {:mvn/version "1.0.0-SNAPSHOT"}
            ch.qos.logback/logback-classic {:mvn/version "1.4.14"}}
  :paths   ["src" "resources"]
  :aliases {:dev
